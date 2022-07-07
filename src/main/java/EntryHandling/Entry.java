@@ -1,18 +1,26 @@
 package EntryHandling;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Entry {
     String name;
     int readto;
     String link;
+    List<String> acronyms;
 
     public Entry(String[] values) {
-        this(values[0], Integer.parseInt(values[1]), values[2]);
+        this(values[0]);
+        if (values.length > 1) readto = Integer.parseInt(values[1]);
+        if (values.length > 2) link = values[2];
+        if (values.length > 3)
+            acronyms = Arrays.stream(values).skip(3).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public Entry(String name, int readto, String link) {
+    public Entry(String name) {
         this.name = name;
-        this.readto = readto;
-        this.link = link;
     }
 
     public String name() {
@@ -27,8 +35,8 @@ public class Entry {
         return link;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean hasAcronym(String s) {
+        return acronyms.contains(s);
     }
 
     public void setReadto(int readto) {
@@ -37,6 +45,10 @@ public class Entry {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public void addAcronym(String acronym) {
+        acronyms.add(acronym);
     }
 
     public String toCSV() {
