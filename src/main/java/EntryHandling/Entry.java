@@ -17,6 +17,7 @@ public class Entry {
         if (values.length > 2) link = values[2];
         if (values.length > 3)
             acronyms = Arrays.stream(values).skip(3).collect(Collectors.toCollection(ArrayList::new));
+        else acronyms = new ArrayList<>();
     }
 
     public Entry(String name) {
