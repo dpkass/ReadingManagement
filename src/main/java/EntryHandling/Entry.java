@@ -3,6 +3,7 @@ package EntryHandling;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Entry {
@@ -54,5 +55,14 @@ public class Entry {
 
     public String toCSV() {
         return name + ", " + readto + ", " + link;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return equals((Entry) obj);
+    }
+
+    public boolean equals(Entry e) {
+        return Objects.equals(e.name, this.name);
     }
 }

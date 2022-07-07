@@ -39,9 +39,9 @@ public class Manager {
         String[] parts = split(s);
         switch (parts[0]) {
             case "exit" -> {return false;}
+            case "new" -> doNew(parts);
             case "read" -> doRead(parts);
             case "readto" -> doReadTo(parts);
-            case "new" -> doNew(parts);
             case "add" -> doAdd(parts);
         }
         return true;

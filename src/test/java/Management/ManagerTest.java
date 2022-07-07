@@ -20,7 +20,7 @@ class ManagerTest {
     }
 
     @Test
-    @DisplayName ("process exit and stops")
+    @DisplayName ("process exit and stop")
     void test_1() {
         when(io.read()).thenReturn("exit");
 
@@ -31,8 +31,22 @@ class ManagerTest {
     }
 
     @Test
-    @DisplayName ("process read then exit and stops")
+    @DisplayName ("process \"new\" then exit and stop")
     void test_2() {
+        when(io.read()).thenReturn("new \"Solo Leveling\"").thenReturn("exit");
+
+        Manager m = new Manager();
+        m.in = io;
+        m.el = new EntryList();
+
+        m.run();
+
+        assertThat(m.el.get("Solo Leveling")).isNotNull();
+    }
+
+    @Test
+    @DisplayName ("process \"read\" then exit and stop")
+    void test_3() {
         when(io.read()).thenReturn("read \"Solo Leveling\" 5").thenReturn("exit");
 
         Manager m = new Manager();
@@ -46,8 +60,8 @@ class ManagerTest {
     }
 
     @Test
-    @DisplayName ("process readto then exit and stops")
-    void test_3() {
+    @DisplayName ("process \"readto\" then exit and stop")
+    void test_4() {
         when(io.read()).thenReturn("readto \"Solo Leveling\" 5").thenReturn("exit");
 
         Manager m = new Manager();
@@ -58,5 +72,35 @@ class ManagerTest {
         m.run();
 
         assertThat(m.el.get("Solo Leveling").readto()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName ("process \"add acronym\" then exit and stop")
+    void test_5() {
+        when(io.read()).thenReturn("add acronym \"Solo Leveling\" SL").thenReturn("exit");
+
+        Manager m = new Manager();
+        m.in = io;
+        m.el = new EntryList();
+        m.el.add(new String[] { "Solo Leveling" });
+
+        m.run();
+
+        assertThat(m.el.get("Solo Leveling").hasAcronym("SL")).isTrue();
+    }
+
+    @Test
+    @DisplayName ("process \"add link\" then exit and stop")
+    void test_6() {
+        when(io.read()).thenReturn("add link \"Solo Leveling\" www.somelink.com").thenReturn("exit");
+
+        Manager m = new Manager();
+        m.in = io;
+        m.el = new EntryList();
+        m.el.add(new String[] { "Solo Leveling" });
+
+        m.run();
+
+        assertThat(m.el.get("Solo Leveling").link()).isEqualTo("www.somelink.com");
     }
 }
