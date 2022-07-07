@@ -15,25 +15,29 @@ public class CSVHandler implements FileHandler {
     }
 
     @Override
-    public EntryList read() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(f));
+    public EntryList read() {
         EntryList list = new EntryList();
-        br.lines()
-          .map(a -> Arrays.stream(a.split(separator))
-                          .map(String::stripLeading).toArray(String[]::new))
-          .forEach(list::add);
-        br.close();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            br.lines()
+              .map(a -> Arrays.stream(a.split(separator))
+                              .map(String::stripLeading).toArray(String[]::new))
+              .forEach(list::add);
+            br.close();
+        } catch (IOException ignored) {}
         return list;
     }
 
     @Override
-    public void write(EntryList el) throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter(f);
-        el.list.stream()
-               .map(Entry::toCSV)
-               .map(a -> a.replace(",", separator))
-               .forEach(pw::println);
-        pw.close();
+    public void write(EntryList el) {
+        try {
+            PrintWriter pw = new PrintWriter(f);
+            el.list.stream()
+                   .map(Entry::toCSV)
+                   .map(a -> a.replace(",", separator))
+                   .forEach(pw::println);
+            pw.close();
+        } catch (IOException ignored) {}
     }
 
     public void setSeparator(String separator) {

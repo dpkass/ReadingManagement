@@ -1,10 +1,7 @@
 package EntryHandling;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 public interface FileHandler {
-    EntryList read() throws IOException;
+    EntryList read();
 
-    void write(EntryList el) throws FileNotFoundException;
+    void write(EntryList el);
 }
