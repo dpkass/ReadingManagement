@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Manager {
-    static File standardfile = new File("resources/reading");
+    static File standardfile = new File("resources/index.csv");
     File f;
 
     IOHandler in;
@@ -43,8 +43,25 @@ public class Manager {
             case "read" -> doRead(parts);
             case "readto" -> doReadTo(parts);
             case "add" -> doAdd(parts);
+            case "help" -> help();
+            default -> errorMessage("invalid");
         }
         return true;
+    }
+
+    private void help() {
+        in.write("Use one of the following commands:");
+        in.write("new \"{book name}\" [page read to] [link] [acronyms...]");
+        in.write("read \"{book name}\" {pagecount read}");
+        in.write("readto \"{book name}\" {page read to}");
+        in.write("add link \"{book name}\" link");
+        in.write("add acronym \"{book name}\" acronym");
+        in.write("help");
+        in.write("");
+        in.write("Legend:");
+        in.write("[...] - optional");
+        in.write("{...} - one value");
+        in.write("\"...\" - book name in quotes if more than one word");
     }
 
     private void doAdd(String[] parts) {
@@ -149,6 +166,7 @@ public class Manager {
             case "new" ->
                     in.write("Invalid Input. Please write \"new\", the name or acronym of the book (in quotes if more than one word) (additional: " +
                             "the page or readto number and link  to website). E.g. \"" + error + " \"Solo Leveling\" 5\"");
+            case "invalid" -> in.write("Invalid Input. Use help for more info.");
             case "enf" -> in.write("The given book was not found. If you want to add a new Entry use \"new\".");
         }
     }

@@ -11,6 +11,11 @@ public class CSVHandler implements FileHandler {
 
     public CSVHandler(File f) {
         this.f = f;
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         separator = standardSeparator;
     }
 
