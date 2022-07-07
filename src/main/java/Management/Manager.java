@@ -8,7 +8,11 @@ import IOHandling.IOHandler;
 import IOHandling.StdIOHandler;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Manager {
     static File standardfile = new File("resources/reading");
@@ -25,14 +29,14 @@ public class Manager {
 
     public void run() {
         for (; ; ) {
-            String s = in.read();
-            if (!process(s)) break;
+            String command = in.read();
+            if (!process(command)) break;
         }
     }
 
     private boolean process(String s) {
         assert s != null;
-        String[] parts = s.split(" ");
+        String[] parts = split(s);
         switch (parts[0]) {
             case "exit" -> {return false;}
             case "read" -> doRead(parts);
@@ -44,7 +48,10 @@ public class Manager {
     }
 
     private void doAdd(String[] parts) {
-        if (parts.length < 2) errorMessage("add");
+        if (parts.length < 2) {
+            errorMessage("add");
+            return;
+        }
 
         switch (parts[1]) {
             case "link" -> doAddLink(parts);
@@ -53,19 +60,31 @@ public class Manager {
     }
 
     private void doAddAcronym(String[] parts) {
-        if (parts.length < 3 || parts.length > 4) errorMessage("add acronym");
+        if (parts.length < 3 || parts.length > 4) {
+            errorMessage("add acronym");
+            return;
+        }
 
         Entry e = el.get(parts[2]);
-        if (e == null) errorMessage("enf");
+        if (e == null) {
+            errorMessage("enf");
+            return;
+        }
 
         e.addAcronym(parts[3]);
     }
 
     private void doAddLink(String[] parts) {
-        if (parts.length < 3 || parts.length > 4) errorMessage("add link");
+        if (parts.length < 3 || parts.length > 4) {
+            errorMessage("add link");
+            return;
+        }
 
         Entry e = el.get(parts[2]);
-        if (e == null) errorMessage("enf");
+        if (e == null) {
+            errorMessage("enf");
+            return;
+        }
 
         e.setLink(parts[3]);
     }
@@ -78,19 +97,31 @@ public class Manager {
     }
 
     private void doReadTo(String[] parts) {
-        if (parts.length != 3) errorMessage("readto");
+        if (parts.length != 3) {
+            errorMessage("readto");
+            return;
+        }
 
         Entry e = el.get(parts[1]);
-        if (e == null) errorMessage("enf");
+        if (e == null) {
+            errorMessage("enf");
+            return;
+        }
 
         e.setReadto(Integer.parseInt(parts[2]));
     }
 
     private void doRead(String[] parts) {
-        if (parts.length != 3) errorMessage("read");
+        if (parts.length != 3) {
+            errorMessage("read");
+            return;
+        }
 
         Entry e = el.get(parts[1]);
-        if (e == null) errorMessage("enf");
+        if (e == null) {
+            errorMessage("enf");
+            return;
+        }
 
         e.setReadto(e.readto() + Integer.parseInt(parts[2]));
     }
@@ -120,5 +151,13 @@ public class Manager {
                             "the page or readto number and link  to website). E.g. \"" + error + " \"Solo Leveling\" 5\"");
             case "enf" -> in.write("The given book was not found. If you want to add a new Entry use \"new\".");
         }
+    }
+
+    private String[] split(String command) {
+        List<String> list = new ArrayList<String>();
+        Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
+        while (m.find())
+            list.add(m.group(1).replace("\"", ""));
+        return list.toArray(String[]::new);
     }
 }
