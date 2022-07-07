@@ -1,4 +1,5 @@
 package InputHandling;
 
-public class InputReader {
+public interface InputReader {
+    String read();
 }
