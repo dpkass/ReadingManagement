@@ -67,6 +67,18 @@ public class Entry {
     }
 
     @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("name=").append(name);
+        s.append(", ").append("readto=").append(readto);
+        s.append(", ").append("link=").append(link);
+        s.append(", ").append("acromnys=[");
+        for (int i = 0; i < acronyms.size() - 1; i++) s.append(acronyms.get(i)).append(", ");
+        s.append(acronyms.size() - 1).append("]");
+        return s.toString();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return equals((Entry) obj);
     }

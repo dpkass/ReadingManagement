@@ -44,11 +44,21 @@ public class Manager {
             case "read" -> doRead(parts);
             case "readto" -> doReadTo(parts);
             case "add" -> doAdd(parts);
+            case "list" -> doList();
+            case "list-detail" -> doListDetail();
             case "help" -> help();
             default -> errorMessage("invalid");
         }
 
         return true;
+    }
+
+    private void doListDetail() {
+        el.entries().stream().map(Entry::toString).forEach(System.out::println);
+    }
+
+    private void doList() {
+        el.entries().stream().map(Entry::name).forEach(System.out::println);
     }
 
     private boolean exit() {
@@ -60,7 +70,9 @@ public class Manager {
         in.write("Use one of the following commands:");
         in.write("new \"{book name}\" [page read to] [link] [acronyms...]");
         in.write("read \"{book name}\" {pagecount read}");
-        in.write("readto \"{book name}\" {page read to}");
+        in.write("read-to \"{book name}\" {page read to}");
+        in.write("list");
+        in.write("list-detail");
         in.write("add link \"{book name}\" link");
         in.write("add acronym \"{book name}\" acronym");
         in.write("help");
@@ -122,7 +134,7 @@ public class Manager {
 
     private void doReadTo(String[] parts) {
         if (parts.length != 3) {
-            errorMessage("readto");
+            errorMessage("read-to");
             return;
         }
 
@@ -164,7 +176,7 @@ public class Manager {
 
     private void errorMessage(String error) {
         switch (error) {
-            case "read", "readto" ->
+            case "read", "read-to" ->
                     in.write("Invalid Input. Please write \"" + error + "\", name or acronym of the book (in quotes if more than one " +
                             "word) and the page or readto number. E.g. \"" + error + " \"Solo Leveling\" 5\"");
             case "add acronym", "add link" ->
