@@ -53,6 +53,10 @@ public class Entry {
         acronyms.add(acronym);
     }
 
+    public void addAcronyms(String[] acronyms) {
+        Arrays.stream(acronyms).forEach(acronym -> addAcronym(acronym));
+    }
+
     public String toCSV() {
         StringBuilder s = new StringBuilder();
         s.append(name);

@@ -84,7 +84,7 @@ public class Manager {
     }
 
     private void doAddAcronym(String[] parts) {
-        if (parts.length < 3 || parts.length > 4) {
+        if (parts.length < 3) {
             errorMessage("add acronym");
             return;
         }
@@ -95,7 +95,7 @@ public class Manager {
             return;
         }
 
-        e.addAcronym(parts[3]);
+        e.addAcronyms(Arrays.stream(parts).skip(3).toArray(String[]::new));
     }
 
     private void doAddLink(String[] parts) {
