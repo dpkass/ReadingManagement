@@ -128,6 +128,12 @@ public class Manager {
     private void doNew(String[] parts) {
         if (parts.length < 2) errorMessage("new");
 
+        Entry e = el.get(parts[1]);
+        if (e != null) {
+            errorMessage("book already there");
+            return;
+        }
+
         String[] vals = Arrays.stream(parts).skip(1).toArray(String[]::new);
         el.add(vals);
     }
@@ -185,6 +191,7 @@ public class Manager {
             case "new" ->
                     in.write("Invalid Input. Please write \"new\", the name or acronym of the book (in quotes if more than one word) (additional: " +
                             "the page or readto number and link  to website). E.g. \"" + error + " \"Solo Leveling\" 5\"");
+            case "book already there" -> in.write("The given book is already in the list.");
             case "invalid" -> in.write("Invalid Input. Use help for more info.");
             case "enf" -> in.write("The given book was not found. If you want to add a new Entry use \"new\".");
         }

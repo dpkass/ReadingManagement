@@ -50,7 +50,8 @@ public class Entry {
     }
 
     public void addAcronym(String acronym) {
-        acronyms.add(acronym);
+        if (!acronyms.contains(acronym))
+            acronyms.add(acronym);
     }
 
     public void addAcronyms(String[] acronyms) {
