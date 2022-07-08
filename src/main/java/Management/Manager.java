@@ -42,7 +42,7 @@ public class Manager {
             case "exit" -> {return exit();}
             case "new" -> doNew(parts);
             case "read" -> doRead(parts);
-            case "readto" -> doReadTo(parts);
+            case "read-to" -> doReadTo(parts);
             case "add" -> doAdd(parts);
             case "list" -> doList();
             case "list-detail" -> doListDetail();
@@ -79,7 +79,7 @@ public class Manager {
         io.write("");
         io.write("Legend:");
         io.write("[...] - optional");
-        io.write("{...} - one value");
+        io.write("{...} - parameter");
         io.write("\"...\" - book name in quotes if more than one word");
     }
 

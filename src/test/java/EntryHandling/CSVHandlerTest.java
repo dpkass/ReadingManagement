@@ -45,8 +45,9 @@ class CSVHandlerTest {
 
         BufferedReader br = new BufferedReader(new FileReader(f));
 
-        assertThat(br.readLine()).isEqualTo("Solo Leveling" + CSVHandler.standardSeparator + " 3" + CSVHandler.standardSeparator + " www.somelink.com");
-        assertThat(br.readLine()).isEqualTo("The Beginning after the End" + CSVHandler.standardSeparator + " 162" + CSVHandler.standardSeparator + " www.someotherlink.com");
+        assertThat(br.readLine()).isEqualTo("Solo Leveling" + CSVHandler.standardSeparator + " 3" + CSVHandler.standardSeparator + " www" +
+                ".somelink.com" + CSVHandler.standardSeparator + ' ');
+        assertThat(br.readLine()).isEqualTo("The Beginning after the End" + CSVHandler.standardSeparator + " 162" + CSVHandler.standardSeparator + " www.someotherlink.com" + CSVHandler.standardSeparator + ' ');
 
         br.close();
     }

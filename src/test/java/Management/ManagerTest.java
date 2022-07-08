@@ -25,6 +25,7 @@ class ManagerTest {
         when(io.read()).thenReturn("exit");
 
         Manager m = mock(Manager.class);
+        m.setFile("src/test/resources/mtest1");
         m.io = io;
 
         m.run();
@@ -36,6 +37,7 @@ class ManagerTest {
         when(io.read()).thenReturn("new \"Solo Leveling\"").thenReturn("exit");
 
         Manager m = new Manager();
+        m.setFile("src/test/resources/mtest2");
         m.io = io;
         m.el = new EntryList();
 
@@ -50,6 +52,7 @@ class ManagerTest {
         when(io.read()).thenReturn("read \"Solo Leveling\" 5").thenReturn("exit");
 
         Manager m = new Manager();
+        m.setFile("src/test/resources/mtest3");
         m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling", "2" });
@@ -60,11 +63,12 @@ class ManagerTest {
     }
 
     @Test
-    @DisplayName ("process \"readto\" then exit and stop")
+    @DisplayName ("process \"read-to\" then exit and stop")
     void test_4() {
-        when(io.read()).thenReturn("readto \"Solo Leveling\" 5").thenReturn("exit");
+        when(io.read()).thenReturn("read-to \"Solo Leveling\" 5").thenReturn("exit");
 
         Manager m = new Manager();
+        m.setFile("src/test/resources/mtest4");
         m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling", "2" });
@@ -80,6 +84,7 @@ class ManagerTest {
         when(io.read()).thenReturn("add acronym \"Solo Leveling\" SL").thenReturn("exit");
 
         Manager m = new Manager();
+        m.setFile("src/test/resources/mtest5");
         m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling" });
@@ -95,6 +100,7 @@ class ManagerTest {
         when(io.read()).thenReturn("add link \"Solo Leveling\" www.somelink.com").thenReturn("exit");
 
         Manager m = new Manager();
+        m.setFile("src/test/resources/mtest6");
         m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling" });
