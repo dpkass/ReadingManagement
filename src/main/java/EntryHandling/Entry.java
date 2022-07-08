@@ -50,12 +50,11 @@ public class Entry {
     }
 
     public void addAcronym(String acronym) {
-        if (!acronyms.contains(acronym))
-            acronyms.add(acronym);
+        if (!acronyms.contains(acronym)) acronyms.add(acronym);
     }
 
     public void addAcronyms(String[] acronyms) {
-        Arrays.stream(acronyms).forEach(acronym -> addAcronym(acronym));
+        for (String acronym : acronyms) addAcronym(acronym);
     }
 
     public String toCSV() {

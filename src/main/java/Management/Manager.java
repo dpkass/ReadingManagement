@@ -18,7 +18,7 @@ public class Manager {
     static File standardfile = new File("resources/index.csv");
     File f;
 
-    IOHandler in;
+    IOHandler io;
     FileHandler fh;
     EntryList el;
 
@@ -29,7 +29,7 @@ public class Manager {
 
     public void run() {
         for (; ; ) {
-            String command = in.read();
+            String command = io.read();
             if (!process(command)) break;
         }
     }
@@ -54,11 +54,11 @@ public class Manager {
     }
 
     private void doListDetail() {
-        el.entries().stream().map(Entry::toString).forEach(System.out::println);
+        el.entries().stream().map(Entry::toString).forEach(io::write);
     }
 
     private void doList() {
-        el.entries().stream().map(Entry::name).forEach(System.out::println);
+        el.entries().stream().map(Entry::name).forEach(io::write);
     }
 
     private boolean exit() {
@@ -67,20 +67,20 @@ public class Manager {
     }
 
     private void help() {
-        in.write("Use one of the following commands:");
-        in.write("new \"{book name}\" [page read to] [link] [acronyms...]");
-        in.write("read \"{book name}\" {pagecount read}");
-        in.write("read-to \"{book name}\" {page read to}");
-        in.write("list");
-        in.write("list-detail");
-        in.write("add link \"{book name}\" link");
-        in.write("add acronym \"{book name}\" acronym");
-        in.write("help");
-        in.write("");
-        in.write("Legend:");
-        in.write("[...] - optional");
-        in.write("{...} - one value");
-        in.write("\"...\" - book name in quotes if more than one word");
+        io.write("Use one of the following commands:");
+        io.write("new \"{book name}\" [page read to] [link] [acronyms...]");
+        io.write("read \"{book name}\" {pagecount read}");
+        io.write("read-to \"{book name}\" {page read to}");
+        io.write("list");
+        io.write("list-detail");
+        io.write("add link \"{book name}\" link");
+        io.write("add acronym \"{book name}\" acronym");
+        io.write("help");
+        io.write("");
+        io.write("Legend:");
+        io.write("[...] - optional");
+        io.write("{...} - one value");
+        io.write("\"...\" - book name in quotes if more than one word");
     }
 
     private void doAdd(String[] parts) {
@@ -108,6 +108,8 @@ public class Manager {
         }
 
         e.addAcronyms(Arrays.stream(parts).skip(3).toArray(String[]::new));
+
+        io.write("Acronym added.");
     }
 
     private void doAddLink(String[] parts) {
@@ -123,6 +125,8 @@ public class Manager {
         }
 
         e.setLink(parts[3]);
+
+        io.write("Link added.");
     }
 
     private void doNew(String[] parts) {
@@ -136,6 +140,8 @@ public class Manager {
 
         String[] vals = Arrays.stream(parts).skip(1).toArray(String[]::new);
         el.add(vals);
+
+        io.write("Entry added.");
     }
 
     private void doReadTo(String[] parts) {
@@ -151,6 +157,8 @@ public class Manager {
         }
 
         e.setReadto(Integer.parseInt(parts[2]));
+
+        io.write("Read-to changed.");
     }
 
     private void doRead(String[] parts) {
@@ -166,10 +174,12 @@ public class Manager {
         }
 
         e.setReadto(e.readto() + Integer.parseInt(parts[2]));
+
+        io.write("Read-to changed.");
     }
 
     private void init() {
-        in = new StdIOHandler();
+        io = new StdIOHandler();
         fh = new CSVHandler(f);
         el = fh.read();
     }
@@ -183,17 +193,17 @@ public class Manager {
     private void errorMessage(String error) {
         switch (error) {
             case "read", "read-to" ->
-                    in.write("Invalid Input. Please write \"" + error + "\", name or acronym of the book (in quotes if more than one " +
+                    io.write("Invalid Input. Please write \"" + error + "\", name or acronym of the book (in quotes if more than one " +
                             "word) and the page or readto number. E.g. \"" + error + " \"Solo Leveling\" 5\"");
             case "add acronym", "add link" ->
-                    in.write("Invalid Input. Please write \"" + error + "\", the name or acronym of the book (in quotes if more than one word) and " +
+                    io.write("Invalid Input. Please write \"" + error + "\", the name or acronym of the book (in quotes if more than one word) and " +
                             "the " + error.split(" ")[1] + ". E.g. \"" + error + " \"Solo Leveling\" 5\"");
             case "new" ->
-                    in.write("Invalid Input. Please write \"new\", the name or acronym of the book (in quotes if more than one word) (additional: " +
+                    io.write("Invalid Input. Please write \"new\", the name or acronym of the book (in quotes if more than one word) (additional: " +
                             "the page or readto number and link  to website). E.g. \"" + error + " \"Solo Leveling\" 5\"");
-            case "book already there" -> in.write("The given book is already in the list.");
-            case "invalid" -> in.write("Invalid Input. Use help for more info.");
-            case "enf" -> in.write("The given book was not found. If you want to add a new Entry use \"new\".");
+            case "book already there" -> io.write("The given book is already in the list.");
+            case "invalid" -> io.write("Invalid Input. Use help for more info.");
+            case "enf" -> io.write("The given book was not found. If you want to add a new Entry use \"new\".");
         }
     }
 

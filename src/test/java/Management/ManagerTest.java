@@ -25,7 +25,7 @@ class ManagerTest {
         when(io.read()).thenReturn("exit");
 
         Manager m = mock(Manager.class);
-        m.in = io;
+        m.io = io;
 
         m.run();
     }
@@ -36,7 +36,7 @@ class ManagerTest {
         when(io.read()).thenReturn("new \"Solo Leveling\"").thenReturn("exit");
 
         Manager m = new Manager();
-        m.in = io;
+        m.io = io;
         m.el = new EntryList();
 
         m.run();
@@ -50,7 +50,7 @@ class ManagerTest {
         when(io.read()).thenReturn("read \"Solo Leveling\" 5").thenReturn("exit");
 
         Manager m = new Manager();
-        m.in = io;
+        m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling", "2" });
 
@@ -65,7 +65,7 @@ class ManagerTest {
         when(io.read()).thenReturn("readto \"Solo Leveling\" 5").thenReturn("exit");
 
         Manager m = new Manager();
-        m.in = io;
+        m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling", "2" });
 
@@ -80,7 +80,7 @@ class ManagerTest {
         when(io.read()).thenReturn("add acronym \"Solo Leveling\" SL").thenReturn("exit");
 
         Manager m = new Manager();
-        m.in = io;
+        m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling" });
 
@@ -95,7 +95,7 @@ class ManagerTest {
         when(io.read()).thenReturn("add link \"Solo Leveling\" www.somelink.com").thenReturn("exit");
 
         Manager m = new Manager();
-        m.in = io;
+        m.io = io;
         m.el = new EntryList();
         m.el.add(new String[] { "Solo Leveling" });
 
