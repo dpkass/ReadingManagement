@@ -35,10 +35,11 @@ public class Manager {
     }
 
     private boolean process(String s) {
-        assert s != null;
+        if (s == null || s.isBlank()) return true;
+
         String[] parts = split(s);
         switch (parts[0]) {
-            case "exit" -> {return false;}
+            case "exit" -> {return exit();}
             case "new" -> doNew(parts);
             case "read" -> doRead(parts);
             case "readto" -> doReadTo(parts);
@@ -46,7 +47,13 @@ public class Manager {
             case "help" -> help();
             default -> errorMessage("invalid");
         }
+
         return true;
+    }
+
+    private boolean exit() {
+        fh.write(el);
+        return false;
     }
 
     private void help() {
@@ -172,7 +179,7 @@ public class Manager {
     }
 
     private String[] split(String command) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
         while (m.find())
             list.add(m.group(1).replace("\"", ""));
