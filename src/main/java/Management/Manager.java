@@ -34,7 +34,7 @@ public class Manager {
         }
     }
 
-    private boolean process(String s) {
+    public boolean process(String s) {
         if (s == null || s.isBlank()) return true;
 
         String[] parts = split(s);

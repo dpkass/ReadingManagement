@@ -62,7 +62,7 @@ public class Entry {
         s.append(name);
         s.append(", ").append(readto);
         s.append(", ").append(link);
-        acronyms.forEach(a -> s.append(", ").append(a));
+        s.append(", ").append(String.join(", ", acronyms));
         return s.toString();
     }
 
@@ -72,9 +72,7 @@ public class Entry {
         s.append("name=").append(name);
         s.append(", ").append("readto=").append(readto);
         s.append(", ").append("link=").append(link);
-        s.append(", ").append("acromnys=[");
-        for (int i = 0; i < acronyms.size() - 1; i++) s.append(acronyms.get(i)).append(", ");
-        s.append(acronyms.size() - 1).append("]");
+        s.append(", ").append("acromnys=[").append(String.join(", ", acronyms)).append("]");
         return s.toString();
     }
 
