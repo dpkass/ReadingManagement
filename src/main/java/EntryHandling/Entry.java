@@ -54,7 +54,12 @@ public class Entry {
     }
 
     public String toCSV() {
-        return name + ", " + readto + ", " + link;
+        StringBuilder s = new StringBuilder();
+        s.append(name);
+        s.append(", ").append(readto);
+        s.append(", ").append(link);
+        acronyms.forEach(a -> s.append(", ").append(a));
+        return s.toString();
     }
 
     @Override
