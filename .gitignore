@@ -2,6 +2,7 @@
 build/*
 !build/libs
 TestInputs/
+*.class
 
 ### Util ###
 HELP.md
