@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'org.example'
-version '1.0'
+version '1.1'
 
 repositories {
     mavenCentral()
@@ -21,12 +21,6 @@ test {
     useJUnitPlatform()
 }
 
-application {
-    mainClassName = 'Main'
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'Main'
-    }
+build {
+    finalizedBy(installDist)
 }
