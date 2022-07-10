@@ -29,6 +29,7 @@ public class Processor {
             case "read" -> doRead(parts);
             case "read-to" -> doReadTo(parts);
             case "add" -> doAdd(parts);
+            case "change" -> doChange(parts);
             case "list" -> doList(parts);
             case "list-all" -> doListAll();
             case "help" -> help();
@@ -92,32 +93,47 @@ public class Processor {
         out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.acronyms().toString()).toList());
     }
 
-    private static void help() {
-        out.add("Use one of the following commands:");
-        out.add("new \"{book name}\" [page read to] [link] [acronyms...]");
-        out.add("read \"{book name}\" {pagecount read}");
-        out.add("read-to \"{book name}\" {page read to}");
-        out.add("list [option (standard:name)]");
-        out.add("list-all");
-        out.add("add [option] \"{book name}\" {value}");
-        out.add("help");
-        out.add("");
-        out.add("Legend:");
-        out.add("[...] - optional");
-        out.add("{...} - parameter");
-        out.add("\"...\" - book name in quotes if more than one word");
-    }
-
     private static void doAdd(String[] parts) {
         if (parts.length < 2) {
-            errorMessage("add");
+            errorMessage("invalid");
             return;
         }
 
         switch (parts[1]) {
             case "link" -> doAddLink(parts);
             case "acronym", "anym" -> doAddAcronym(parts);
+            default -> errorMessage("invalid");
         }
+    }
+
+    private static void doChange(String[] parts) {
+        if (parts.length < 4) {
+            errorMessage("invalid");
+            return;
+        }
+
+        switch (parts[1]) {
+            case "name" -> doChangeName(parts);
+            case "link" -> doChangeLink(parts);
+            case "acronym", "anym" -> doChangeAcronym(parts);
+            default -> errorMessage("invalid");
+        }
+    }
+
+    private static void doChangeName(String[] parts) {
+        Entry e = el.get(parts[2]);
+        e.setName(parts[3]);
+    }
+
+    private static void doChangeLink(String[] parts) {
+        Entry e = el.get(parts[2]);
+        e.setLink(parts[3]);
+    }
+
+    private static void doChangeAcronym(String[] parts) {
+        Entry e = el.get(parts[2]);
+        e.removeAcronym(parts[2]);
+        e.addAcronym(parts[3]);
     }
 
     private static void doAddAcronym(String[] parts) {
@@ -184,6 +200,25 @@ public class Processor {
         e.setReadto(Integer.parseInt(parts[2]));
 
         out.add("Read-to changed.");
+    }
+
+    private static void help() {
+        out.add("Use one of the following commands:");
+        out.add("new \"{book name}\" [page-read-to] [link] [acronyms...]");
+        out.add("read \"{anym/book}\" {pagecount-read}");
+        out.add("read-to \"{anym/book}\" {page-read-to}");
+        out.add("list [option (standard:name)]");
+        out.add("list-all");
+        out.add("add {option} \"{anym/book}\" \"{value}\"");
+        out.add("change {option} \"{old-value}\" \"{new-value}\"");
+        out.add("help");
+        out.add("");
+        out.add("Legend:");
+        out.add("[...] - optional");
+        out.add("{...} - parameter");
+        out.add("\"...\" - acronym and book name in quotes if more than one word");
+        out.add("");
+        out.add("For details use help {command}");
     }
 
     private static void errorMessage(String error) {

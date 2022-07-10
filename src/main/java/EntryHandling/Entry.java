@@ -49,6 +49,10 @@ public class Entry {
     }
 
     // setter
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setReadto(int readto) {
         this.readto = readto;
     }
@@ -63,6 +67,14 @@ public class Entry {
 
     public void addAcronyms(String[] acronyms) {
         for (String acronym : acronyms) addAcronym(acronym);
+    }
+
+    public void removeAcronym(String acronym) {
+        acronyms.remove(acronym);
+    }
+
+    public void removeAcronyms(String[] acronyms) {
+        for (String acronym : acronyms) removeAcronym(acronym);
     }
 
     // representations
