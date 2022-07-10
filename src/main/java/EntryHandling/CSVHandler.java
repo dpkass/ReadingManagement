@@ -1,27 +1,28 @@
 package EntryHandling;
 
+import Management.Manager;
+
 import java.io.*;
 import java.util.Arrays;
 
 public class CSVHandler implements FileHandler {
     static String standardSeparator = ";";
 
+    boolean fileCreated = false;
     String separator;
     File f;
 
     public CSVHandler(File f) {
         this.f = f;
-        try {
-            f.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         separator = standardSeparator;
     }
 
     @Override
     public EntryList read() {
         EntryList list = new EntryList();
+
+        if (!fileCreated && !createFile()) return list;
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(f));
             br.lines()
@@ -35,6 +36,8 @@ public class CSVHandler implements FileHandler {
 
     @Override
     public void write(EntryList el) {
+        if (!fileCreated && !createFile()) return;
+
         try {
             PrintWriter pw = new PrintWriter(f);
             el.list.stream()
@@ -45,7 +48,23 @@ public class CSVHandler implements FileHandler {
         } catch (IOException ignored) {}
     }
 
+    @Override
+    public void setFile(File f) {
+        this.f = f;
+    }
+
     public void setSeparator(String separator) {
         this.separator = separator;
+    }
+
+    private boolean createFile() {
+        try {
+            f.createNewFile();
+            fileCreated = true;
+            return true;
+        } catch (IOException e) {
+            if (f != Manager.standardfile) System.out.println("File doesn't exist");
+        }
+        return false;
     }
 }

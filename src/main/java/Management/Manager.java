@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Manager {
-    static File standardfile = new File("resources/index.csv");
+    public static File standardfile = new File("resources/index.csv");
     File f;
 
     IOHandler io;
@@ -187,7 +187,8 @@ public class Manager {
 
     public void setFile(String f) {
         this.f = new File(f);
-        init();
+        fh.setFile(this.f);
+        el = fh.read();
     }
 
     private void errorMessage(String error) {
