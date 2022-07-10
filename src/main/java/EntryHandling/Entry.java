@@ -10,6 +10,7 @@ public class Entry {
     String name;
     int readto;
     String link;
+
     List<String> acronyms;
 
     public Entry(String[] values) {
@@ -25,6 +26,7 @@ public class Entry {
         this.name = name;
     }
 
+    // getter
     public String name() {
         return name;
     }
@@ -37,10 +39,16 @@ public class Entry {
         return link;
     }
 
+    public List<String> acronyms() {
+        return acronyms;
+    }
+
+    // checker
     public boolean hasAcronym(String s) {
         return acronyms.contains(s);
     }
 
+    // setter
     public void setReadto(int readto) {
         this.readto = readto;
     }
@@ -57,6 +65,7 @@ public class Entry {
         for (String acronym : acronyms) addAcronym(acronym);
     }
 
+    // representations
     public String toCSV() {
         StringBuilder s = new StringBuilder();
         s.append(name);

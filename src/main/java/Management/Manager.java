@@ -7,7 +7,6 @@ import IOHandling.IOHandler;
 import IOHandling.StdIOHandler;
 
 import java.io.File;
-import java.util.List;
 
 public class Manager {
     public static File standardfile = new File("resources/index.csv");
@@ -25,10 +24,10 @@ public class Manager {
     private void init() {
         io = new StdIOHandler();
         fh = new CSVHandler(f);
-        el = fh.read();
     }
 
     public void run() {
+        el = fh.read();
         for (; ; ) {
             String command = io.read();
             if (!process(command)) break;
@@ -36,19 +35,15 @@ public class Manager {
     }
 
     public boolean process(String s) {
-        List<String> out = Processor.process(s);
-        if (out == null) {
+        if (!Processor.process(s, el, io)) {
             fh.write(el);
             return false;
         }
-        out.forEach(io::write);
         return true;
     }
-
 
     public void setFile(String f) {
         this.f = new File(f);
         fh.setFile(this.f);
-        el = fh.read();
     }
 }
