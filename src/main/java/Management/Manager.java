@@ -35,15 +35,18 @@ public class Manager {
     }
 
     public void run() {
+        start();
+        while (process(io.read())) {}
+        end();
+    }
+
+    private void start() {
         el = fh.read();
         secretel = secretfh.read();
         secretel.decode();
+    }
 
-        for (; ; ) {
-            String command = io.read();
-            if (!process(command)) break;
-        }
-
+    private void end() {
         fh.write(el);
         secretel.encode();
         secretfh.write(secretel);

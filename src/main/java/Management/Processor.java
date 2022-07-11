@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Processor {
+class Processor {
 
     static List<String> out;
     static IOHandler io;
@@ -43,6 +43,7 @@ public class Processor {
             case "new" -> doNew(parts);
             case "read" -> doRead(parts);
             case "read-to" -> doReadTo(parts);
+            case "add" -> doAdd(parts);
             case "change" -> doChange(parts);
             case "list" -> doList(parts);
             case "list-all" -> doListAll();
@@ -129,6 +130,24 @@ public class Processor {
                 e.removeAcronym(parts[2]);
                 e.addAcronym(parts[3]);
             }
+            default -> out.add(Helper.errorMessage("invalid"));
+        }
+    }
+
+    private static void doAdd(String[] parts) {
+        if (parts.length < 4) {
+            out.add(Helper.errorMessage("invalid"));
+            return;
+        }
+
+        Entry e = el.get(parts[2]);
+        if (e == null) {
+            out.add(Helper.errorMessage("enf"));
+            return;
+        }
+
+        switch (representation(parts[1])) {
+            case 'a' -> e.addAcronym(parts[3]);
             default -> out.add(Helper.errorMessage("invalid"));
         }
     }

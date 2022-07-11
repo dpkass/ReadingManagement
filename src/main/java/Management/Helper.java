@@ -1,6 +1,6 @@
 package Management;
 
-public class Helper {
+class Helper {
 
     private static final String standardhelp = """
                                                Use one of the following commands:
@@ -9,6 +9,7 @@ public class Helper {
                                                read-to "{anym/book}" {page-read-to}
                                                list [type]
                                                list-all
+                                               add acronym "{anym/book}" "{new-value}"
                                                change {type} "{anym/book}" "{new-value}"
                                                help
                                                        
@@ -77,6 +78,23 @@ public class Helper {
                                              {anym/book} = name or acronym of the book
                                              {new-value} = value to be set as replacement
                                              """;
+
+    private static final String addhelp = """
+                                          Adds the acronym to the given entry.
+                                          Attention!! If there are multiple Entries to the given book or anym it will change a random one (for now).
+                                                                                       
+                                          How to use change:
+                                          add + {type} + {anym/book} + {new-value}
+                                                                                     
+                                          E.g.  add a SL sl 
+                                                add anym "The Beginning after The End" TBATE
+                                                                                     
+                                          {type} = type of data to change
+                                                 options:
+                                                     acronym = [acronyms, acronym, anyms, anym, a]
+                                          {anym/book} = name or acronym of the book
+                                          {new-value} = value to be set as replacement
+                                          """;
 
     private static final String listhelp = """
                                            Prints a list of all Entries with a chosen values.
