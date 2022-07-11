@@ -14,15 +14,30 @@ import java.util.stream.Collectors;
 public class Processor {
 
     static List<String> out;
+    static IOHandler io;
     static EntryList el;
 
-    static boolean process(String s, EntryList el, IOHandler io) {
+    static boolean process(String s, EntryList el, EntryList secretel, IOHandler io) {
         if (s == null || s.isBlank()) return true;
 
-        Processor.el = el;
+        String[] parts = split(s);
+
+        switch (parts[0]) {
+            case "secret" -> Processor.el = secretel;
+            default -> Processor.el = el;
+        }
+
+        Processor.io = io;
         out = new ArrayList<>();
 
-        String[] parts = split(s);
+        boolean b = process(parts);
+
+        out.forEach(io::write);
+
+        return b;
+    }
+
+    static boolean process(String[] parts) {
         switch (parts[0]) {
             case "exit" -> {return false;}
             case "new" -> doNew(parts);
@@ -31,13 +46,16 @@ public class Processor {
             case "change" -> doChange(parts);
             case "list" -> doList(parts);
             case "list-all" -> doListAll();
+            case "secret" -> doSecret(parts);
             case "help" -> io.write(Helper.help(parts));
             default -> out.add(Helper.errorMessage("invalid"));
         }
-
-        out.forEach(io::write);
-
         return true;
+    }
+
+    private static void doSecret(String[] parts) {
+        parts = Arrays.stream(parts).skip(1).toArray(String[]::new);
+        process(parts);
     }
 
     private static void doRead(String[] parts) {

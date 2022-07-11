@@ -10,40 +10,56 @@ import java.io.File;
 
 public class Manager {
     public static File standardfile = new File("resources/index.csv");
-    File f;
+    public static File standardsecretfile = new File("resources/secret.csv");
+
+    File file;
+    File secretfile;
 
     IOHandler io;
     FileHandler fh;
+    FileHandler secretfh;
     EntryList el;
+    EntryList secretel;
+
 
     public Manager() {
-        f = standardfile;
+        file = standardfile;
+        secretfile = standardsecretfile;
         init();
     }
 
     private void init() {
         io = new StdIOHandler();
-        fh = new CSVHandler(f);
+        fh = new CSVHandler(file);
+        secretfh = new CSVHandler(secretfile);
     }
 
     public void run() {
         el = fh.read();
+        secretel = secretfh.read();
+        secretel.decode();
+
         for (; ; ) {
             String command = io.read();
             if (!process(command)) break;
         }
+
+        fh.write(el);
+        secretel.encode();
+        secretfh.write(secretel);
     }
 
     public boolean process(String s) {
-        if (!Processor.process(s, el, io)) {
-            fh.write(el);
-            return false;
-        }
-        return true;
+        return Processor.process(s, el, secretel, io);
     }
 
     public void setFile(String f) {
-        this.f = new File(f);
-        fh.setFile(this.f);
+        file = new File(f);
+        fh.setFile(file);
+    }
+
+    public void setSecretfile(String f) {
+        secretfile = new File(f);
+        fh.setFile(secretfile);
     }
 }

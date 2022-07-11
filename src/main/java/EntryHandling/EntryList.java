@@ -17,4 +17,12 @@ public class EntryList {
     public List<Entry> entries() {
         return list;
     }
+
+    public void encode() {
+        list.stream().forEach(Entry::encode);
+    }
+
+    public void decode() {
+        list.stream().forEach(Entry::decode);
+    }
 }
