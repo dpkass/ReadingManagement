@@ -9,7 +9,9 @@ public class Main {
         if (args.length > 0)
             m.setFile(args[0]);
         if (args.length > 1)
-            m.process(Arrays.stream(args).skip(1).collect(Collectors.joining(" ")));
+            m.setSecretfile(args[1]);
+        if (args.length > 2)
+            m.process(Arrays.stream(args).skip(2).collect(Collectors.joining(" ")));
         else m.run();
     }
 }

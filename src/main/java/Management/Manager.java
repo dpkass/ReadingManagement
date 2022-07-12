@@ -59,10 +59,15 @@ public class Manager {
     public void setFile(String f) {
         file = new File(f);
         fh.setFile(file);
+
+        el = fh.read();
     }
 
     public void setSecretfile(String f) {
         secretfile = new File(f);
-        fh.setFile(secretfile);
+        secretfh.setFile(secretfile);
+
+        secretel = secretfh.read();
+        secretel.decode();
     }
 }
