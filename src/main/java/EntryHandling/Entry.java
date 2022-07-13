@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Entry {
     String name;
-    int readto;
+    String readto;
     String link;
 
     List<String> acronyms;
@@ -17,8 +17,8 @@ public class Entry {
 
     public Entry(String[] values) {
         name = values[0];
-        if (values.length > 1) readto = Integer.parseInt(values[1]);
-        else readto = 0;
+        if (values.length > 1) readto = values[1];
+        else readto = String.valueOf(0);
         if (values.length > 2) link = values[2];
         else link = "";
         if (values.length > 3)
@@ -31,7 +31,7 @@ public class Entry {
         return name;
     }
 
-    public int readto() {
+    public String readto() {
         return readto;
     }
 
@@ -53,7 +53,7 @@ public class Entry {
         this.name = name;
     }
 
-    public void setReadto(int readto) {
+    public void setReadto(String readto) {
         this.readto = readto;
     }
 
@@ -73,6 +73,7 @@ public class Entry {
     void encode() {
         name = encode(name);
         link = encode(link);
+        readto = encode(readto);
         acronyms = acronyms.stream().map(this::encode).collect(Collectors.toList());
     }
 
@@ -86,6 +87,7 @@ public class Entry {
     void decode() {
         name = decode(name);
         link = decode(link);
+        readto = decode(readto);
         acronyms = acronyms.stream().map(this::decode).collect(Collectors.toList());
     }
 

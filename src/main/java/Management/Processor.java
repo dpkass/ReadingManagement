@@ -4,9 +4,12 @@ import EntryHandling.Entry;
 import EntryHandling.EntryList;
 import IOHandling.IOHandler;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -65,15 +68,31 @@ class Processor {
             return;
         }
 
-        Entry e = el.get(parts[1]);
-        if (e == null) {
-            out.add(Helper.errorMessage("enf"));
+        Entry e = getEntry(parts, 1);
+        if (e == null) return;
+
+        double rtVal;
+        NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
+
+        // try us standard
+        try {
+            rtVal = NumberFormat.getInstance(Locale.US).parse(e.readto()).doubleValue();
+            e.setReadto(String.valueOf(rtVal + Integer.parseInt(parts[2])));
+
+            out.add("Read-to changed.");
             return;
-        }
+        } catch (ParseException ignored) {}
 
-        e.setReadto(e.readto() + Integer.parseInt(parts[2]));
+        // try europe standard
+        try {
+            rtVal = NumberFormat.getInstance(Locale.GERMANY).parse(e.readto()).doubleValue();
+            e.setReadto(String.valueOf(rtVal + Integer.parseInt(parts[2])));
 
-        out.add("Read-to changed.");
+            out.add("Read-to changed.");
+            return;
+        } catch (ParseException ignored) {}
+
+        out.add(Helper.errorMessage("read-to not number"));
     }
 
     private static void doListAll() {
@@ -117,11 +136,8 @@ class Processor {
             return;
         }
 
-        Entry e = el.get(parts[2]);
-        if (e == null) {
-            out.add(Helper.errorMessage("enf"));
-            return;
-        }
+        Entry e = getEntry(parts, 2);
+        if (e == null) return;
 
         switch (representation(parts[1])) {
             case 'n' -> e.setName(parts[3]);
@@ -140,11 +156,8 @@ class Processor {
             return;
         }
 
-        Entry e = el.get(parts[2]);
-        if (e == null) {
-            out.add(Helper.errorMessage("enf"));
-            return;
-        }
+        Entry e = getEntry(parts, 2);
+        if (e == null) return;
 
         switch (representation(parts[1])) {
             case 'a' -> e.addAcronym(parts[3]);
@@ -173,15 +186,21 @@ class Processor {
             return;
         }
 
-        Entry e = el.get(parts[1]);
-        if (e == null) {
-            out.add(Helper.errorMessage("enf"));
-            return;
-        }
+        Entry e = getEntry(parts, 1);
+        if (e == null) return;
 
-        e.setReadto(Integer.parseInt(parts[2]));
+        e.setReadto(parts[2]);
 
         out.add("Read-to changed.");
+    }
+
+    private static Entry getEntry(String[] parts, int x) {
+        Entry e = el.get(parts[x]);
+        if (e == null) {
+            out.add(Helper.errorMessage("enf"));
+            return null;
+        }
+        return e;
     }
 
     private static String[] split(String command) {

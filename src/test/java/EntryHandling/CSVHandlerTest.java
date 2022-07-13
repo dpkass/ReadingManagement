@@ -23,11 +23,11 @@ class CSVHandlerTest {
         EntryList e = handler.read();
 
         assertThat(e.list.get(0).name()).isEqualTo("Solo Leveling");
-        assertThat(e.list.get(0).readto()).isEqualTo(3);
+        assertThat(e.list.get(0).readto()).isEqualTo("3");
         assertThat(e.list.get(0).link()).isEqualTo("www.somelink.com");
 
         assertThat(e.list.get(1).name()).isEqualTo("The Beginning after the End");
-        assertThat(e.list.get(1).readto()).isEqualTo(162);
+        assertThat(e.list.get(1).readto()).isEqualTo("162");
         assertThat(e.list.get(1).link()).isEqualTo("www.someotherlink.com");
     }
 

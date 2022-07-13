@@ -140,8 +140,7 @@ class Helper {
 
         return switch (parts[1]) {
             case "new" -> newhelp;
-            case "read" -> readhelp;
-            case "read-to" -> readhelp;
+            case "read", "read-to" -> readhelp;
             case "change" -> changehelp;
             case "list" -> listhelp;
             case "list-all" -> listallhelp;
@@ -154,6 +153,7 @@ class Helper {
             case "invalid" -> "Invalid Input. Use help for more info.";
             case "book already there" -> "The given book is already in the list.";
             case "enf" -> "The given book was not found. If you want to add a new Entry use \"new\".";
+            case "read-to not number" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
             default -> "";
         };
     }
