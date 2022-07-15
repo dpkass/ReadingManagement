@@ -41,17 +41,17 @@ class Processor {
     }
 
     static boolean process(String[] parts) {
-        switch (parts[0]) {
-            case "exit" -> {return false;}
-            case "new" -> doNew(parts);
-            case "read" -> doRead(parts);
-            case "read-to" -> doReadTo(parts);
-            case "add" -> doAdd(parts);
-            case "change" -> doChange(parts);
-            case "list" -> doList(parts);
-            case "list-all" -> doListAll();
-            case "secret" -> doSecret(parts);
-            case "help" -> io.write(Helper.help(parts));
+        switch (Helper.representation(parts[0])) {
+            case "e" -> {return false;}
+            case "nw" -> doNew(parts);
+            case "r" -> doRead(parts);
+            case "rt" -> doReadTo(parts);
+            case "a" -> doAdd(parts);
+            case "c" -> doChange(parts);
+            case "l" -> doList(parts);
+            case "la" -> doListAll();
+            case "s" -> doSecret(parts);
+            case "h" -> io.write(Helper.help(parts));
             default -> out.add(Helper.errorMessage("invalid"));
         }
         return true;
@@ -105,11 +105,11 @@ class Processor {
             return;
         }
 
-        switch (representation(parts[1])) {
-            case 'n' -> doListNames();
-            case 'l' -> doListLink();
-            case 'r' -> doListReadto();
-            case 'a' -> doListAcronyms();
+        switch (Helper.representation(parts[1])) {
+            case "n" -> doListNames();
+            case "l" -> doListLink();
+            case "r", "rt" -> doListReadto();
+            case "ac" -> doListAcronyms();
             default -> out.add(Helper.errorMessage("invalid"));
         }
     }
@@ -139,10 +139,10 @@ class Processor {
         Entry e = getEntry(parts, 2);
         if (e == null) return;
 
-        switch (representation(parts[1])) {
-            case 'n' -> e.setName(parts[3]);
-            case 'l' -> e.setLink(parts[3]);
-            case 'a' -> {
+        switch (Helper.representation(parts[1])) {
+            case "n" -> e.setName(parts[3]);
+            case "l" -> e.setLink(parts[3]);
+            case "ac" -> {
                 e.removeAcronym(parts[2]);
                 e.addAcronym(parts[3]);
             }
@@ -159,8 +159,8 @@ class Processor {
         Entry e = getEntry(parts, 2);
         if (e == null) return;
 
-        switch (representation(parts[1])) {
-            case 'a' -> e.addAcronym(parts[3]);
+        switch (Helper.representation(parts[1])) {
+            case "a" -> e.addAcronym(parts[3]);
             default -> out.add(Helper.errorMessage("invalid"));
         }
     }
@@ -209,15 +209,5 @@ class Processor {
         while (m.find())
             list.add(m.group(1).replace("\"", ""));
         return list.toArray(String[]::new);
-    }
-
-    private static char representation(String part) {
-        return switch (part) {
-            case "names", "name", "n" -> 'n';
-            case "links", "link", "l" -> 'l';
-            case "read-to", "readto", "r" -> 'r';
-            case "acronyms", "acronym", "anyms", "anym", "a" -> 'a';
-            default -> ' ';
-        };
     }
 }

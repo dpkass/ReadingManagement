@@ -11,14 +11,16 @@ class Helper {
                                                list-all
                                                add acronym "{anym/book}" "{new-value}"
                                                change {type} "{anym/book}" "{new-value}"
-                                               help
+                                               help (or h)
+                                                                                              
+                                               secret {command} [parameters]
                                                        
                                                Legend:
                                                [...] - optional
                                                {...} - parameter
                                                "..." - acronym and book name in quotes if more than one word
                                                        
-                                               For details use help {command}
+                                               For details use help (or h) {command}
                                                """;
 
     private static final String newhelp = """
@@ -40,14 +42,37 @@ class Helper {
                                           But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.                                   
                                           """;
 
+    private static final String secrethelp = """
+                                             Uses the secret list for the next action.
+                                                                                       
+                                             How to use new:
+                                             secret + {command} + [parameters]
+                                                                                    
+                                             Alternative: s
+                                                                                        
+                                             E.g.  secret new "Solo Leveling"
+                                                   secret add a sl SL
+                                                   s read sl 5
+                                                                                       
+                                             {command} = other command to be executed
+                                             [parameters] = parameters needed by {command}       
+                                                                                        
+                                             all [...] are optional values
+                                             But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.                                   
+                                             """;
+
     private static final String readhelp = """
                                            Sets the value of page/chapter read to.
                                                                                       
                                            How to use read/read-to:
                                            {command} + {anym/book} + {value}
+                                                                                    
+                                           Alternatives: 
+                                                read: r
+                                                read-to: readto, rt
                                                                                       
                                            E.g.  read tbate 5
-                                                 read-to "Solo Leveling" 164
+                                                 rt "Solo Leveling" 164
                                                                                       
                                            {anym/book} = name or acronym of the book  
                                                                                     
@@ -61,8 +86,10 @@ class Helper {
                                                                                           
                                              How to use change:
                                              change + {type} + {anym/book} + {new-value}
+                                                                                    
+                                             Alternative: c
                                                                                         
-                                             E.g.  change link SL www.someotherlink.com/sl 
+                                             E.g.  c link SL www.someotherlink.com/sl 
                                                    change name tbate "Beginning after End"
                                                    
                                              Special change:
@@ -85,9 +112,11 @@ class Helper {
                                                                                        
                                           How to use change:
                                           add + {type} + {anym/book} + {new-value}
+                                                                                    
+                                          Alternative: a
                                                                                      
                                           E.g.  add a SL sl 
-                                                add anym "The Beginning after The End" TBATE
+                                                a anym "The Beginning after The End" TBATE
                                                                                      
                                           {type} = type of data to change
                                                  options:
@@ -106,9 +135,12 @@ class Helper {
                                               
                                            How to use list:
                                            list + [type]
+                                                                                    
+                                           Alternative: l
                                                                                       
                                            E.g.  list link
-                                                 list acronym
+                                                 l acronym
+                                                 
                                                                                       
                                            [type] = type of data to change
                                                     standard: name
@@ -127,6 +159,8 @@ class Helper {
                                                                                          
                                               How to use list-all:
                                               list-all
+                                                                                            
+                                              Alternative: la
                                               """;
 
     private static final String notice = """
@@ -138,12 +172,14 @@ class Helper {
     static String help(String[] parts) {
         if (parts.length == 1) return standardhelp;
 
-        return switch (parts[1]) {
-            case "new" -> newhelp;
-            case "read", "read-to" -> readhelp;
-            case "change" -> changehelp;
-            case "list" -> listhelp;
-            case "list-all" -> listallhelp;
+        return switch (representation(parts[1])) {
+            case "nw" -> newhelp;
+            case "r", "rt" -> readhelp;
+            case "c" -> changehelp;
+            case "a" -> addhelp;
+            case "l" -> listhelp;
+            case "la" -> listallhelp;
+            case "s" -> secrethelp;
             default -> errorMessage("invalid");
         } + notice;
     }
@@ -155,6 +191,25 @@ class Helper {
             case "enf" -> "The given book was not found. If you want to add a new Entry use \"new\".";
             case "read-to not number" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
             default -> "";
+        };
+    }
+
+    static String representation(String part) {
+        return switch (part) {
+            case "exit", "e" -> "e";
+            case "new" -> "nw";
+            case "read", "r" -> "r";
+            case "read-to", "readto", "rt" -> "rt";
+            case "add", "a" -> "a";
+            case "change", "c" -> "c";
+            case "list" -> "l";
+            case "links", "link", "l" -> "lk";
+            case "list-all" -> "la";
+            case "secret", "s" -> "s";
+            case "help", "h" -> "h";
+            case "names", "name", "n" -> "n";
+            case "acronyms", "acronym", "anyms", "anym", "ac" -> "ac";
+            default -> " ";
         };
     }
 }
