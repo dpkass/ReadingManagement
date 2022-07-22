@@ -1,5 +1,7 @@
 package EntryHandling;
 
+import EntryHandling.Entry.EntryList;
+import EntryHandling.Entry.EntryUtil;
 import Management.Manager;
 
 import java.io.*;
@@ -40,10 +42,10 @@ public class CSVHandler implements FileHandler {
 
         try {
             PrintWriter pw = new PrintWriter(f);
-            el.list.stream()
-                   .map(Entry::toCSV)
-                   .map(a -> a.replace(",", separator))
-                   .forEach(pw::println);
+            el.list().stream()
+              .map(EntryUtil::asCSV)
+              .map(a -> a.replace(",", separator))
+              .forEach(pw::println);
             pw.close();
         } catch (IOException ignored) {}
     }

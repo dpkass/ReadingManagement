@@ -1,6 +1,7 @@
 package Management;
 
-import EntryHandling.EntryList;
+import EntryHandling.Entry.EntryList;
+import EntryHandling.Entry.EntryUtil;
 import IOHandling.IOHandler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ public class ProcessorTest {
 
         p.process("add acronym \"Solo Leveling\" SL");
 
-        assertThat(p.el.get("Solo Leveling").hasAcronym("SL")).isTrue();
+        assertThat(EntryUtil.hasAcronym(p.el.get("Solo Leveling"), "SL")).isTrue();
     }
 
     @Test

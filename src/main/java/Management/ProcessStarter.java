@@ -1,6 +1,6 @@
 package Management;
 
-import EntryHandling.EntryList;
+import EntryHandling.Entry.EntryList;
 import IOHandling.IOHandler;
 
 import java.util.ArrayList;

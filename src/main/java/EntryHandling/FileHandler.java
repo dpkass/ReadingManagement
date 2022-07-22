@@ -1,5 +1,7 @@
 package EntryHandling;
 
+import EntryHandling.Entry.EntryList;
+
 import java.io.File;
 
 public interface FileHandler {

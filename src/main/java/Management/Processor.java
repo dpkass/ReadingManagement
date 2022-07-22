@@ -1,7 +1,7 @@
 package Management;
 
-import EntryHandling.Entry;
-import EntryHandling.EntryList;
+import EntryHandling.Entry.Entry;
+import EntryHandling.Entry.EntryList;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

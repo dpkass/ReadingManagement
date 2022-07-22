@@ -1,7 +1,7 @@
 package Management;
 
 import EntryHandling.CSVHandler;
-import EntryHandling.EntryList;
+import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import IOHandling.IOHandler;
 import IOHandling.StdIOHandler;
