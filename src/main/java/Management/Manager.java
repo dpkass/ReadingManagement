@@ -21,6 +21,8 @@ public class Manager {
     EntryList el;
     EntryList secretel;
 
+    ProcessStarter ps;
+
 
     public Manager() {
         file = standardfile;
@@ -44,16 +46,18 @@ public class Manager {
         el = fh.read();
         secretel = secretfh.read();
         secretel.decode();
+        ps = new ProcessStarter(el, secretel, io);
     }
 
     private void end() {
         fh.write(el);
         secretel.encode();
         secretfh.write(secretel);
+        io.write("Bye :)");
     }
 
     public boolean process(String s) {
-        return Processor.process(s, el, secretel, io);
+        return ps.process(s);
     }
 
     public void setFile(String f) {
