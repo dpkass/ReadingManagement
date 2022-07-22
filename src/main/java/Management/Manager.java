@@ -43,6 +43,7 @@ public class Manager {
     }
 
     private void start() {
+        io.write("Hi :)");
         el = fh.read();
         secretel = secretfh.read();
         secretel.decode();
@@ -53,7 +54,7 @@ public class Manager {
         fh.write(el);
         secretel.encode();
         secretfh.write(secretel);
-        io.write("Bye :)");
+        io.write("Bye :(");
     }
 
     public boolean process(String s) {
