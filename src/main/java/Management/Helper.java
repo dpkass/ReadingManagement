@@ -99,7 +99,7 @@ class Helper {
                                                                                         
                                              {type} = type of data to change
                                                     options:
-                                                        link = [links, link, l]
+                                                        link = [links, link, lk]
                                                         name = [names, name, n]
                                                         acronym = [acronyms, acronym, anyms, anym, a]
                                              {anym/book} = name or acronym of the book
@@ -145,7 +145,7 @@ class Helper {
                                            [type] = type of data to change
                                                     standard: name
                                                     options:
-                                                        link = [links, link, l]
+                                                        link = [links, link, lk]
                                                         name = [names, name, n]
                                                         read-to = [read-to, read, r]
                                                         acronym = [acronyms, acronym, anyms, anym, a]
@@ -202,8 +202,8 @@ class Helper {
             case "read-to", "readto", "rt" -> "rt";
             case "add", "a" -> "a";
             case "change", "c" -> "c";
-            case "list" -> "l";
-            case "links", "link", "l" -> "lk";
+            case "list", "l" -> "l";
+            case "links", "link", "lk" -> "lk";
             case "list-all" -> "la";
             case "secret", "s" -> "s";
             case "help", "h" -> "h";

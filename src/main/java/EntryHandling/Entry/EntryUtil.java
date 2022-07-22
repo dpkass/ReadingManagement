@@ -1,5 +1,8 @@
 package EntryHandling.Entry;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class EntryUtil {
@@ -48,5 +51,14 @@ public class EntryUtil {
         s.append(", ").append(e.link());
         s.append(", ").append(String.join(", ", e.acronyms()));
         return s.toString();
+    }
+
+    static double doubleValue(String... read) throws ParseException {
+        double ret = 0;
+        for (String r : read) {
+            Number rtVal = NumberFormat.getInstance(Locale.US).parse(r);
+            ret += rtVal.doubleValue();
+        }
+        return ret;
     }
 }

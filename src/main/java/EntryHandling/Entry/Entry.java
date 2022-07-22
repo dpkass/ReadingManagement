@@ -1,5 +1,6 @@
 package EntryHandling.Entry;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,8 +40,25 @@ public class Entry {
         this.name = name;
     }
 
-    public void setReadto(String readto) {
-        this.readto = readto;
+    public void setReadto(String rt) {
+        try {
+            double value = EntryUtil.doubleValue(rt);
+            if (value % 1 == 0) readto = String.valueOf((int) value);
+            else readto = String.valueOf(value);
+        } catch (ParseException ignored) {
+            this.readto = rt;
+        }
+    }
+
+    public boolean addRead(String read) {
+        try {
+            double value = EntryUtil.doubleValue(readto, read);
+            if (value % 1 == 0) readto = String.valueOf((int) value);
+            else readto = String.valueOf(value);
+            return true;
+        } catch (ParseException ignored) {
+            return false;
+        }
     }
 
     public void setLink(String link) {

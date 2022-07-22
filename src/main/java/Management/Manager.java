@@ -64,14 +64,13 @@ public class Manager {
         file = new File(f);
         fh.setFile(file);
 
-        el = fh.read();
+        start();
     }
 
     public void setSecretfile(String f) {
         secretfile = new File(f);
         secretfh.setFile(secretfile);
 
-        secretel = secretfh.read();
-        secretel.decode();
+        start();
     }
 }

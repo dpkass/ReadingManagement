@@ -3,11 +3,8 @@ package Management;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 class Processor {
@@ -24,19 +21,8 @@ class Processor {
         Entry e = getEntry(parts, 1);
         if (e == null) return;
 
-        double rtVal;
-        NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
-
-        // try us standard decimal break
-        try {
-            rtVal = NumberFormat.getInstance(Locale.US).parse(e.readto()).doubleValue();
-            e.setReadto(String.valueOf(rtVal + Integer.parseInt(parts[2])));
-
-            out.add("Read-to changed.");
-            return;
-        } catch (ParseException ignored) {}
-
-        out.add(Helper.errorMessage("read-to not number"));
+        if (e.addRead(parts[2])) out.add("Read-to changed.");
+        else out.add(Helper.errorMessage("read-to not number"));
     }
 
     static void doListAll() {
