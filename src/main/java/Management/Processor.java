@@ -37,7 +37,7 @@ class Processor {
 
         switch (Helper.representation(parts[1])) {
             case "n" -> doListNames();
-            case "l" -> doListLink();
+            case "lk" -> doListLink();
             case "r", "rt" -> doListReadto();
             case "ac" -> doListAcronyms();
             default -> out.add(Helper.errorMessage("invalid"));

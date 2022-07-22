@@ -38,7 +38,7 @@ public class ProcessorTest {
 
         p.process("read \"Solo Leveling\" 5");
 
-        assertThat(p.el.get("Solo Leveling").readto()).isEqualTo("7.0");
+        assertThat(p.el.get("Solo Leveling").readto()).isEqualTo("7");
     }
 
     @Test

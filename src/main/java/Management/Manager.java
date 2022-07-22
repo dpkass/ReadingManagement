@@ -22,6 +22,7 @@ public class Manager {
     EntryList secretel;
 
     ProcessStarter ps;
+    private boolean greeted = false;
 
 
     public Manager() {
@@ -43,7 +44,10 @@ public class Manager {
     }
 
     private void start() {
-        io.write("Hi :)");
+        if (!greeted) {
+            io.write("Hi :)");
+            greeted = true;
+        }
         el = fh.read();
         secretel = secretfh.read();
         secretel.decode();
