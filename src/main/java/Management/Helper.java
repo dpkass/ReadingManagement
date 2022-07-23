@@ -4,13 +4,13 @@ class Helper {
 
     private static final String standardhelp = """
                                                Use one of the following commands:
-                                               new "{book-name}" [read-to] [link] [acronyms...]
-                                               read "{anym/book}" {pages-read}
-                                               read-to "{anym/book}" {page-read-to}
+                                               new "{book-name}" [read-to] [link] [abbreviations...]
+                                               read "{abb/book}" {pages-read}
+                                               read-to "{abb/book}" {page-read-to}
                                                list [type]
                                                list-all
-                                               add acronym "{anym/book}" "{new-value}"
-                                               change {type} "{anym/book}" "{new-value}"
+                                               add abbreviation "{abb/book}" "{new-value}"
+                                               change {type} "{abb/book}" "{new-value}"
                                                help (or h)
                                                                                               
                                                secret {command} [parameters]
@@ -18,7 +18,7 @@ class Helper {
                                                Legend:
                                                [...] - optional
                                                {...} - parameter
-                                               "..." - acronym and book name in quotes if more than one word
+                                               "..." - abbreviation and book name in quotes if more than one word
                                                        
                                                For details use help (or h) {command}
                                                """;
@@ -27,7 +27,7 @@ class Helper {
                                           Adds a new book with given parameters to the list.
                                                                                     
                                           How to use new:
-                                          new + {book-name} + [page] + [link] + [acronyms...]
+                                          new + {book-name} + [page] + [link] + [abbreviations...]
                                                                                      
                                           E.g.  new "Solo Leveling"
                                                 new "Tales of Demons and Gods" 358 www.somelink.com/todag
@@ -35,7 +35,7 @@ class Helper {
                                                                                     
                                           [page] = page or chapter you have read to
                                           [link] = online link to e-books
-                                          [acronyms...] = multiple acronyms or abbreviations of book-name
+                                          [abbreviations...] = multiple abbreviations or abbreviations of book-name
                                                           listed as multiple whitespace seperated words       
                                                                                      
                                           all [...] are optional values
@@ -65,7 +65,7 @@ class Helper {
                                            Sets the value of page/chapter read to.
                                                                                       
                                            How to use read/read-to:
-                                           {command} + {anym/book} + {value}
+                                           {command} + {abb/book} + {value}
                                                                                     
                                            Alternatives: 
                                                 read: r
@@ -74,7 +74,7 @@ class Helper {
                                            E.g.  read tbate 5
                                                  rt "Solo Leveling" 164
                                                                                       
-                                           {anym/book} = name or acronym of the book  
+                                           {abb/book} = name or abbreviation of the book  
                                                                                     
                                            read {value} = how many pages or chapters you have read
                                            read-to {value} = which page or chapter have you read to                                      
@@ -82,10 +82,10 @@ class Helper {
 
     private static final String changehelp = """
                                              Changes the value of one of the entries by type.
-                                             Attention!! If there are multiple Entries to the given book or anym it will change a random one (for now).
+                                             Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                           
                                              How to use change:
-                                             change + {type} + {anym/book} + {new-value}
+                                             change + {type} + {abb/book} + {new-value}
                                                                                     
                                              Alternative: c
                                                                                         
@@ -93,35 +93,35 @@ class Helper {
                                                    change name tbate "Beginning after End"
                                                    
                                              Special change:
-                                             If type is set to acronym then the acronym given as {anym/book} will be replaced.
-                                                    change anym SL sl
+                                             If type is set to abbreviation then the abbreviation given as {abb/book} will be replaced.
+                                                    change abb SL sl
                                                     --> only sl can be used now
                                                                                         
                                              {type} = type of data to change
                                                     options:
                                                         link = [links, link, lk]
                                                         name = [names, name, n]
-                                                        acronym = [acronyms, acronym, anyms, anym, a]
-                                             {anym/book} = name or acronym of the book
+                                                        abbreviation = [abbreviations, abbreviation, abbs, abb, a]
+                                             {abb/book} = name or abbreviation of the book
                                              {new-value} = value to be set as replacement
                                              """;
 
     private static final String addhelp = """
-                                          Adds the acronym to the given entry.
-                                          Attention!! If there are multiple Entries to the given book or anym it will change a random one (for now).
+                                          Adds the abbreviation to the given entry.
+                                          Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                        
                                           How to use change:
-                                          add + {type} + {anym/book} + {new-value}
+                                          add + {type} + {abb/book} + {new-value}
                                                                                     
                                           Alternative: a
                                                                                      
                                           E.g.  add a SL sl 
-                                                a anym "The Beginning after The End" TBATE
+                                                a abb "The Beginning after The End" TBATE
                                                                                      
                                           {type} = type of data to change
                                                  options:
-                                                     acronym = [acronyms, acronym, anyms, anym, a]
-                                          {anym/book} = name or acronym of the book
+                                                     abbreviation = [abbreviations, abbreviation, abbs, abb, a]
+                                          {abb/book} = name or abbreviation of the book
                                           {new-value} = value to be set as replacement
                                           """;
 
@@ -139,7 +139,7 @@ class Helper {
                                            Alternative: l
                                                                                       
                                            E.g.  list link
-                                                 l acronym
+                                                 l abbreviation
                                                  
                                                                                       
                                            [type] = type of data to change
@@ -148,14 +148,14 @@ class Helper {
                                                         link = [links, link, lk]
                                                         name = [names, name, n]
                                                         read-to = [read-to, read, r]
-                                                        acronym = [acronyms, acronym, anyms, anym, a]
-                                           {anym/book} = name or acronym of the book
+                                                        abbreviation = [abbreviations, abbreviation, abbs, abb, a]
+                                           {abb/book} = name or abbreviation of the book
                                            {new-value} = value to be set as replacement
                                            """;
 
     private static final String listallhelp = """
                                               Prints a list of all Entries with all parameters.
-                                              Form: name={name}, readto={readto}, ..., acronyms=[{anym1}, {anym2}, ...]
+                                              Form: name={name}, readto={readto}, ..., abbreviations=[{abb1}, {abb2}, ...]
                                                                                          
                                               How to use list-all:
                                               list-all
@@ -208,7 +208,7 @@ class Helper {
             case "secret", "s" -> "s";
             case "help", "h" -> "h";
             case "names", "name", "n" -> "n";
-            case "acronyms", "acronym", "anyms", "anym", "ac" -> "ac";
+            case "abbreviations", "abbreviation", "abbs", "abb", "ab" -> "ab";
             default -> " ";
         };
     }

@@ -53,14 +53,14 @@ public class ProcessorTest {
     }
 
     @Test
-    @DisplayName ("process \"add acronym\" and add the acronym")
+    @DisplayName ("process \"add abb\" and add the acronym")
     void test_5() {
         ProcessStarter p = new ProcessStarter(new EntryList(), null, mock(IOHandler.class));
         p.el.add(new String[] { "Solo Leveling" });
 
-        p.process("add acronym \"Solo Leveling\" SL");
+        p.process("add abb \"Solo Leveling\" SL");
 
-        assertThat(EntryUtil.hasAcronym(p.el.get("Solo Leveling"), "SL")).isTrue();
+        assertThat(EntryUtil.hasAbbreviation(p.el.get("Solo Leveling"), "SL")).isTrue();
     }
 
     @Test

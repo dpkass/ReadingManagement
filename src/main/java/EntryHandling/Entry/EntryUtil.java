@@ -10,8 +10,8 @@ public class EntryUtil {
     private static final int codingOffset = 20;
 
     // checker
-    public static boolean hasAcronym(Entry e, String s) {
-        return e.acronyms().contains(s);
+    public static boolean hasAbbreviation(Entry e, String s) {
+        return e.abbreviations().contains(s);
     }
 
     // crypto
@@ -19,7 +19,7 @@ public class EntryUtil {
         e.setName(encode(e.name()));
         e.setLink(encode(e.link()));
         e.setReadto(encode(e.readto()));
-        e.setAcronyms(e.acronyms().stream().map(EntryUtil::encode).collect(Collectors.toList()));
+        e.setAbbreviations(e.abbreviations().stream().map(EntryUtil::encode).collect(Collectors.toList()));
     }
 
     private static String encode(String s) {
@@ -33,7 +33,7 @@ public class EntryUtil {
         e.setName(decode(e.name()));
         e.setLink(decode(e.link()));
         e.setReadto(decode(e.readto()));
-        e.setAcronyms(e.acronyms().stream().map(EntryUtil::decode).collect(Collectors.toList()));
+        e.setAbbreviations(e.abbreviations().stream().map(EntryUtil::decode).collect(Collectors.toList()));
     }
 
     private static String decode(String s) {
@@ -49,7 +49,7 @@ public class EntryUtil {
         s.append(e.name());
         s.append(", ").append(e.readto());
         s.append(", ").append(e.link());
-        s.append(", ").append(String.join(", ", e.acronyms()));
+        s.append(", ").append(String.join(", ", e.abbreviations()));
         return s.toString();
     }
 

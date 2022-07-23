@@ -12,21 +12,43 @@ class Processor {
     static List<String> out;
     static EntryList el;
 
-    static void doRead(String[] parts) {
-        if (parts.length != 3) {
+    static void doAdd(String[] parts) {
+        if (parts.length < 4) {
             out.add(Helper.errorMessage("invalid"));
             return;
         }
 
-        Entry e = getEntry(parts, 1);
+        Entry e = getEntry(parts[2]);
         if (e == null) return;
 
-        if (e.addRead(parts[2])) out.add("Read-to changed.");
-        else out.add(Helper.errorMessage("read-to not number"));
+        switch (Helper.representation(parts[1])) {
+            case "ab" -> e.addAbbreviation(parts[3]);
+            default -> out.add(Helper.errorMessage("invalid"));
+        }
+
+        out.add("Abbreviation added.");
     }
 
-    static void doListAll() {
-        out.addAll(el.entries().stream().map(Entry::toString).collect(Collectors.toSet()));
+    static void doChange(String[] parts) {
+        if (parts.length < 4) {
+            out.add(Helper.errorMessage("invalid"));
+            return;
+        }
+
+        Entry e = getEntry(parts[2]);
+        if (e == null) return;
+
+        switch (Helper.representation(parts[1])) {
+            case "n" -> e.setName(parts[3]);
+            case "lk" -> e.setLink(parts[3]);
+            case "ab" -> {
+                e.removeAbbreviation(parts[2]);
+                e.addAbbreviation(parts[3]);
+            }
+            default -> out.add(Helper.errorMessage("invalid"));
+        }
+
+        out.add("Entry changed.");
     }
 
     static void doList(String[] parts) {
@@ -39,60 +61,29 @@ class Processor {
             case "n" -> doListNames();
             case "lk" -> doListLink();
             case "r", "rt" -> doListReadto();
-            case "ac" -> doListAcronyms();
+            case "ab" -> doListAbbreviations();
             default -> out.add(Helper.errorMessage("invalid"));
         }
     }
 
-    private static void doListNames() {
-        out.addAll(el.entries().stream().map(Entry::name).toList());
+    private static void doListAbbreviations() {
+        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.abbreviations().toString()).toList());
+    }
+
+    static void doListAll() {
+        out.addAll(el.entries().stream().map(Entry::toString).collect(Collectors.toSet()));
     }
 
     private static void doListLink() {
         out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.link()).toList());
     }
 
+    private static void doListNames() {
+        out.addAll(el.entries().stream().map(Entry::name).toList());
+    }
+
     private static void doListReadto() {
         out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.readto()).toList());
-    }
-
-    private static void doListAcronyms() {
-        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.acronyms().toString()).toList());
-    }
-
-    static void doChange(String[] parts) {
-        if (parts.length < 4) {
-            out.add(Helper.errorMessage("invalid"));
-            return;
-        }
-
-        Entry e = getEntry(parts, 2);
-        if (e == null) return;
-
-        switch (Helper.representation(parts[1])) {
-            case "n" -> e.setName(parts[3]);
-            case "lk" -> e.setLink(parts[3]);
-            case "ac" -> {
-                e.removeAcronym(parts[2]);
-                e.addAcronym(parts[3]);
-            }
-            default -> out.add(Helper.errorMessage("invalid"));
-        }
-    }
-
-    static void doAdd(String[] parts) {
-        if (parts.length < 4) {
-            out.add(Helper.errorMessage("invalid"));
-            return;
-        }
-
-        Entry e = getEntry(parts, 2);
-        if (e == null) return;
-
-        switch (Helper.representation(parts[1])) {
-            case "ac" -> e.addAcronym(parts[3]);
-            default -> out.add(Helper.errorMessage("invalid"));
-        }
     }
 
     static void doNew(String[] parts) {
@@ -110,13 +101,26 @@ class Processor {
         out.add("Entry added.");
     }
 
+    static void doRead(String[] parts) {
+        if (parts.length != 3) {
+            out.add(Helper.errorMessage("invalid"));
+            return;
+        }
+
+        Entry e = getEntry(parts[1]);
+        if (e == null) return;
+
+        if (e.addRead(parts[2])) out.add("Read-to changed.");
+        else out.add(Helper.errorMessage("read not number"));
+    }
+
     static void doReadTo(String[] parts) {
         if (parts.length != 3) {
             out.add(Helper.errorMessage("invalid"));
             return;
         }
 
-        Entry e = getEntry(parts, 1);
+        Entry e = getEntry(parts[1]);
         if (e == null) return;
 
         e.setReadto(parts[2]);
@@ -124,8 +128,8 @@ class Processor {
         out.add("Read-to changed.");
     }
 
-    private static Entry getEntry(String[] parts, int x) {
-        Entry e = el.get(parts[x]);
+    private static Entry getEntry(String part) {
+        Entry e = el.get(part);
         if (e == null) {
             out.add(Helper.errorMessage("enf"));
             return null;

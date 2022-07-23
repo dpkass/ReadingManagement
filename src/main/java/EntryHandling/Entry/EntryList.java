@@ -12,7 +12,7 @@ public class EntryList {
     }
 
     public Entry get(String s) {
-        return list.stream().filter(a -> a.name().equals(s) || EntryUtil.hasAcronym(a, s)).findAny().orElse(null);
+        return list.stream().filter(a -> a.name().equals(s) || EntryUtil.hasAbbreviation(a, s)).findAny().orElse(null);
     }
 
     public List<Entry> entries() {

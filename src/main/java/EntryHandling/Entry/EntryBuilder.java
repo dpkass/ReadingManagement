@@ -10,7 +10,7 @@ public class EntryBuilder {
     String readto;
     String link;
 
-    List<String> acronyms;
+    List<String> abbreviations;
 
     public EntryBuilder(String[] values) {
         name = values[0];
@@ -19,11 +19,11 @@ public class EntryBuilder {
         if (values.length > 2) link = values[2];
         else link = "";
         if (values.length > 3)
-            acronyms = Arrays.stream(values).skip(3).collect(Collectors.toCollection(ArrayList::new));
-        else acronyms = new ArrayList<>();
+            abbreviations = Arrays.stream(values).skip(3).collect(Collectors.toCollection(ArrayList::new));
+        else abbreviations = new ArrayList<>();
     }
 
     public Entry toEntry() {
-        return new Entry(name, readto, link, acronyms);
+        return new Entry(name, readto, link, abbreviations);
     }
 }

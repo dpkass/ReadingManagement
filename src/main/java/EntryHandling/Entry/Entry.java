@@ -9,13 +9,13 @@ public class Entry {
     private String readto;
     private String link;
 
-    private final List<String> acronyms;
+    private final List<String> abbreviations;
 
-    public Entry(String name, String readto, String link, List<String> acronyms) {
+    public Entry(String name, String readto, String link, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
-        this.acronyms = acronyms;
+        this.abbreviations = abbreviations;
     }
 
     // getter
@@ -31,8 +31,8 @@ public class Entry {
         return link;
     }
 
-    public List<String> acronyms() {
-        return acronyms;
+    public List<String> abbreviations() {
+        return abbreviations;
     }
 
     // setter
@@ -65,17 +65,17 @@ public class Entry {
         this.link = link;
     }
 
-    public void setAcronyms(List<String> acronyms) {
-        this.acronyms.clear();
-        this.acronyms.addAll(acronyms);
+    public void setAbbreviations(List<String> abbreviations) {
+        this.abbreviations.clear();
+        this.abbreviations.addAll(abbreviations);
     }
 
-    public void addAcronym(String acronym) {
-        if (!acronyms.contains(acronym)) acronyms.add(acronym);
+    public void addAbbreviation(String abbreviation) {
+        if (!abbreviations.contains(abbreviation)) abbreviations.add(abbreviation);
     }
 
-    public void removeAcronym(String acronym) {
-        acronyms.remove(acronym);
+    public void removeAbbreviation(String abbreviation) {
+        abbreviations.remove(abbreviation);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Entry {
         s.append("name=").append(name);
         s.append(", ").append("readto=").append(readto);
         s.append(", ").append("link=").append(link);
-        s.append(", ").append("acromnys=[").append(String.join(", ", acronyms)).append("]");
+        s.append(", ").append("abbreviations=[").append(String.join(", ", abbreviations)).append("]");
         return s.toString();
     }
 
