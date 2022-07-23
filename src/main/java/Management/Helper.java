@@ -153,6 +153,20 @@ class Helper {
                                            {new-value} = value to be set as replacement
                                            """;
 
+    private static final String openhelp = """
+                                           Opens the link of the given book.
+                                              
+                                           How to use list:
+                                           open + {abb/book}
+                                                                                    
+                                           Alternative: o
+                                                                                      
+                                           E.g.  open sl
+                                                 o "Latna Saga"
+                                                 
+                                           {abb/book} = name or abbreviation of the book
+                                           """;
+
     private static final String listallhelp = """
                                               Prints a list of all Entries with all parameters.
                                               Form: name={name}, readto={readto}, ..., abbreviations=[{abb1}, {abb2}, ...]
@@ -179,6 +193,7 @@ class Helper {
             case "a" -> addhelp;
             case "l" -> listhelp;
             case "la" -> listallhelp;
+            case "o" -> openhelp;
             case "s" -> secrethelp;
             default -> errorMessage("invalid");
         } + notice;
@@ -190,6 +205,10 @@ class Helper {
             case "book already there" -> "The given book is already in the list.";
             case "enf" -> "The given book was not found. If you want to add a new Entry use \"new\".";
             case "read-to not number" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
+            case "link wrong" -> "The provided link seems to be wrong. Please correct the link with \"change link\" and try again. For " +
+                    "more info on how to change link use \"help change\".\nThe provided link is:";
+            case "no os support" -> "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " +
+                    "choosing:\n";
             default -> "";
         };
     }
@@ -206,6 +225,7 @@ class Helper {
             case "links", "link", "lk" -> "lk";
             case "list-all" -> "la";
             case "secret", "s" -> "s";
+            case "open", "o" -> "o";
             case "help", "h" -> "h";
             case "names", "name", "n" -> "n";
             case "abbreviations", "abbreviation", "abbs", "abb", "ab" -> "ab";

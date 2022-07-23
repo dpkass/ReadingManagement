@@ -49,6 +49,7 @@ public class ProcessStarter {
             case "c" -> Processor.doChange(parts);
             case "l" -> Processor.doList(parts);
             case "la" -> Processor.doListAll();
+            case "o" -> Processor.doOpen(parts);
             case "s" -> doSecret(parts);
             case "h" -> io.write(Helper.help(parts));
             default -> io.write(Helper.errorMessage("invalid"));

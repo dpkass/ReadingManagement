@@ -3,6 +3,10 @@ package Management;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,6 +103,26 @@ class Processor {
         el.add(vals);
 
         out.add("Entry added.");
+    }
+
+    public static void doOpen(String[] parts) {
+        if (parts.length != 2) out.add(Helper.errorMessage("invalid"));
+
+        Entry e = getEntry(parts[1]);
+        if (e == null) return;
+
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            try {
+                URI link = new URI(e.link());
+                Desktop.getDesktop().browse(link);
+            } catch (URISyntaxException | IOException ex) {
+                out.add(Helper.errorMessage("link wrong"));
+                out.add(e.name() + " -> " + e.link());
+            }
+        } else {
+            out.add(Helper.errorMessage("no os support"));
+            out.add(e.name() + " -> " + e.link());
+        }
     }
 
     static void doRead(String[] parts) {
