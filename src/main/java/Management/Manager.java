@@ -24,7 +24,7 @@ public class Manager {
     EntryList secretel;
 
     ProcessStarter ps;
-    private boolean greeted = false;
+    private final boolean greeted = false;
 
 
     public Manager() {
@@ -46,10 +46,7 @@ public class Manager {
     }
 
     private void start() {
-        if (!greeted) {
-            io.write("Hi :)");
-            greeted = true;
-        }
+        io.write("Hi :)");
         el = fh.read();
         secretel = secretfh.read();
         secretel.decode();
@@ -63,6 +60,11 @@ public class Manager {
         io.write("Bye :(");
     }
 
+    public void processSingle(String s) {
+        start();
+        process(s);
+    }
+
     public boolean process(String s) {
         return ps.process(s);
     }
@@ -70,14 +72,10 @@ public class Manager {
     public void setFile(String f) {
         file = new File(f);
         fh.setFile(file);
-
-        start();
     }
 
     public void setSecretfile(String f) {
         secretfile = new File(f);
         secretfh.setFile(secretfile);
-
-        start();
     }
 }

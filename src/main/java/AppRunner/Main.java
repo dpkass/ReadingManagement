@@ -27,7 +27,7 @@ public class Main {
         if (args.length > 1)
             m.setSecretfile(args[1]);
         if (args.length > 2)
-            m.process(Arrays.stream(args).skip(2).collect(Collectors.joining(" ")));
+            m.processSingle(Arrays.stream(args).skip(2).collect(Collectors.joining(" ")));
         else m.run();
     }
 }
