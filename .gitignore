@@ -1,6 +1,6 @@
 ### Bonus ###
 build/*
-!build/install
+!build/libs
 TestInputs/
 *.class
 
