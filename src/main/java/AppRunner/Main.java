@@ -1,10 +1,26 @@
+package AppRunner;
+
 import Management.Manager;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+
+    @Bean
+    CommandLineRunner init() {
+        return this::run;
+    }
+
+    void run(String[] args) {
         Manager m = new Manager();
         if (args.length > 0)
             m.setFile(args[0]);

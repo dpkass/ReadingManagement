@@ -5,9 +5,11 @@ import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import IOHandling.IOHandler;
 import IOHandling.StdIOHandler;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 
+@Component
 public class Manager {
     public static File standardfile = new File("resources/index.csv");
     public static File standardsecretfile = new File("resources/secret.csv");
