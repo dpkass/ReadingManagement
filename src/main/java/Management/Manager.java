@@ -37,11 +37,11 @@ public class Manager {
     private void init() {
         io = new StdIOHandler();
         fh = switch (filetype(file)) {
-            case "csv" -> new CSVHandler(file);
+            case "csv", "txt" -> new CSVHandler(file);
             default -> new JSONHandler(file);
         };
         secretfh = switch (filetype(secretfile)) {
-            case "csv" -> new CSVHandler(secretfile);
+            case "csv", "txt" -> new CSVHandler(secretfile);
             default -> new JSONHandler(secretfile);
         };
     }
