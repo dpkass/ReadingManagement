@@ -115,7 +115,7 @@ class Helper {
                                                                                     
                                           Alternative: a
                                                                                      
-                                          E.g.  add a SL sl 
+                                          E.g.  add ab SL sl 
                                                 a abb "The Beginning after The End" TBATE
                                                                                      
                                           {type} = type of data to change

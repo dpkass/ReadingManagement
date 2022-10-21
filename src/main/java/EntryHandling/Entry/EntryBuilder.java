@@ -3,6 +3,7 @@ package EntryHandling.Entry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EntryBuilder {
@@ -21,6 +22,17 @@ public class EntryBuilder {
         if (values.length > 3)
             abbreviations = Arrays.stream(values).skip(3).collect(Collectors.toCollection(ArrayList::new));
         else abbreviations = new ArrayList<>();
+    }
+
+    public EntryBuilder(Map<String, Object> JSONmap) {
+        for (Map.Entry<String, Object> entry : JSONmap.entrySet()) {
+            switch (entry.getKey()) {
+                case "name" -> name = (String) entry.getValue();
+                case "readto" -> readto = (String) entry.getValue();
+                case "link" -> link = (String) entry.getValue();
+                case "abbreviations" -> abbreviations = (List<String>) entry.getValue();
+            }
+        }
     }
 
     public Entry toEntry() {

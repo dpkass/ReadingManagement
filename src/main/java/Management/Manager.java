@@ -3,6 +3,7 @@ package Management;
 import EntryHandling.CSVHandler;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
+import EntryHandling.JSONHandler;
 import IOHandling.IOHandler;
 import IOHandling.StdIOHandler;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,8 @@ import java.io.File;
 
 @Component
 public class Manager {
-    public static File standardfile = new File("resources/index.csv");
-    public static File standardsecretfile = new File("resources/secret.csv");
+    public static File standardfile = new File("resources/index.json");
+    public static File standardsecretfile = new File("resources/secret.json");
 
     File file;
     File secretfile;
@@ -35,9 +36,21 @@ public class Manager {
 
     private void init() {
         io = new StdIOHandler();
-        fh = new CSVHandler(file);
-        secretfh = new CSVHandler(secretfile);
+        fh = switch (filetype(file)) {
+            case "csv" -> new CSVHandler(file);
+            default -> new JSONHandler(file);
+        };
+        secretfh = switch (filetype(secretfile)) {
+            case "csv" -> new CSVHandler(secretfile);
+            default -> new JSONHandler(secretfile);
+        };
     }
+
+    public String filetype(File file) {
+        String filename = file.getName();
+        return filename.substring(filename.lastIndexOf(".") + 1);
+    }
+
 
     public void run() {
         start();

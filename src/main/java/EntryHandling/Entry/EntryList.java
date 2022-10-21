@@ -2,6 +2,7 @@ package EntryHandling.Entry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EntryList {
     List<Entry> list = new ArrayList<>();
@@ -9,6 +10,13 @@ public class EntryList {
     public void add(String[] values) {
         EntryBuilder eb = new EntryBuilder(values);
         list.add(eb.toEntry());
+    }
+
+    public void addAll(List<Object> books) {
+        for (Object book : books) {
+            EntryBuilder eb = new EntryBuilder((Map<String, Object>) book);
+            list.add(eb.toEntry());
+        }
     }
 
     public Entry get(String s) {

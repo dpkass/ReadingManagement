@@ -25,7 +25,7 @@ public class EntryUtil {
     private static String encode(String s) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++)
-            sb.append((char) (s.charAt(i) + codingOffset));
+            sb.append((char) (s.charAt(i) + 3));
         return sb.toString();
     }
 
@@ -45,12 +45,17 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        StringBuilder s = new StringBuilder();
-        s.append(e.name());
-        s.append(", ").append(e.readto());
-        s.append(", ").append(e.link());
-        s.append(", ").append(String.join(", ", e.abbreviations()));
-        return s.toString();
+        return "%s, %s, %s, %s".formatted(e.name(), e.readto(), e.link(), String.join(", ", e.abbreviations()));
+    }
+
+    public static String asJSON(Entry e) {
+        return """
+               {
+                 "name": "%s",
+                 "readto": "%s",
+                 "link": "%s",
+                 "abbreviations": ["%s"]
+               }""".formatted(e.name(), e.readto(), e.link(), String.join("\", \"", e.abbreviations()));
     }
 
     static double doubleValue(String... read) throws ParseException {
