@@ -36,19 +36,8 @@ public class Manager {
 
     private void init() {
         io = new StdIOHandler();
-        fh = switch (filetype(file)) {
-            case "csv", "txt" -> new CSVHandler(file);
-            default -> new JSONHandler(file);
-        };
-        secretfh = switch (filetype(secretfile)) {
-            case "csv", "txt" -> new CSVHandler(secretfile);
-            default -> new JSONHandler(secretfile);
-        };
-    }
-
-    public String filetype(File file) {
-        String filename = file.getName();
-        return filename.substring(filename.lastIndexOf(".") + 1);
+        fh = getHandler(file);
+        secretfh = getHandler(secretfile);
     }
 
 
@@ -84,11 +73,23 @@ public class Manager {
 
     public void setFile(String f) {
         file = new File(f);
-        fh.setFile(file);
+        fh = getHandler(file);
     }
 
     public void setSecretfile(String f) {
         secretfile = new File(f);
-        secretfh.setFile(secretfile);
+        secretfh = getHandler(secretfile);
+    }
+
+    private FileHandler getHandler(File file) {
+        return switch (filetype(file)) {
+            case "csv", "txt" -> new CSVHandler(file);
+            default -> new JSONHandler(file);
+        };
+    }
+
+    public String filetype(File file) {
+        String filename = file.getName();
+        return filename.substring(filename.lastIndexOf(".") + 1);
     }
 }
