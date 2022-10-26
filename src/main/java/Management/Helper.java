@@ -153,6 +153,35 @@ class Helper {
                                            {new-value} = value to be set as replacement
                                            """;
 
+
+    private static final String showhelp = """
+                                           Prints a list of all Entries with a chosen values.
+                                           Form:
+                                                {name1} --> {value1}
+                                                {name2} --> {value2}
+                                                {name3} --> {value3}
+                                                ...
+                                              
+                                           How to use list:
+                                           list + [type]
+                                                                                    
+                                           Alternative: l
+                                                                                      
+                                           E.g.  list link
+                                                 l abbreviation
+                                                 
+                                                                                      
+                                           [type] = type of data to change
+                                                    standard: name
+                                                    options:
+                                                        link = [links, link, lk]
+                                                        name = [names, name, n]
+                                                        read-to = [read-to, read, r]
+                                                        abbreviation = [abbreviations, abbreviation, abbs, abb, a]
+                                           {abb/book} = name or abbreviation of the book
+                                           {new-value} = value to be set as replacement
+                                           """;
+
     private static final String openhelp = """
                                            Opens the link of the given book.
                                               
@@ -202,7 +231,7 @@ class Helper {
     static String errorMessage(String error) {
         return switch (error) {
             case "invalid" -> "Invalid Input. Use help for more info.";
-            case "book already there" -> "The given book is already in the list.";
+            case "duplicate" -> "The given book is already in the list.";
             case "enf" -> "The given book was not found. If you want to add a new Entry use \"new\".";
             case "read-to not number" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
             case "link wrong" -> "The provided link seems to be wrong. Please correct the link with \"change link\" and try again. For " +
@@ -224,6 +253,7 @@ class Helper {
             case "list", "l" -> "l";
             case "links", "link", "lk" -> "lk";
             case "list-all" -> "la";
+            case "show", "sh" -> "sh";
             case "secret", "s" -> "s";
             case "open", "o" -> "o";
             case "help", "h" -> "h";

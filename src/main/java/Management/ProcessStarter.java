@@ -48,6 +48,7 @@ public class ProcessStarter {
             case "a" -> Processor.doAdd(parts);
             case "c" -> Processor.doChange(parts);
             case "l" -> Processor.doList(parts);
+            case "sh" -> Processor.doShow(parts);
             case "la" -> Processor.doListAll();
             case "o" -> Processor.doOpen(parts);
             case "s" -> doSecret(parts);

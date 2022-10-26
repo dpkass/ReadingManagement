@@ -1,10 +1,8 @@
-Next-up: CSV to JSON translator
+Next-up: Last-Read
 
 Safe
-1. Last-Read
-2. Show (data for single Entry, multioptions)
-3. Status (reading/paused/ended) + Categorization lists
-4. Pause (until enough has come out)
+1. Status (reading/paused/ended) + Categorization lists
+2. Pause (until enough has come out)
 
 Uncertain
 1. List mod (multiple options)

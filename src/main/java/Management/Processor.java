@@ -90,12 +90,29 @@ class Processor {
         out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.readto()).toList());
     }
 
+    public static void doShow(String[] parts) {
+        Entry e = getEntry(parts[1]);
+        if (e == null) return;
+
+        if (parts.length == 2)
+            out.add(e.toString());
+
+        for (int i = 2; i < parts.length; i++) {
+            out.add(switch (Helper.representation(parts[i])) {
+                case "r", "rt" -> "read-to=%s".formatted(e.readto());
+                case "lk" -> "link=%s".formatted(e.link());
+                case "ab" -> "abbreviations=%s".formatted(e.abbreviations().toString());
+                default -> throw new IllegalStateException("Unexpected value: " + parts[i]);
+            });
+        }
+    }
+
     static void doNew(String[] parts) {
         if (parts.length < 2) out.add(Helper.errorMessage("invalid"));
 
         Entry e = el.get(parts[1]);
         if (e != null) {
-            out.add(Helper.errorMessage("book already there"));
+            out.add(Helper.errorMessage("duplicate"));
             return;
         }
 

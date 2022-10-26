@@ -1,45 +1,34 @@
 {
   "books": [
-    {
-      "name": "Solo Leveling",
-      "readto": "70",
-      "link": "www.sl.com",
-      "abbreviations": [
-        "",
-        "sl"
-      ]
-    },
-    {
-      "name": "The End",
-      "readto": "0",
-      "abbreviations": [
-        ""
-      ]
-    },
-    {
-      "name": "Tales of Demons and Gods",
-      "readto": "17",
-      "abbreviations": [
-        ""
-      ]
-    },
-    {
-      "name": "Latna Saga",
-      "readto": "4",
-      "link": "leviatanscans.com/hy/manga/survivor-story-of-a-sword-king-in-a-fantasy-world/season-3/chapter-139/",
-      "abbreviations": [
-        "ls",
-        "LS",
-        "hanbin"
-      ]
-    },
-    {
-      "name": "One Piece",
-      "readto": "12",
-      "abbreviations": [
-        "op",
-        "OP"
-      ]
-    }
+{
+  "name": "Solo Leveling",
+  "readto": "70",
+  "link": "www.sl.com",
+  "abbreviations": ["sl"]
+},
+{
+  "name": "The End",
+  "readto": "0",
+  "link": "null",
+  "abbreviations": [""]
+},
+{
+  "name": "Tales of Demons and Gods",
+  "readto": "17",
+  "link": "null",
+  "abbreviations": [""]
+},
+{
+  "name": "Latna Saga",
+  "readto": "4",
+  "link": "leviatanscans.com/hy/manga/survivor-story-of-a-sword-king-in-a-fantasy-world/season-3/chapter-139/",
+  "abbreviations": ["ls", "LS", "hanbin"]
+},
+{
+  "name": "One Piece",
+  "readto": "12",
+  "link": "null",
+  "abbreviations": ["op", "OP"]
+}
   ]
 }
