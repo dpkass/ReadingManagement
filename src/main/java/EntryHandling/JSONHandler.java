@@ -3,6 +3,7 @@ package EntryHandling;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryUtil;
 import Management.Manager;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -30,7 +31,7 @@ public class JSONHandler implements FileHandler {
             br.close();
 
             list.addAll(json.getJSONArray("books").toList());
-        } catch (IOException ignored) {} catch (Exception e) {e.printStackTrace();}
+        } catch (IOException | JSONException ignored) {}
         return list;
     }
 
