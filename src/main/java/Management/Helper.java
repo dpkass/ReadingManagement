@@ -99,9 +99,9 @@ class Helper {
                                                                                         
                                              {type} = type of data to change
                                                     options:
-                                                        link = [links, link, lk]
-                                                        name = [names, name, n]
-                                                        abbreviation = [abbreviations, abbreviation, abbs, abb, a]
+                                                        link = [link, lk]
+                                                        name = [name, n]
+                                                        abbreviation = [abbreviation, ab]
                                              {abb/book} = name or abbreviation of the book
                                              {new-value} = value to be set as replacement
                                              """;
@@ -120,13 +120,13 @@ class Helper {
                                                                                      
                                           {type} = type of data to change
                                                  options:
-                                                     abbreviation = [abbreviations, abbreviation, abbs, abb, a]
+                                                     abbreviation = [abbreviation, ab]
                                           {abb/book} = name or abbreviation of the book
                                           {new-value} = value to be set as replacement
                                           """;
 
     private static final String listhelp = """
-                                           Prints a list of all Entries with a chosen values.
+                                           Prints a list of all entries with a chosen values.
                                            Form:
                                                 {name1} --> {value1}
                                                 {name2} --> {value2}
@@ -145,41 +145,37 @@ class Helper {
                                            [type] = type of data to change
                                                     standard: name
                                                     options:
-                                                        link = [links, link, lk]
-                                                        name = [names, name, n]
-                                                        read-to = [read-to, read, r]
-                                                        abbreviation = [abbreviations, abbreviation, abbs, abb, a]
-                                           {abb/book} = name or abbreviation of the book
-                                           {new-value} = value to be set as replacement
+                                                        link = [link, lk]
+                                                        name = [name, n]
+                                                        read-to = [read-to, readto, rt, r]
+                                                        abbreviation = [abbreviation, ab]
                                            """;
 
 
     private static final String showhelp = """
-                                           Prints a list of all Entries with a chosen values.
+                                           Prints the chosen entry with a the chosen value(s).
                                            Form:
-                                                {name1} --> {value1}
-                                                {name2} --> {value2}
-                                                {name3} --> {value3}
+                                                {value1}
+                                                {value2}
+                                                {value3}
                                                 ...
                                               
                                            How to use list:
-                                           list + [type]
+                                           show + {abb/book} + [type...]
                                                                                     
-                                           Alternative: l
+                                           Alternative: sh
                                                                                       
-                                           E.g.  list link
-                                                 l abbreviation
+                                           E.g.  show "Solo Leveling"
+                                                 sh sl rt lk ab
                                                  
-                                                                                      
+                                                              
+                                           {abb/book} = name or abbreviation of the book                        
                                            [type] = type of data to change
-                                                    standard: name
+                                                    standard: shows all attributes
                                                     options:
-                                                        link = [links, link, lk]
-                                                        name = [names, name, n]
-                                                        read-to = [read-to, read, r]
-                                                        abbreviation = [abbreviations, abbreviation, abbs, abb, a]
-                                           {abb/book} = name or abbreviation of the book
-                                           {new-value} = value to be set as replacement
+                                                        link = [link, lk]
+                                                        read-to = [read-to, readto, rt, r]
+                                                        abbreviation = [abbreviation, ab]
                                            """;
 
     private static final String openhelp = """
@@ -222,6 +218,7 @@ class Helper {
             case "a" -> addhelp;
             case "l" -> listhelp;
             case "la" -> listallhelp;
+            case "sh" -> showhelp;
             case "o" -> openhelp;
             case "s" -> secrethelp;
             default -> errorMessage("invalid");
@@ -251,14 +248,14 @@ class Helper {
             case "add", "a" -> "a";
             case "change", "c" -> "c";
             case "list", "l" -> "l";
-            case "links", "link", "lk" -> "lk";
+            case "link", "lk" -> "lk";
             case "list-all" -> "la";
             case "show", "sh" -> "sh";
             case "secret", "s" -> "s";
             case "open", "o" -> "o";
             case "help", "h" -> "h";
-            case "names", "name", "n" -> "n";
-            case "abbreviations", "abbreviation", "abbs", "abb", "ab" -> "ab";
+            case "name", "n" -> "n";
+            case "abbreviation", "ab" -> "ab";
             default -> " ";
         };
     }
