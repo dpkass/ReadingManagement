@@ -2,7 +2,7 @@
   "books": [
 {
   "name": "Solo Leveling",
-  "readto": "70",
+  "readto": "73",
   "link": "www.sl.com",
   "abbreviations": ["sl"]
 },
@@ -10,7 +10,7 @@
   "name": "The End",
   "readto": "0",
   "link": "null",
-  "abbreviations": [""]
+  "abbreviations": ["", "te"]
 },
 {
   "name": "Tales of Demons and Gods",
