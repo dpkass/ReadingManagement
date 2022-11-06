@@ -13,9 +13,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.json:json:20220924'
+    //springboot
     implementation 'org.jetbrains:annotations:23.0.0'
     implementation 'org.springframework.boot:spring-boot-starter'
+    //json
+    implementation 'org.json:json:20220924'
+    implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
+    implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation 'org.assertj:assertj-core:3.23.1'

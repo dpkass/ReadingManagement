@@ -5,37 +5,37 @@ import java.util.List;
 import java.util.Map;
 
 public class EntryList {
-    List<Entry> list = new ArrayList<>();
+    List<Entry> books = new ArrayList<>();
 
     public void add(String[] values) {
         EntryBuilder eb = new EntryBuilder(values);
-        list.add(eb.toEntry());
+        books.add(eb.toEntry());
     }
 
     public void addAll(List<Object> books) {
         for (Object book : books) {
             EntryBuilder eb = new EntryBuilder((Map<String, Object>) book);
-            list.add(eb.toEntry());
+            this.books.add(eb.toEntry());
         }
     }
 
     public Entry get(String s) {
-        return list.stream().filter(a -> a.name().equals(s) || EntryUtil.hasAbbreviation(a, s)).findAny().orElse(null);
+        return books.stream().filter(a -> a.name().equals(s) || EntryUtil.hasAbbreviation(a, s)).findAny().orElse(null);
     }
 
     public List<Entry> entries() {
-        return list;
+        return books;
     }
 
     public void encode() {
-        list.forEach(EntryUtil::encode);
+        books.forEach(EntryUtil::encode);
     }
 
     public void decode() {
-        list.forEach(EntryUtil::decode);
+        books.forEach(EntryUtil::decode);
     }
 
     public List<Entry> list() {
-        return list;
+        return books;
     }
 }

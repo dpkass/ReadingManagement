@@ -41,9 +41,7 @@ public class JSONHandler implements FileHandler {
 
         try {
             PrintWriter pw = new PrintWriter(f);
-            pw.println(el.list().stream()
-                         .map(EntryUtil::asJSON)
-                         .collect(Collectors.joining(",\n", "{\n  \"books\": [\n", "\n  ]\n}")));
+            pw.println(EntryUtil.toJSON(el));
             pw.close();
         } catch (IOException ignored) {}
     }

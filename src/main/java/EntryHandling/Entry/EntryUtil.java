@@ -1,5 +1,11 @@
 package EntryHandling.Entry;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -50,12 +56,19 @@ public class EntryUtil {
 
     public static String asJSON(Entry e) {
         return """
-               {
-                 "name": "%s",
-                 "readto": "%s",
-                 "link": "%s",
-                 "abbreviations": ["%s"]
-               }""".formatted(e.name(), e.readto(), e.link(), String.join("\", \"", e.abbreviations()));
+               "name": "%s",
+               "readto": "%s",
+               "link": "%s",
+               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), String.join("\", \"", e.abbreviations()));
+    }
+
+    public static String toJSON(Object e) {
+        ObjectWriter ow = new ObjectMapper().setVisibility(JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY)
+                                            .writerWithDefaultPrettyPrinter();
+        try {
+            return ow.writeValueAsString(e);
+        } catch (IOException ignored) {}
+        return null;
     }
 
     static double doubleValue(String... read) throws ParseException {
