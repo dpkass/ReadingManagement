@@ -249,7 +249,7 @@ class Helper {
             case "change", "c" -> "c";
             case "list", "l" -> "l";
             case "link", "lk" -> "lk";
-            case "list-all" -> "la";
+            case "list-all", "la" -> "la";
             case "show", "sh" -> "sh";
             case "secret", "s" -> "s";
             case "open", "o" -> "o";
