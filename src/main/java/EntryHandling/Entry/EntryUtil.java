@@ -51,7 +51,7 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        return "%s, %s, %s, %s".formatted(e.name(), e.readto(), e.link(), String.join(", ", e.abbreviations()));
+        return "%s, %s, %s, [%s]".formatted(e.name(), e.readto(), e.link(), String.join(", ", e.abbreviations()));
     }
 
     public static String asJSON(Entry e) {

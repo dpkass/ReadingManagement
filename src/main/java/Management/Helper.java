@@ -194,7 +194,7 @@ class Helper {
 
     private static final String listallhelp = """
                                               Prints a list of all Entries with all parameters.
-                                              Form: name={name}, readto={readto}, ..., abbreviations=[{abb1}, {abb2}, ...]
+                                              Form: {name}, {readto}, ..., [{abb1}, {abb2}, ...]
                                                                                          
                                               How to use list-all:
                                               list-all

@@ -80,12 +80,7 @@ public class Entry {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("name=").append(name);
-        s.append(", ").append("readto=").append(readto);
-        s.append(", ").append("link=").append(link);
-        s.append(", ").append("abbreviations=[").append(String.join(", ", abbreviations)).append("]");
-        return s.toString();
+        return EntryUtil.asCSV(this);
     }
 
     @Override
