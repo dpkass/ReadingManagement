@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class EntryUtil {
 
-    private static final int codingOffset = 3;
+    private static final int codingOffset = 1;
 
     // checker
     public static boolean hasAbbreviation(Entry e, String s) {
@@ -25,7 +25,7 @@ public class EntryUtil {
     private static String encode(String s) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++)
-            sb.append((char) (s.charAt(i) - codingOffset));
+            sb.append((char) (s.charAt(i) + codingOffset));
         return sb.toString();
     }
 
@@ -39,7 +39,7 @@ public class EntryUtil {
     private static String decode(String s) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++)
-            sb.append((char) (s.charAt(i) + codingOffset));
+            sb.append((char) (s.charAt(i) - codingOffset));
         return sb.toString();
     }
 
