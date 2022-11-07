@@ -18,8 +18,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     //json
     implementation 'org.json:json:20220924'
-    implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
-    implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.0'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

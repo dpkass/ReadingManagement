@@ -1,0 +1,21 @@
+{
+  "books": [
+{
+  "name": "Solo Leveling",
+  "readto": "179.5",
+  "link": "https://toonily.com/webtoon/solo-leveling-005/",
+  "abbreviations": ["SL", "sl", "solo"]
+},
+{
+  "name": "The Beginning after The End",
+  "readto": "154",
+  "link": "https://toonily.com/webtoon/beginning-after-end/",
+  "abbreviations": ["TBATE", "tbate"]
+},
+{
+  "name": "Tales Of Demons And Gods",
+  "readto": "390.1",
+  "link": "https://manhuaplus.com/manga/tales-of-demons-and-gods/",
+ }
+  ]
+}

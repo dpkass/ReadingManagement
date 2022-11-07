@@ -27,7 +27,7 @@ class Helper {
                                           Adds a new book with given parameters to the list.
                                                                                     
                                           How to use new:
-                                          new + {book-name} + [page] + [link] + [abbreviations...]
+                                          new + {book-name} + [page] + [link] + [last-read] +[abbreviations...]
                                                                                      
                                           E.g.  new "Solo Leveling"
                                                 new "Tales of Demons and Gods" 358 www.somelink.com/todag
@@ -35,10 +35,11 @@ class Helper {
                                                                                     
                                           [page] = page or chapter you have read to
                                           [link] = online link to e-books
+                                          [last-read] = last time the book was read (default:now)
                                           [abbreviations...] = multiple abbreviations or abbreviations of book-name
                                                           listed as multiple whitespace seperated words       
                                                                                      
-                                          all [...] are optional values
+                                          [...] are optional values
                                           But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.                                   
                                           """;
 
@@ -63,6 +64,7 @@ class Helper {
 
     private static final String readhelp = """
                                            Sets the value of page/chapter read to.
+                                           Automatically changes lastread to now.
                                                                                       
                                            How to use read/read-to:
                                            {command} + {abb/book} + {value}
@@ -99,8 +101,8 @@ class Helper {
                                                                                         
                                              {type} = type of data to change
                                                     options:
-                                                        link = [link, lk]
                                                         name = [name, n]
+                                                        link = [link, lk]
                                                         abbreviation = [abbreviation, ab]
                                              {abb/book} = name or abbreviation of the book
                                              {new-value} = value to be set as replacement
@@ -142,13 +144,14 @@ class Helper {
                                                  l abbreviation
                                                  
                                                                                       
-                                           [type] = type of data to change
+                                           [type] = type of data to list
                                                     standard: name
                                                     options:
-                                                        link = [link, lk]
+                                                        lastread = [lr] (sorted)
                                                         name = [name, n]
-                                                        read-to = [read-to, readto, rt, r]
+                                                        link = [link, lk]
                                                         abbreviation = [abbreviation, ab]
+                                                        read-to = [read-to, readto, rt, r]
                                            """;
 
 
@@ -173,6 +176,7 @@ class Helper {
                                            [type] = type of data to change
                                                     standard: shows all attributes
                                                     options:
+                                                        lastread = [lr]
                                                         link = [link, lk]
                                                         read-to = [read-to, readto, rt, r]
                                                         abbreviation = [abbreviation, ab]
@@ -249,6 +253,7 @@ class Helper {
             case "change", "c" -> "c";
             case "list", "l" -> "l";
             case "link", "lk" -> "lk";
+            case "lastread", "lr" -> "lr";
             case "list-all", "la" -> "la";
             case "show", "sh" -> "sh";
             case "secret", "s" -> "s";

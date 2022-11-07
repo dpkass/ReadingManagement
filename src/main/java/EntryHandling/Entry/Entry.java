@@ -1,6 +1,9 @@
 package EntryHandling.Entry;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,13 +11,16 @@ public class Entry {
     private String name;
     private String readto;
     private String link;
+    @JsonFormat (pattern = "dd.MM.yyyy HH:mm")
+    private LocalDateTime lastread;
 
     private final List<String> abbreviations;
 
-    public Entry(String name, String readto, String link, List<String> abbreviations) {
+    public Entry(String name, String readto, String link, LocalDateTime lastread, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
+        this.lastread = lastread;
         this.abbreviations = abbreviations;
     }
 
@@ -29,6 +35,10 @@ public class Entry {
 
     public String link() {
         return link;
+    }
+
+    public LocalDateTime lastread() {
+        return lastread;
     }
 
     public List<String> abbreviations() {
@@ -63,6 +73,10 @@ public class Entry {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public void setLastread(LocalDateTime lastread) {
+        this.lastread = lastread;
     }
 
     public void setAbbreviations(List<String> abbreviations) {

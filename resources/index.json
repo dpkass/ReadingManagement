@@ -1,28 +1,21 @@
 {
   "books" : [ {
     "name" : "Solo Leveling",
-    "readto" : "73",
-    "link" : "www.sl.com",
-    "abbreviations" : [ "sl" ]
+    "readto" : "179.5",
+    "link" : "https://toonily.com/webtoon/solo-leveling-005/",
+    "lastread" : "07.11.2022 01:27",
+    "abbreviations" : [ "SL", "sl", "solo" ]
   }, {
-    "name" : "The End",
-    "readto" : "0",
-    "link" : "null",
-    "abbreviations" : [ "", "te" ]
+    "name" : "The Beginning after The End",
+    "readto" : "154",
+    "link" : "https://toonily.com/webtoon/beginning-after-end/",
+    "lastread" : "07.11.2022 01:27",
+    "abbreviations" : [ "TBATE", "tbate" ]
   }, {
-    "name" : "Tales of Demons and Gods",
-    "readto" : "17",
-    "link" : "null",
-    "abbreviations" : [ "" ]
-  }, {
-    "name" : "Latna Saga",
-    "readto" : "4",
-    "link" : "leviatanscans.com/hy/manga/survivor-story-of-a-sword-king-in-a-fantasy-world/season-3/chapter-139/",
-    "abbreviations" : [ "ls", "LS", "hanbin" ]
-  }, {
-    "name" : "One Piece",
-    "readto" : "12",
-    "link" : "null",
-    "abbreviations" : [ "op", "OP" ]
+    "name" : "Tales Of Demons And Gods",
+    "readto" : "390.1",
+    "link" : "https://manhuaplus.com/manga/tales-of-demons-and-gods/",
+    "lastread" : "07.11.2022 01:27",
+    "abbreviations" : [ ]
   } ]
 }

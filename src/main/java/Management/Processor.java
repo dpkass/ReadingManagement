@@ -7,12 +7,16 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 class Processor {
 
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM HH:mm");
     static List<String> out;
     static EntryList el;
 
@@ -64,10 +68,19 @@ class Processor {
         switch (Helper.representation(parts[1])) {
             case "n" -> doListNames();
             case "lk" -> doListLink();
+            case "lr" -> doListLastread();
             case "r", "rt" -> doListReadto();
             case "ab" -> doListAbbreviations();
             default -> out.add(Helper.errorMessage("invalid"));
         }
+    }
+
+    private static void doListLastread() {
+        out.addAll(el.entries()
+                     .stream()
+                     .sorted(Comparator.comparing(Entry::lastread))
+                     .map(e -> e.name() + " --> " + e.lastread().format(dtf))
+                     .toList());
     }
 
     private static void doListAbbreviations() {
@@ -99,9 +112,10 @@ class Processor {
 
         for (int i = 2; i < parts.length; i++) {
             out.add(switch (Helper.representation(parts[i])) {
-                case "r", "rt" -> "read-to=%s".formatted(e.readto());
-                case "lk" -> "link=%s".formatted(e.link());
-                case "ab" -> "abbreviations=%s".formatted(e.abbreviations().toString());
+                case "r", "rt" -> "read-to: %s".formatted(e.readto());
+                case "lk" -> "link: %s".formatted(e.link());
+                case "lr" -> "lastread: %s".formatted(e.lastread().format(dtf));
+                case "ab" -> "abbreviations: %s".formatted(e.abbreviations().toString());
                 default -> throw new IllegalStateException("Unexpected value: " + parts[i]);
             });
         }
@@ -151,8 +165,10 @@ class Processor {
         Entry e = getEntry(parts[1]);
         if (e == null) return;
 
-        if (e.addRead(parts[2])) out.add("Read-to changed.");
-        else out.add(Helper.errorMessage("read not number"));
+        if (e.addRead(parts[2])) {
+            out.add("Read-to changed.");
+            e.setLastread(LocalDateTime.now());
+        } else out.add(Helper.errorMessage("read not number"));
     }
 
     static void doReadTo(String[] parts) {
@@ -165,6 +181,7 @@ class Processor {
         if (e == null) return;
 
         e.setReadto(parts[2]);
+        e.setLastread(LocalDateTime.now());
 
         out.add("Read-to changed.");
     }
