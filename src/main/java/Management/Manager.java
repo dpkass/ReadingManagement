@@ -1,6 +1,5 @@
 package Management;
 
-import EntryHandling.CSVHandler;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import EntryHandling.JSONHandler;
@@ -36,8 +35,12 @@ public class Manager {
 
     private void init() {
         io = new StdIOHandler();
-        fh = getHandler(file);
-        secretfh = getHandler(secretfile);
+        fh = switch (filetype(file)) {
+            default -> new JSONHandler(file);
+        };
+        secretfh = switch (filetype(secretfile)) {
+            default -> new JSONHandler(secretfile);
+        };
     }
 
 
@@ -73,19 +76,12 @@ public class Manager {
 
     public void setFile(String f) {
         file = new File(f);
-        fh = getHandler(file);
+        fh = new JSONHandler(file);
     }
 
     public void setSecretfile(String f) {
         secretfile = new File(f);
-        secretfh = getHandler(secretfile);
-    }
-
-    private FileHandler getHandler(File file) {
-        return switch (filetype(file)) {
-            case "csv", "txt" -> new CSVHandler(file);
-            default -> new JSONHandler(file);
-        };
+        secretfh = new JSONHandler(secretfile);
     }
 
     public String filetype(File file) {
