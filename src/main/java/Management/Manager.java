@@ -35,12 +35,8 @@ public class Manager {
 
     private void init() {
         io = new StdIOHandler();
-        fh = switch (filetype(file)) {
-            default -> new JSONHandler(file);
-        };
-        secretfh = switch (filetype(secretfile)) {
-            default -> new JSONHandler(secretfile);
-        };
+        fh = new JSONHandler(file, false);
+        secretfh = new JSONHandler(secretfile, true);
     }
 
 
@@ -54,13 +50,11 @@ public class Manager {
         io.write("Hi :)");
         el = fh.read();
         secretel = secretfh.read();
-        secretel.decode();
         ps = new ProcessStarter(el, secretel, io);
     }
 
     private void end() {
         fh.write(el);
-        secretel.encode();
         secretfh.write(secretel);
         io.write("Bye :(");
     }
@@ -76,16 +70,11 @@ public class Manager {
 
     public void setFile(String f) {
         file = new File(f);
-        fh = new JSONHandler(file);
+        fh = new JSONHandler(file, false);
     }
 
     public void setSecretfile(String f) {
         secretfile = new File(f);
-        secretfh = new JSONHandler(secretfile);
-    }
-
-    public String filetype(File file) {
-        String filename = file.getName();
-        return filename.substring(filename.lastIndexOf(".") + 1);
+        secretfh = new JSONHandler(secretfile, true);
     }
 }

@@ -27,14 +27,6 @@ public class EntryList {
         return books;
     }
 
-    public void encode() {
-        books.forEach(EntryUtil::encode);
-    }
-
-    public void decode() {
-        books.forEach(EntryUtil::decode);
-    }
-
     public List<Entry> list() {
         return books;
     }
