@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static Management.Processor.out;
+
 public class ProcessStarter {
 
     EntryList el;
@@ -30,30 +32,34 @@ public class ProcessStarter {
             case "s" -> Processor.el = secretel;
             default -> Processor.el = el;
         }
-        Processor.out = new ArrayList<>();
+        out = new ArrayList<>();
 
         boolean b = process(parts);
 
-        Processor.out.forEach(io::write);
+        out.forEach(io::write);
 
         return b;
     }
 
     boolean process(String[] parts) {
-        switch (Helper.representation(parts[0])) {
-            case "e" -> {return false;}
-            case "nw" -> Processor.doNew(parts);
-            case "r" -> Processor.doRead(parts);
-            case "rt" -> Processor.doReadTo(parts);
-            case "a" -> Processor.doAdd(parts);
-            case "c" -> Processor.doChange(parts);
-            case "l" -> Processor.doList(parts);
-            case "sh" -> Processor.doShow(parts);
-            case "la" -> Processor.doListAll();
-            case "o" -> Processor.doOpen(parts);
-            case "s" -> doSecret(parts);
-            case "h" -> io.write(Helper.help(parts));
-            default -> io.write(Helper.errorMessage("invalid"));
+        try {
+            switch (Helper.representation(parts[0])) {
+                case "e" -> {return false;}
+                case "nw" -> Processor.doNew(parts);
+                case "r" -> Processor.doRead(parts);
+                case "rt" -> Processor.doReadTo(parts);
+                case "a" -> Processor.doAdd(parts);
+                case "c" -> Processor.doChange(parts);
+                case "l" -> Processor.doList(parts);
+                case "sh" -> Processor.doShow(parts);
+                case "la" -> Processor.doListAll();
+                case "o" -> Processor.doOpen(parts);
+                case "s" -> doSecret(parts);
+                case "h" -> io.write(Helper.help(parts));
+                default -> io.write(Helper.errorMessage("invalid"));
+            }
+        } catch (Exception e) {
+            out.add(Helper.errorMessage("invalid"));
         }
         return true;
     }

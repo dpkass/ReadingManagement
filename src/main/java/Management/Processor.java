@@ -10,8 +10,9 @@ import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class Processor {
@@ -49,6 +50,8 @@ class Processor {
         switch (Helper.representation(parts[1])) {
             case "n" -> e.setName(parts[3]);
             case "lk" -> e.setLink(parts[3]);
+            case "ws" -> e.setWritingStatus(parts[3]);
+            case "rs" -> e.setReadingStatus(parts[3]);
             case "ab" -> {
                 e.removeAbbreviation(parts[2]);
                 e.addAbbreviation(parts[3]);
@@ -61,60 +64,40 @@ class Processor {
 
     static void doList(String[] parts) {
         if (parts.length == 1) {
-            doListNames();
+            out.addAll(el.entries().stream().map(Entry::name).toList());
             return;
         }
 
-        switch (Helper.representation(parts[1])) {
-            case "n" -> doListNames();
-            case "lk" -> doListLink();
-            case "lr" -> doListLastread();
-            case "r", "rt" -> doListReadto();
-            case "ab" -> doListAbbreviations();
-            default -> out.add(Helper.errorMessage("invalid"));
-        }
-    }
-
-    private static void doListLastread() {
-        out.addAll(el.entries()
-                     .stream()
-                     .sorted(Comparator.comparing(Entry::lastread))
-                     .map(e -> e.name() + " --> " + e.lastread().format(dtf))
-                     .toList());
-    }
-
-    private static void doListAbbreviations() {
-        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.abbreviations().toString()).toList());
+        Function<Entry, String> f = e -> switch (Helper.representation(parts[1])) {
+            case "n" -> e.name();
+            case "lk" -> e.link();
+            case "lr" -> e.lastread().format(dtf);
+            case "ws" -> Objects.toString(e.writingStatus());
+            case "rs" -> Objects.toString(e.readingStatus());
+            case "r", "rt" -> e.readto();
+            case "ab" -> e.abbreviations().toString();
+            default -> {throw new RuntimeException();}
+        };
+        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + f.apply(e)).toList());
     }
 
     static void doListAll() {
         out.addAll(el.entries().stream().map(Entry::toString).collect(Collectors.toSet()));
     }
 
-    private static void doListLink() {
-        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.link()).toList());
-    }
-
-    private static void doListNames() {
-        out.addAll(el.entries().stream().map(Entry::name).toList());
-    }
-
-    private static void doListReadto() {
-        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + e.readto()).toList());
-    }
-
     public static void doShow(String[] parts) {
         Entry e = getEntry(parts[1]);
         if (e == null) return;
 
-        if (parts.length == 2)
-            out.add(e.toString());
+        if (parts.length == 2) out.add(e.toString());
 
         for (int i = 2; i < parts.length; i++) {
             out.add(switch (Helper.representation(parts[i])) {
                 case "r", "rt" -> "read-to: %s".formatted(e.readto());
                 case "lk" -> "link: %s".formatted(e.link());
                 case "lr" -> "lastread: %s".formatted(e.lastread().format(dtf));
+                case "ws" -> "writing-status: %s".formatted(e.writingStatus());
+                case "rs" -> "reading-status: %s".formatted(e.readingStatus());
                 case "ab" -> "abbreviations: %s".formatted(e.abbreviations().toString());
                 default -> throw new IllegalStateException("Unexpected value: " + parts[i]);
             });

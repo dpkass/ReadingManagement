@@ -3,18 +3,24 @@
     "name" : "Solo Leveling",
     "readto" : "179.5",
     "link" : "https://toonily.com/webtoon/solo-leveling-005/",
+    "writingStatus" : "Default",
+    "readingStatus" : "Paused",
     "lastread" : "07.04.2022 01:29",
     "abbreviations" : [ "SL", "sl", "solo" ]
   }, {
     "name" : "The Beginning after The End",
     "readto" : "154",
     "link" : "https://toonily.com/webtoon/beginning-after-end/",
+    "writingStatus" : "Default",
+    "readingStatus" : "Paused",
     "lastread" : "05.09.2022 01:29",
     "abbreviations" : [ "TBATE", "tbate" ]
   }, {
     "name" : "Tales Of Demons And Gods",
     "readto" : "390.1",
     "link" : "https://manhuaplus.com/manga/tales-of-demons-and-gods/",
+    "writingStatus" : "Default",
+    "readingStatus" : "Paused",
     "lastread" : "05.09.2022 01:29",
     "abbreviations" : [ "TODAG", "todag", "tdg" ]
   } ]

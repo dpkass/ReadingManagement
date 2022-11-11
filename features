@@ -1,9 +1,12 @@
-Next-up: Status (reading/paused/ended)
+Next-up: Reading-Status (not started/started/reading/paused) and Writing-Status (comming-up/rolling/paused/ended)
 
 Safe
-1. Categorization lists
-2. Pause (until enough has come out)
-3. Check if other book has abbreviation
+1. Readable (UpToDate or missing Chapters (how many))
+2. Categorization lists
+3. Pause (until enough has come out)
+4. Check if other book has abbreviation
+5. Paused-until...
+6. Recommendation (based on pause and not yet started)
 
 Uncertain
 1. List mod (multiple options)

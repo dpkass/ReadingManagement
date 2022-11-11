@@ -23,8 +23,8 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        return "%s, %s, %s, %s, [%s]".formatted(e.name(), e.readto(), e.link(), e.lastread()
-                                                                                 .format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
+        return "%s, %s, %s, %s, %s, %s, [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), e.lastread()
+                                                                                                                               .format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
                 String.join(", ",
                         e.abbreviations()));
     }

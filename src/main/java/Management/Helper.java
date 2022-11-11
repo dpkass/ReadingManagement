@@ -9,8 +9,9 @@ class Helper {
                                                read-to "{abb/book}" {page-read-to}
                                                list [type]
                                                list-all
-                                               add abbreviation "{abb/book}" "{new-value}"
+                                               show "{abb/book}" [type]
                                                change {type} "{abb/book}" "{new-value}"
+                                               add abbreviation "{abb/book}" "{new-value}"
                                                help (or h)
                                                                                               
                                                secret {command} [parameters]
@@ -27,7 +28,7 @@ class Helper {
                                           Adds a new book with given parameters to the list.
                                                                                     
                                           How to use new:
-                                          new + {book-name} + [page] + [link] + [last-read] +[abbreviations...]
+                                          new + {book-name} + [page] + [link] + [writing-status] + [last-read] +[abbreviations...]
                                                                                      
                                           E.g.  new "Solo Leveling"
                                                 new "Tales of Demons and Gods" 358 www.somelink.com/todag
@@ -91,7 +92,7 @@ class Helper {
                                                                                     
                                              Alternative: c
                                                                                         
-                                             E.g.  c link SL www.someotherlink.com/sl 
+                                             E.g.  c link www.link.com/sl www.someotherlink.com/sl 
                                                    change name tbate "Beginning after End"
                                                    
                                              Special change:
@@ -103,6 +104,8 @@ class Helper {
                                                     options:
                                                         name = [name, n]
                                                         link = [link, lk]
+                                                        reading-status = [rs] ∈ {ComingUp, Rolling, Paused, Done}
+                                                        writing-status = [ws] ∈ {NotStarted, Started, Reading, Paused, Ended}
                                                         abbreviation = [abbreviation, ab]
                                              {abb/book} = name or abbreviation of the book
                                              {new-value} = value to be set as replacement
@@ -150,6 +153,8 @@ class Helper {
                                                         lastread = [lr] (sorted)
                                                         name = [name, n]
                                                         link = [link, lk]
+                                                        reading-status = [rs]
+                                                        writing-status = [ws]
                                                         abbreviation = [abbreviation, ab]
                                                         read-to = [read-to, readto, rt, r]
                                            """;
@@ -178,6 +183,8 @@ class Helper {
                                                     options:
                                                         lastread = [lr]
                                                         link = [link, lk]
+                                                        reading-status = [rs]
+                                                        writing-status = [ws]
                                                         read-to = [read-to, readto, rt, r]
                                                         abbreviation = [abbreviation, ab]
                                            """;
@@ -249,6 +256,8 @@ class Helper {
             case "new" -> "nw";
             case "read", "r" -> "r";
             case "read-to", "readto", "rt" -> "rt";
+            case "reading-status", "readingstatus", "rs" -> "rs";
+            case "writing-status", "writingstatus", "ws" -> "ws";
             case "add", "a" -> "a";
             case "change", "c" -> "c";
             case "list", "l" -> "l";

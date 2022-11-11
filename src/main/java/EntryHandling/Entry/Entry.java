@@ -1,5 +1,7 @@
 package EntryHandling.Entry;
 
+import EntryHandling.Entry.Status.ReadingStatus;
+import EntryHandling.Entry.Status.WritingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.text.ParseException;
@@ -11,15 +13,19 @@ public class Entry {
     private String name;
     private String readto;
     private String link;
+    private WritingStatus writingStatus;
+    private ReadingStatus readingStatus;
     @JsonFormat (pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime lastread;
 
     private final List<String> abbreviations;
 
-    public Entry(String name, String readto, String link, LocalDateTime lastread, List<String> abbreviations) {
+    public Entry(String name, String readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
+        this.writingStatus = writingStatus;
+        this.readingStatus = readingStatus;
         this.lastread = lastread;
         this.abbreviations = abbreviations;
     }
@@ -43,6 +49,14 @@ public class Entry {
 
     public List<String> abbreviations() {
         return abbreviations;
+    }
+
+    public ReadingStatus readingStatus() {
+        return readingStatus;
+    }
+
+    public WritingStatus writingStatus() {
+        return writingStatus;
     }
 
     // setter
@@ -82,6 +96,14 @@ public class Entry {
     public void setAbbreviations(List<String> abbreviations) {
         this.abbreviations.clear();
         this.abbreviations.addAll(abbreviations);
+    }
+
+    public void setReadingStatus(String readingStatus) {
+        this.readingStatus = ReadingStatus.getStatus(readingStatus);
+    }
+
+    public void setWritingStatus(String writingStatus) {
+        this.writingStatus = WritingStatus.getStatus(writingStatus);
     }
 
     public void addAbbreviation(String abbreviation) {
