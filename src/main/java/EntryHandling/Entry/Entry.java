@@ -100,10 +100,14 @@ public class Entry {
 
     public void setReadingStatus(String readingStatus) {
         this.readingStatus = ReadingStatus.getStatus(readingStatus);
+        if (this.readingStatus == ReadingStatus.Default)
+            throw new RuntimeException();
     }
 
     public void setWritingStatus(String writingStatus) {
         this.writingStatus = WritingStatus.getStatus(writingStatus);
+        if (this.writingStatus == WritingStatus.Default)
+            throw new RuntimeException();
     }
 
     public void addAbbreviation(String abbreviation) {

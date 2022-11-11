@@ -104,8 +104,8 @@ class Helper {
                                                     options:
                                                         name = [name, n]
                                                         link = [link, lk]
-                                                        reading-status = [rs] ∈ {ComingUp, Rolling, Paused, Done}
-                                                        writing-status = [ws] ∈ {NotStarted, Started, Reading, Paused, Ended}
+                                                        writing-status = [ws] ∈ {ComingUp, Rolling, Paused, Ended}
+                                                        reading-status = [rs] ∈ {NotStarted, Started, Reading, Waiting, Paused, Done}
                                                         abbreviation = [abbreviation, ab]
                                              {abb/book} = name or abbreviation of the book
                                              {new-value} = value to be set as replacement

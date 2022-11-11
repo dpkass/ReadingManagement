@@ -30,6 +30,7 @@ public class Status {
         NotStarted,
         Started,
         Reading,
+        Waiting,
         Paused,
         Done;
 

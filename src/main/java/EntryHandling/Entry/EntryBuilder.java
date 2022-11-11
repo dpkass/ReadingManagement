@@ -26,8 +26,8 @@ public class EntryBuilder {
         name = values[0];
         if (values.length > 1) readto = values[1];
         if (values.length > 2) link = values[2];
-        if (values.length > 3) lastread = toLDT(values[3]);
-        if (values.length > 4) ws = WritingStatus.getStatus(values[4]);
+        if (values.length > 3) ws = WritingStatus.getStatus(values[3]);
+        if (values.length > 4) lastread = toLDT(values[4]);
         if (values.length > 5)
             Arrays.stream(values).skip(5).forEach(abbreviations::add);
         chooseStatus();
