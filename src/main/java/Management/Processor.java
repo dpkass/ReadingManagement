@@ -2,6 +2,7 @@ package Management;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
@@ -13,7 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class Processor {
 
@@ -63,12 +66,34 @@ class Processor {
     }
 
     static void doList(String[] parts) {
+        Stream<Entry> stream = el.entries().stream();
         if (parts.length == 1) {
-            out.addAll(el.entries().stream().map(Entry::name).toList());
+            out.addAll(stream.map(Entry::name).toList());
             return;
         }
 
-        Function<Entry, String> f = e -> switch (Helper.representation(parts[1])) {
+        Function<Entry, String> f = getListFunction(parts);
+        if (parts.length > 2) stream = filterStream(parts, stream);
+
+        out.addAll(stream.map(e -> e.name() + " --> " + f.apply(e)).toList());
+    }
+
+    private static Stream<Entry> filterStream(String[] parts, Stream<Entry> stream) {
+        List<String[]> filters = Arrays.stream(parts).skip(2).map(filter -> filter.split("=")).toList();
+        for (String[] filter : filters) {
+            Predicate<Entry> p = e -> switch (Helper.representation(filter[0])) {
+                case "ws" -> Objects.toString(e.writingStatus()).equals(filter[1]);
+                case "rs" -> Objects.toString(e.readingStatus()).equals(filter[1]);
+                default -> {throw new RuntimeException();}
+            };
+            stream = stream.filter(p);
+        }
+        return stream;
+    }
+
+    @NotNull
+    private static Function<Entry, String> getListFunction(String[] parts) {
+        return e -> switch (Helper.representation(parts[1])) {
             case "n" -> e.name();
             case "lk" -> e.link();
             case "lr" -> e.lastread().format(dtf);
@@ -78,7 +103,6 @@ class Processor {
             case "ab" -> e.abbreviations().toString();
             default -> {throw new RuntimeException();}
         };
-        out.addAll(el.entries().stream().map(e -> e.name() + " --> " + f.apply(e)).toList());
     }
 
     static void doListAll() {

@@ -3,8 +3,9 @@ Next-up: Filter lists
 Safe
 1. Pause (until enough has come out)
 2. Check if other book has abbreviation
-3. Categorization lists
+3. Categorization lists (Sorting)
 4. Paused-until...
+5. Filter list < or > (readto, lastread)
 5. Recommendation (based on pause and not yet started)
 
 Uncertain

@@ -18,7 +18,7 @@ public class Entry {
     @JsonFormat (pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime lastread;
 
-    private final List<String> abbreviations;
+    private List<String> abbreviations;
 
     public Entry(String name, String readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, List<String> abbreviations) {
         this.name = name;
@@ -94,8 +94,7 @@ public class Entry {
     }
 
     public void setAbbreviations(List<String> abbreviations) {
-        this.abbreviations.clear();
-        this.abbreviations.addAll(abbreviations);
+        this.abbreviations = abbreviations;
     }
 
     public void setReadingStatus(String readingStatus) {
