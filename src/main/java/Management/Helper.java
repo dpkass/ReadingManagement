@@ -1,6 +1,9 @@
 package Management;
 
-class Helper {
+import java.time.format.DateTimeFormatter;
+
+public class Helper {
+    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM HH:mm");
 
     private static final String standardhelp = """
                                                Use one of the following commands:
@@ -263,7 +266,7 @@ class Helper {
         };
     }
 
-    static String representation(String part) {
+    public static String representation(String part) {
         return switch (part) {
             case "exit", "e" -> "e";
             case "new" -> "nw";

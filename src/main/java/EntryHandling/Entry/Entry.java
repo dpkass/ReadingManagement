@@ -80,7 +80,7 @@ public class Entry {
             if (value % 1 == 0) readto = String.valueOf((int) value);
             else readto = String.valueOf(value);
             return true;
-        } catch (ParseException ignored) {
+        } catch (ParseException pe) {
             return false;
         }
     }
