@@ -15,10 +15,10 @@ public class Opener {
                 URI link = new URI(e.link());
                 Desktop.getDesktop().browse(link);
             } catch (URISyntaxException | IOException ex) {
-                throw new IllegalArgumentException("link wrong" + '\n' + e.name() + " -> " + e.link());
+                throw new IllegalArgumentException("5");
             }
         } else {
-            throw new IllegalArgumentException("no os support" + '\n' + e.name() + " -> " + e.link());
+            throw new IllegalArgumentException("6");
         }
     }
 }

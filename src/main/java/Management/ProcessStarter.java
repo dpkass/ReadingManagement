@@ -56,10 +56,11 @@ public class ProcessStarter {
                 case "o" -> Processor.doOpen(parts);
                 case "s" -> doSecret(parts);
                 case "h" -> io.write(Helper.help(parts));
-                default -> io.write(Helper.errorMessage("invalid"));
+                default -> throw new IllegalArgumentException("1");
             }
         } catch (Exception e) {
-            out.add(Helper.errorMessage("invalid"));
+            System.out.println(e.getMessage());
+            out.add(Helper.errorMessage(e.getMessage()));
         }
         return true;
     }

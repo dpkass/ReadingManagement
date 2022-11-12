@@ -2,43 +2,30 @@ package Management;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
+import EntryHandling.Entry.EntryNotFoundException;
 import Management.Processors.*;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 class Processor {
 
-    private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM HH:mm");
     static List<String> out;
     static EntryList el;
 
     static void doAdd(String[] parts) {
-        if (parts.length < 4) {
-            out.add(Helper.errorMessage("invalid"));
-            return;
-        }
+        if (parts.length < 4) throw new IllegalArgumentException("1");
 
         Entry e = getEntry(parts[2]);
-        if (e == null) return;
 
-        Adder.add(e, parts);
-
-        out.add("Abbreviation added.");
+        out.add(Adder.add(e, parts));
     }
 
     static void doChange(String[] parts) {
-        if (parts.length < 4) {
-            out.add(Helper.errorMessage("invalid"));
-            return;
-        }
+        if (parts.length < 4) throw new IllegalArgumentException("1");
 
         Entry e = getEntry(parts[2]);
-        if (e == null) return;
 
-        Changer.change(e, parts);
-
-        out.add("Entry changed.");
+        out.add(Changer.change(e, parts));
     }
 
     static void doList(String[] parts) {
@@ -51,61 +38,37 @@ class Processor {
 
     public static void doShow(String[] parts) {
         Entry e = getEntry(parts[1]);
-        if (e == null) return;
         out.addAll(Shower.show(e, parts));
     }
 
     static void doNew(String[] parts) {
-        if (parts.length < 2) out.add(Helper.errorMessage("invalid"));
-
+        if (parts.length < 2) throw new IllegalArgumentException("1");
         Entry e = el.get(parts[1]);
-        if (e != null) {
-            out.add(Helper.errorMessage("duplicate"));
-            return;
-        }
-
+        if (e != null) throw new IllegalArgumentException("2");
         out.add(Newer.make(el, parts));
     }
 
     public static void doOpen(String[] parts) {
-        if (parts.length != 2) out.add(Helper.errorMessage("invalid"));
-
+        if (parts.length != 2) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts[1]);
-        if (e == null) return;
-
         Opener.open(e);
     }
 
     static void doRead(String[] parts) {
-        if (parts.length != 3) {
-            out.add(Helper.errorMessage("invalid"));
-            return;
-        }
-
+        if (parts.length != 3) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts[1]);
-        if (e == null) return;
-
         out.add(Reader.read(e, parts[2]));
     }
 
     static void doReadTo(String[] parts) {
-        if (parts.length != 3) {
-            out.add(Helper.errorMessage("invalid"));
-            return;
-        }
-
+        if (parts.length != 3) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts[1]);
-        if (e == null) return;
-
         out.add(Reader.readto(e, parts[2]));
     }
 
     private static Entry getEntry(String part) {
         Entry e = el.get(part);
-        if (e == null) {
-            out.add(Helper.errorMessage("enf"));
-            return null;
-        }
+        if (e == null) throw new EntryNotFoundException("3");
         return e;
     }
 }

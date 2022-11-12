@@ -66,9 +66,9 @@ public class Lister {
                 return lastRead.isBefore(inputTime);
             else if (Objects.equals(filter[1], ">"))
                 return lastRead.isAfter(inputTime);
-            else throw new RuntimeException();
+            else throw new IllegalStateException();
         } catch (DateTimeParseException nfe) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("1");
         }
     }
 
@@ -77,7 +77,7 @@ public class Lister {
             if (Objects.equals(filter[1], "<")) return Double.parseDouble(e.readto()) < Double.parseDouble(filter[2]);
             else return Double.parseDouble(e.readto()) > Double.parseDouble(filter[2]);
         } catch (NumberFormatException nfe) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("1");
         }
     }
 
@@ -91,7 +91,7 @@ public class Lister {
             case "rs" -> Objects.toString(e.readingStatus());
             case "r", "rt" -> e.readto();
             case "ab" -> e.abbreviations().toString();
-            default -> {throw new RuntimeException();}
+            default -> throw new IllegalArgumentException("1");
         };
     }
 

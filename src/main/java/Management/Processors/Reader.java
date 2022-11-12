@@ -9,7 +9,7 @@ public class Reader {
         if (e.addRead(read)) {
             e.setLastread(LocalDateTime.now());
             return "Read-to changed.";
-        } else throw new IllegalArgumentException("read not number");
+        } else throw new IllegalArgumentException("4");
     }
 
     public static String readto(Entry e, String read) {

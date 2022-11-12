@@ -4,7 +4,7 @@ import EntryHandling.Entry.Entry;
 import Management.Helper;
 
 public class Changer {
-    public static void change(Entry e, String[] parts) {
+    public static String change(Entry e, String[] parts) {
         switch (Helper.representation(parts[1])) {
             case "n" -> e.setName(parts[3]);
             case "lk" -> e.setLink(parts[3]);
@@ -14,7 +14,8 @@ public class Changer {
                 e.removeAbbreviation(parts[2]);
                 e.addAbbreviation(parts[3]);
             }
-            default -> throw new IllegalArgumentException("invalid");
+            default -> throw new IllegalArgumentException("1");
         }
+        return "Entry changed.";
     }
 }

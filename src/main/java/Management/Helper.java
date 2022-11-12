@@ -248,19 +248,19 @@ public class Helper {
             case "sh" -> showhelp;
             case "o" -> openhelp;
             case "s" -> secrethelp;
-            default -> errorMessage("invalid");
+            default -> errorMessage("1");
         } + notice;
     }
 
     static String errorMessage(String error) {
         return switch (error) {
-            case "invalid" -> "Invalid Input. Use help for more info.";
-            case "duplicate" -> "The given book is already in the list.";
-            case "enf" -> "The given book was not found. If you want to add a new Entry use \"new\".";
-            case "read-to not number" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
-            case "link wrong" -> "The provided link seems to be wrong. Please correct the link with \"change link\" and try again. For " +
+            case "1" -> "Invalid Input. Use help for more info.";
+            case "2" -> "The given book is already in the list.";
+            case "3" -> "The given book was not found. If you want to add a new Entry use \"new\".";
+            case "4" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
+            case "5" -> "The provided link seems to be wrong. Please correct the link with \"change link\" and try again. For " +
                     "more info on how to change link use \"help change\".\nThe provided link is:";
-            case "no os support" -> "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " +
+            case "6" -> "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " +
                     "choosing:\n";
             default -> "";
         };
