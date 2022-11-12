@@ -139,7 +139,7 @@ class Helper {
                                                 ...
                                               
                                            How to use list:
-                                           list + [type]
+                                           list + [type] + {filters}
                                                                                     
                                            Alternative: l
                                                                                       
@@ -157,6 +157,19 @@ class Helper {
                                                         writing-status = [ws]
                                                         abbreviation = [abbreviation, ab]
                                                         read-to = [read-to, readto, rt, r]
+                                           {filters} = filters to exclude options not fitting (multiple possible)
+                                                    style:
+                                                        [type]=[value]
+                                                        [type]<[value]
+                                                        [type]>[value]
+                                                    [type] = type of data to filter by
+                                                    options:
+                                                        using "="
+                                                            reading-status = [rs]
+                                                            writing-status = [ws]
+                                                        using "<" or ">"
+                                                            lastread = [lr] (Format: dd.MM.yyyy)
+                                                            read-to = [read-to, readto, rt, r]
                                            """;
 
 
