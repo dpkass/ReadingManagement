@@ -7,31 +7,26 @@ public class Helper {
 
     private static final String standardhelp = """
                                                Use one of the following commands:
-                                               new "{book-name}" [read-to] [link] [abbreviations...]
-                                               read "{abb/book}" {pages-read}
-                                               read-to "{abb/book}" {page-read-to}
+                                               new {book-name} [read-to] [link] [abbreviations...]
+                                               read {book} {pages-read}
+                                               read-to {book} {page-read-to}
                                                list [type]
                                                list-all
-                                               show "{abb/book}" [type]
-                                               change {type} "{abb/book}" "{new-value}"
-                                               add abbreviation "{abb/book}" "{new-value}"
+                                               show {book} [type]
+                                               change {type} {book} {new-value}
+                                               add abbreviation {book} {new-value}
                                                help (or h)
                                                                                               
                                                secret {command} [parameters]
                                                        
-                                               Legend:
-                                               [...] - optional
-                                               {...} - parameter
-                                               "..." - abbreviation and book name in quotes if more than one word
-                                                       
-                                               For details use help (or h) {command}
+                                               For details use "help {command}"
                                                """;
 
     private static final String newhelp = """
                                           Adds a new book with given parameters to the list.
                                                                                     
                                           How to use new:
-                                          new + {book-name} + [page] + [link] + [writing-status] + [last-read] +[abbreviations...]
+                                          new + {book-name} + [page] + [link] + [writing-status] + [last-read] + [abbreviations...]
                                                                                      
                                           E.g.  new "Solo Leveling"
                                                 new "Tales of Demons and Gods" 358 www.somelink.com/todag
@@ -39,12 +34,13 @@ public class Helper {
                                                                                     
                                           [page] = page or chapter you have read to
                                           [link] = online link to e-books
+                                          [writing-status] ∈ {ComingUp, Rolling, Paused, Ended}
                                           [last-read] = last time the book was read (default:now)
                                           [abbreviations...] = multiple abbreviations or abbreviations of book-name
-                                                          listed as multiple whitespace seperated words       
+                                                          listed as multiple whitespace seperated words
                                                                                      
                                           [...] are optional values
-                                          But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.                                   
+                                          But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.
                                           """;
 
     private static final String secrethelp = """
@@ -60,10 +56,11 @@ public class Helper {
                                                    s read sl 5
                                                                                        
                                              {command} = other command to be executed
-                                             [parameters] = parameters needed by {command}       
-                                                                                        
+                                             [parameters] = parameters needed by {command}
+                                                                                          
+                                                                                  
                                              all [...] are optional values
-                                             But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.                                   
+                                             But if you decide to not use an optional value but the last one, you have to fill it with something like null or 0.
                                              """;
 
     private static final String readhelp = """
@@ -71,19 +68,19 @@ public class Helper {
                                            Automatically changes lastread to now.
                                                                                       
                                            How to use read/read-to:
-                                           {command} + {abb/book} + {value}
+                                           {command} + {book} + {value}
                                                                                     
-                                           Alternatives: 
+                                           Alternatives:
                                                 read: r
                                                 read-to: readto, rt
                                                                                       
                                            E.g.  read tbate 5
                                                  rt "Solo Leveling" 164
                                                                                       
-                                           {abb/book} = name or abbreviation of the book  
+                                           {book} = name or abbreviation of the book
                                                                                     
                                            read {value} = how many pages or chapters you have read
-                                           read-to {value} = which page or chapter have you read to                                      
+                                           read-to {value} = which page or chapter have you read to
                                            """;
 
     private static final String changehelp = """
@@ -91,15 +88,15 @@ public class Helper {
                                              Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                           
                                              How to use change:
-                                             change + {type} + {abb/book} + {new-value}
+                                             change + {type} + {book} + {new-value}
                                                                                     
                                              Alternative: c
                                                                                         
-                                             E.g.  c link www.link.com/sl www.someotherlink.com/sl 
+                                             E.g.  c link www.link.com/sl www.someotherlink.com/sl
                                                    change name tbate "Beginning after End"
                                                    
                                              Special change:
-                                             If type is set to abbreviation then the abbreviation given as {abb/book} will be replaced.
+                                             If type is set to abbreviation then the abbreviation given as {book} will be replaced.
                                                     change abb SL sl
                                                     --> only sl can be used now
                                                                                         
@@ -110,7 +107,7 @@ public class Helper {
                                                         writing-status = [ws] ∈ {ComingUp, Rolling, Paused, Ended}
                                                         reading-status = [rs] ∈ {NotStarted, Started, Reading, Waiting, Paused, Done}
                                                         abbreviation = [abbreviation, ab]
-                                             {abb/book} = name or abbreviation of the book
+                                             {book} = name or abbreviation of the book
                                              {new-value} = value to be set as replacement
                                              """;
 
@@ -119,17 +116,17 @@ public class Helper {
                                           Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                        
                                           How to use change:
-                                          add + {type} + {abb/book} + {new-value}
+                                          add + {type} + {book} + {new-value}
                                                                                     
                                           Alternative: a
                                                                                      
-                                          E.g.  add ab SL sl 
+                                          E.g.  add ab SL sl
                                                 a abb "The Beginning after The End" TBATE
                                                                                      
                                           {type} = type of data to change
                                                  options:
                                                      abbreviation = [abbreviation, ab]
-                                          {abb/book} = name or abbreviation of the book
+                                          {book} = name or abbreviation of the book
                                           {new-value} = value to be set as replacement
                                           """;
 
@@ -142,7 +139,7 @@ public class Helper {
                                                 ...
                                               
                                            How to use list:
-                                           list + [type] + {filters}
+                                           list + [type] + [filters]
                                                                                     
                                            Alternative: l
                                                                                       
@@ -160,12 +157,12 @@ public class Helper {
                                                         writing-status = [ws]
                                                         abbreviation = [abbreviation, ab]
                                                         read-to = [read-to, readto, rt, r]
-                                           {filters} = filters to exclude options not fitting (multiple possible)
+                                           [filters] = filters to exclude options not fitting (multiple possible)
                                                     style:
-                                                        [type]=[value]
-                                                        [type]<[value]
-                                                        [type]>[value]
-                                                    [type] = type of data to filter by
+                                                        {type}={value}
+                                                        {type}<{value}
+                                                        {type}>{value}
+                                                    {type} = type of data to filter by
                                                     options:
                                                         using "="
                                                             reading-status = [rs]
@@ -185,7 +182,7 @@ public class Helper {
                                                 ...
                                               
                                            How to use list:
-                                           show + {abb/book} + [type...]
+                                           show + {book} + [type...]
                                                                                     
                                            Alternative: sh
                                                                                       
@@ -193,7 +190,7 @@ public class Helper {
                                                  sh sl rt lk ab
                                                  
                                                               
-                                           {abb/book} = name or abbreviation of the book                        
+                                           {book} = name or abbreviation of the book
                                            [type] = type of data to change
                                                     standard: shows all attributes
                                                     options:
@@ -209,14 +206,14 @@ public class Helper {
                                            Opens the link of the given book.
                                               
                                            How to use list:
-                                           open + {abb/book}
+                                           open + {book}
                                                                                     
                                            Alternative: o
                                                                                       
                                            E.g.  open sl
                                                  o "Latna Saga"
                                                  
-                                           {abb/book} = name or abbreviation of the book
+                                           {book} = name or abbreviation of the book
                                            """;
 
     private static final String listallhelp = """
@@ -229,9 +226,12 @@ public class Helper {
                                               Alternative: la
                                               """;
 
-    private static final String notice = """
-                                                                                  
-                                         All values which are longer than one word have to be "surronded in quotes".
+    private static final String legend = """
+                                                       
+                                         Legend:
+                                         [...] - optional
+                                         {...} - parameter
+                                         "..." - abbreviation and book name in quotes if more than one word
                                          """;
 
 
@@ -249,7 +249,7 @@ public class Helper {
             case "o" -> openhelp;
             case "s" -> secrethelp;
             default -> errorMessage("1");
-        } + notice;
+        } + legend;
     }
 
     static String errorMessage(String error) {
@@ -262,7 +262,7 @@ public class Helper {
                     "more info on how to change link use \"help change\".\nThe provided link is:";
             case "6" -> "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " +
                     "choosing:\n";
-            default -> "";
+            default -> error;
         };
     }
 
