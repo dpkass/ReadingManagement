@@ -16,8 +16,8 @@ import java.util.stream.IntStream;
 public class JSONHandler implements FileHandler {
 
     boolean fileCreated = false;
-    boolean secret;
-    int codingOffset = 1;
+    final boolean secret;
+    final int codingOffset = 1;
     JSONObject json;
     File f;
 

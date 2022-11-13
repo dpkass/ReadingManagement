@@ -9,8 +9,7 @@ public class StdIOHandler implements IOHandler {
     public String read() {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         try {
-            String s = in.readLine();
-            return s;
+            return in.readLine();
         } catch (IOException ignored) {
             return null;
         }

@@ -7,7 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -17,14 +20,14 @@ import static Management.Helper.dtf;
 
 public class Lister {
 
-    public static List<String> list(String[] parts, Stream<Entry> entrystream) {
-        if (parts.length == 1) return entrystream.map(Entry::name).toList();
+    public static List<String> list(List<String> parts, Stream<Entry> entrystream) {
+        if (parts.size() == 1) return entrystream.map(Entry::name).toList();
 
-        Map<Boolean, List<String>> type0filterMap = Arrays.stream(parts)
-                                                          .skip(1)
-                                                          .collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
+        Map<Boolean, List<String>> type0filterMap = parts.stream()
+                                                         .skip(1)
+                                                         .collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
         Function<Entry, String> f = getListType(type0filterMap.get(false));
-        if (parts.length > 2) entrystream = filterStream(type0filterMap.get(true), entrystream);
+        if (parts.size() > 2) entrystream = filterStream(type0filterMap.get(true), entrystream);
 
         return entrystream.map(f).toList();
     }

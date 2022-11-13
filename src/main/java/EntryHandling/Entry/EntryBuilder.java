@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,14 +21,14 @@ public class EntryBuilder {
 
     List<String> abbreviations = new ArrayList<>();
 
-    public EntryBuilder(String[] values) {
-        name = values[0];
-        if (values.length > 1) readto = values[1];
-        if (values.length > 2) link = values[2];
-        if (values.length > 3) ws = WritingStatus.getStatus(values[3]);
-        if (values.length > 4) lastread = toLDT(values[4]);
-        if (values.length > 5)
-            Arrays.stream(values).skip(5).forEach(abbreviations::add);
+    public EntryBuilder(List<String> values) {
+        name = values.get(0);
+        if (values.size() > 1) readto = values.get(1);
+        if (values.size() > 2) link = values.get(2);
+        if (values.size() > 3) ws = WritingStatus.getStatus(values.get(3));
+        if (values.size() > 4) lastread = toLDT(values.get(4));
+        if (values.size() > 5)
+            abbreviations.addAll(values.subList(5, values.size()));
         chooseStatus();
     }
 

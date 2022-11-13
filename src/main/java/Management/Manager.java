@@ -11,8 +11,8 @@ import java.io.File;
 
 @Component
 public class Manager {
-    public static File standardfile = new File("resources/index.json");
-    public static File standardsecretfile = new File("resources/secret.json");
+    public static final File standardfile = new File("resources/index.json");
+    public static final File standardsecretfile = new File("resources/secret.json");
 
     File file;
     File secretfile;

@@ -3,19 +3,17 @@ package Management;
 import EntryHandling.Entry.EntryList;
 import IOHandling.IOHandler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static Management.Processor.out;
 
 public class ProcessStarter {
 
-    EntryList el;
-    EntryList secretel;
-    IOHandler io;
+    final EntryList el;
+    final EntryList secretel;
+    final IOHandler io;
 
     public ProcessStarter(EntryList el, EntryList secretel, IOHandler io) {
         this.el = el;
@@ -26,24 +24,23 @@ public class ProcessStarter {
     boolean process(String s) {
         if (s == null || s.isBlank()) return true;
 
-        String[] parts = split(s);
-
-        switch (Helper.representation(parts[0])) {
-            case "s" -> Processor.el = secretel;
-            default -> Processor.el = el;
-        }
-        out = new ArrayList<>();
-
+        Processor.el = el;
+        List<String> parts = Pattern.compile("([^\"]\\S*|\".*\")\\s*")
+                                    .matcher(s)
+                                    .results()
+                                    .map(str -> str.group(1))
+                                    .collect(Collectors.toList());
         boolean b = process(parts);
 
         out.forEach(io::write);
+        out.clear();
 
         return b;
     }
 
-    boolean process(String[] parts) {
+    boolean process(List<String> parts) {
         try {
-            switch (Helper.representation(parts[0])) {
+            switch (Helper.representation(parts.get(0))) {
                 case "e" -> {return false;}
                 case "nw" -> Processor.doNew(parts);
                 case "r" -> Processor.doRead(parts);
@@ -59,21 +56,14 @@ public class ProcessStarter {
                 default -> throw new IllegalArgumentException("1");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             out.add(Helper.errorMessage(e.getMessage()));
         }
         return true;
     }
 
-    void doSecret(String[] parts) {
-        parts = Arrays.stream(parts).skip(1).toArray(String[]::new);
+    void doSecret(List<String> parts) {
+        parts = parts.subList(1, parts.size());
+        Processor.el = secretel;
         process(parts);
-    }
-
-    private static String[] split(String command) {
-        List<String> list = new ArrayList<>();
-        Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(command);
-        while (m.find()) list.add(m.group(1).replace("\"", ""));
-        return list.toArray(String[]::new);
     }
 }

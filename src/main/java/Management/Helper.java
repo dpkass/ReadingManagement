@@ -1,6 +1,7 @@
 package Management;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Helper {
     public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM HH:mm");
@@ -235,10 +236,10 @@ public class Helper {
                                          """;
 
 
-    static String help(String[] parts) {
-        if (parts.length == 1) return standardhelp;
+    static String help(List<String> parts) {
+        if (parts.size() == 1) return standardhelp;
 
-        return switch (representation(parts[1])) {
+        return switch (representation(parts.get(1))) {
             case "nw" -> newhelp;
             case "r", "rt" -> readhelp;
             case "c" -> changehelp;
@@ -262,6 +263,7 @@ public class Helper {
                     "more info on how to change link use \"help change\".\nThe provided link is:";
             case "6" -> "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " +
                     "choosing:\n";
+            case "7" -> "The given abbreviation is already used on another Book. Please try another one.";
             default -> error;
         };
     }

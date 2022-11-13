@@ -6,6 +6,8 @@ import IOHandling.IOHandler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -34,7 +36,7 @@ public class ProcessorTest {
     @DisplayName ("process \"read\" and change the read-to")
     void test_3() {
         ProcessStarter p = new ProcessStarter(new EntryList(), null, mock(IOHandler.class));
-        p.el.add(new String[] { "Solo Leveling", "2" });
+        p.el.add(List.of("Solo Leveling", "2"));
 
         p.process("read \"Solo Leveling\" 5");
 
@@ -45,7 +47,7 @@ public class ProcessorTest {
     @DisplayName ("process \"read-to\" and change the read to")
     void test_4() {
         ProcessStarter p = new ProcessStarter(new EntryList(), null, mock(IOHandler.class));
-        p.el.add(new String[] { "Solo Leveling", "2" });
+        p.el.add(List.of("Solo Leveling", "2"));
 
         p.process("read-to \"Solo Leveling\" 5");
 
@@ -56,7 +58,7 @@ public class ProcessorTest {
     @DisplayName ("process \"add abb\" and add the acronym")
     void test_5() {
         ProcessStarter p = new ProcessStarter(new EntryList(), null, mock(IOHandler.class));
-        p.el.add(new String[] { "Solo Leveling" });
+        p.el.add(List.of("Solo Leveling"));
 
         p.process("add abb \"Solo Leveling\" SL");
 
@@ -67,7 +69,7 @@ public class ProcessorTest {
     @DisplayName ("process \"change link\" and change the link")
     void test_6() {
         ProcessStarter p = new ProcessStarter(new EntryList(), null, mock(IOHandler.class));
-        p.el.add(new String[] { "Solo Leveling" });
+        p.el.add(List.of("Solo Leveling"));
 
         p.process("change link \"Solo Leveling\" www.somelink.com");
 

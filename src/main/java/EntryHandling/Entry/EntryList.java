@@ -1,15 +1,20 @@
 package EntryHandling.Entry;
 
+import Management.Processors.Adder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class EntryList {
-    List<Entry> books = new ArrayList<>();
+    final List<Entry> books = new ArrayList<>();
 
-    public void add(String[] values) {
+    public void add(List<String> values) {
         EntryBuilder eb = new EntryBuilder(values);
-        books.add(eb.toEntry());
+        Entry e = eb.toEntry();
+        checkAbbreviations(e);
+        books.add(e);
     }
 
     public void addAll(List<Object> books) {
@@ -23,11 +28,15 @@ public class EntryList {
         return books.stream().filter(a -> a.name().equals(s) || EntryUtil.hasAbbreviation(a, s)).findAny().orElse(null);
     }
 
-    public List<Entry> entries() {
-        return books;
+    public Stream<Entry> entries() {
+        return books.stream();
     }
 
     public List<Entry> list() {
         return books;
+    }
+
+    private void checkAbbreviations(Entry e) {
+        Adder.checkAbbreviations(entries(), e.abbreviations().toArray(String[]::new));
     }
 }
