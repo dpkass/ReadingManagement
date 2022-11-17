@@ -2,6 +2,7 @@ package Management.Processors;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
+import EntryHandling.Entry.Status;
 import Management.Helper;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,38 +21,81 @@ public class Lister {
 
     public static List<String> list(List<String> parts, Stream<Entry> entrystream) {
         if (parts.size() == 1) return entrystream.map(Entry::name).toList();
-
+        // remove command and duplicates and distinuish filters/sort/categorize from elements to list
         Map<Boolean, List<String>> type0filterMap = parts.stream()
                                                          .skip(1)
                                                          .map(Helper::representation)
                                                          .distinct()
                                                          .collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
+        // get printing function
         Function<Entry, String> f = getListType(type0filterMap.get(false));
-        Comparator<Entry> sorter = getSortingType(type0filterMap.get(true));
-        if (parts.size() > 2) entrystream = filterStream(type0filterMap.get(true), entrystream);
+        // split sorting and categorizing commands in a map
+        Map<String, String[]> orderMap = getOrderStrings(type0filterMap.get(true));
 
-        return entrystream.sorted(sorter).map(f).toList();
+        Comparator<Entry> sorter = getSorter(orderMap.get("sb"));
+        entrystream = filterStream(type0filterMap.get(true), entrystream);
+
+        String[] obs = orderMap.get("ob");
+        if (obs == null) return entrystream.sorted(sorter).map(f).toList();
+
+        Map<Status, List<Entry>> categorizedLists = categorize(entrystream, obs);
+        return categorizedPrint(categorizedLists, sorter, f);
     }
 
-    private static Comparator<Entry> getSortingType(List<String> filterList) {
-        String sb = filterList.stream()
-                              .filter(s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort"))
-                              .findAny()
-                              .orElse(null);
-        if (sb == null) return Comparator.comparing(Entry::lastread);
+    private static List<String> categorizedPrint(Map<Status, List<Entry>> categorizedLists, Comparator<Entry> sorter, Function<Entry, String> f) {
+        List<String> res = new ArrayList<>();
+
+        List<Status> categories = categorizedLists.keySet().stream().sorted().toList();
+        for (Status s : categories) {
+            res.add(s + ":");
+            categorizedLists.get(s).stream().sorted(sorter).map(f).map(str -> "   " + str).forEach(res::add);
+        }
+        return res;
+    }
+
+    private static Map<Status, List<Entry>> categorize(Stream<Entry> entrystream, String[] categorizeArr) {
+        return entrystream.collect(Collectors.groupingBy(e -> switch (Helper.representation(categorizeArr[1])) {
+            case "ws" -> e.writingStatus();
+            case "rs" -> e.readingStatus();
+            default -> throw new IllegalArgumentException("1");
+        }));
+    }
+
+    private static Map<String, String[]> getOrderStrings(List<String> filterList) {
+        String[] orderStrings = filterList.stream().filter(isOrderString()).toArray(String[]::new);
+
+        Map<String, String[]> result = new HashMap<>();
+        for (String s : orderStrings) {
+            String[] parts = s.split("=");
+            boolean duplicate = false;
+            switch (Helper.representation(parts[0])) {
+                case "sb" -> duplicate = result.putIfAbsent("sb", parts) != null;
+                case "ob" -> duplicate = result.putIfAbsent("ob", parts) != null;
+            }
+            if (duplicate) throw new IllegalArgumentException("1");
+            filterList.remove(s);
+        }
+        return result;
+    }
+
+    @NotNull
+    private static Predicate<String> isOrderString() {
+        return s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort") || s.startsWith("ob") || s.startsWith("orderBy") || s.startsWith("orderby") || s.startsWith("order");
+    }
+
+    private static Comparator<Entry> getSorter(String[] sortArgs) {
+        if (sortArgs == null) return Comparator.comparing(Entry::lastread);
         else {
-            filterList.remove(sb);
-            String[] parts = sb.split("=");
-            Comparator<Entry> comp = switch (Helper.representation(parts[1])) {
+            Comparator<Entry> comp = switch (Helper.representation(sortArgs[1])) {
                 case "r" -> Comparator.comparing(Entry::readto);
                 case "n" -> Comparator.comparing(Entry::name);
                 case "lr" -> Comparator.comparing(Entry::lastread);
-                case "ws" -> Comparator.comparingInt(e -> EntryUtil.statusOrdinal(e.writingStatus()));
-                case "rs" -> Comparator.comparingInt(e -> EntryUtil.statusOrdinal(e.readingStatus()));
-                default -> throw new IllegalArgumentException();
+                case "ws" -> Comparator.comparing(e -> EntryUtil.statusOrdinal(e.writingStatus()));
+                case "rs" -> Comparator.comparing(e -> EntryUtil.statusOrdinal(e.readingStatus()));
+                default -> throw new IllegalArgumentException("1");
             };
 
-            if (parts.length > 2 && Helper.representation(parts[2]).equals("desc")) return comp.reversed();
+            if (sortArgs.length > 2 && Helper.representation(sortArgs[2]).equals("desc")) return comp.reversed();
             return comp;
         }
     }
@@ -71,13 +115,14 @@ public class Lister {
             case "=" -> e -> switch (Helper.representation(filter[0])) {
                 case "ws" -> Objects.toString(e.writingStatus()).equals(filter[2]);
                 case "rs" -> Objects.toString(e.readingStatus()).equals(filter[2]);
-                default -> throw new RuntimeException();
+                default -> throw new IllegalArgumentException("1");
             };
-            default -> e -> switch (Helper.representation(filter[0])) {
+            case "<", ">" -> e -> switch (Helper.representation(filter[0])) {
                 case "lr" -> getLastReadFilter(filter, e);
                 case "r" -> getReadFilter(filter, e);
-                default -> throw new RuntimeException();
+                default -> throw new IllegalArgumentException("1");
             };
+            default -> throw new IllegalStateException();
         };
     }
 
@@ -106,7 +151,9 @@ public class Lister {
 
     @NotNull
     private static Function<Entry, String> getListType(List<String> filterList) {
-        return e -> e.name() + " --> " + String.join(", ", filterList.stream().map((f) -> getListValue(e, f)).toList());
+        return e -> e.name() + (filterList.size() == 0 ? "" : " --> " + String.join(", ", filterList.stream()
+                                                                                                    .map((f) -> getListValue(e, f))
+                                                                                                    .toList()));
     }
 
     private static String getListValue(Entry e, String filter) {
