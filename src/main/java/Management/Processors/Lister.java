@@ -1,16 +1,14 @@
 package Management.Processors;
 
 import EntryHandling.Entry.Entry;
+import EntryHandling.Entry.EntryUtil;
 import Management.Helper;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -25,11 +23,37 @@ public class Lister {
 
         Map<Boolean, List<String>> type0filterMap = parts.stream()
                                                          .skip(1)
+                                                         .map(Helper::representation)
+                                                         .distinct()
                                                          .collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
         Function<Entry, String> f = getListType(type0filterMap.get(false));
+        Comparator<Entry> sorter = getSortingType(type0filterMap.get(true));
         if (parts.size() > 2) entrystream = filterStream(type0filterMap.get(true), entrystream);
 
-        return entrystream.map(f).toList();
+        return entrystream.sorted(sorter).map(f).toList();
+    }
+
+    private static Comparator<Entry> getSortingType(List<String> filterList) {
+        String sb = filterList.stream()
+                              .filter(s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort"))
+                              .findAny()
+                              .orElse(null);
+        if (sb == null) return Comparator.comparing(Entry::lastread);
+        else {
+            filterList.remove(sb);
+            String[] parts = sb.split("=");
+            Comparator<Entry> comp = switch (Helper.representation(parts[1])) {
+                case "r" -> Comparator.comparing(Entry::readto);
+                case "n" -> Comparator.comparing(Entry::name);
+                case "lr" -> Comparator.comparing(Entry::lastread);
+                case "ws" -> Comparator.comparingInt(e -> EntryUtil.statusOrdinal(e.writingStatus()));
+                case "rs" -> Comparator.comparingInt(e -> EntryUtil.statusOrdinal(e.readingStatus()));
+                default -> throw new IllegalArgumentException();
+            };
+
+            if (parts.length > 2 && Helper.representation(parts[2]).equals("desc")) return comp.reversed();
+            return comp;
+        }
     }
 
     private static Stream<Entry> filterStream(List<String> filterstrings, Stream<Entry> stream) {
@@ -63,10 +87,8 @@ public class Lister {
             LocalDate inputTime = LocalDate.from(LocalDate.parse(filter[2], dtf));
             LocalDate lastRead = LocalDate.from(e.lastread());
 
-            if (Objects.equals(filter[1], "<"))
-                return lastRead.isBefore(inputTime);
-            else if (Objects.equals(filter[1], ">"))
-                return lastRead.isAfter(inputTime);
+            if (Objects.equals(filter[1], "<")) return lastRead.isBefore(inputTime);
+            else if (Objects.equals(filter[1], ">")) return lastRead.isAfter(inputTime);
             else throw new IllegalStateException();
         } catch (DateTimeParseException nfe) {
             throw new IllegalArgumentException("1");

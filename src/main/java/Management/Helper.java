@@ -134,18 +134,18 @@ public class Helper {
     private static final String listhelp = """
                                            Prints a list of all entries with a chosen values.
                                            Form:
-                                                {name1} --> {value1}
-                                                {name2} --> {value2}
-                                                {name3} --> {value3}
+                                                {name1} --> {value1.1}, {value1.2}
+                                                {name2} --> {value2.1}, {value2.2}
+                                                {name3} --> {value3.1}, {value3.2}
                                                 ...
                                               
                                            How to use list:
-                                           list + [type] + [filters]
+                                           list + [type] + [filters] + [sortby]
                                                                                     
                                            Alternative: l
                                                                                       
-                                           E.g.  list link
-                                                 l abbreviation
+                                           E.g.  list link read ws lr<01.01.2022
+                                                 l ab r>50
                                                  
                                                                                       
                                            [type] = type of data to list
@@ -171,6 +171,15 @@ public class Helper {
                                                         using "<" or ">"
                                                             lastread = [lr] (Format: dd.MM.yyyy)
                                                             read-to = [read-to, readto, rt, r]
+                                           [sortby] = type of data to sort by
+                                                    standard: last-read
+                                                    style: sortby={type}
+                                                    options:
+                                                        lastread = [lr] (sorted)
+                                                        name = [name, n]
+                                                        reading-status = [rs]
+                                                        writing-status = [ws]
+                                                        read-to = [read-to, readto, rt, r]
                                            """;
 
 
@@ -288,7 +297,8 @@ public class Helper {
             case "help", "h" -> "h";
             case "name", "n" -> "n";
             case "abbreviation", "ab" -> "ab";
-            default -> " ";
+            case "descending", "desc", "d" -> "desc";
+            default -> part;
         };
     }
 }

@@ -63,4 +63,8 @@ public class EntryUtil {
         }
         return ret;
     }
+
+    public static int statusOrdinal(Status s) {
+        return s.ordinal();
+    }
 }

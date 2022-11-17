@@ -1,7 +1,7 @@
 package EntryHandling.Entry;
 
-public class Status {
-    enum WritingStatus {
+public interface Status {
+    enum WritingStatus implements Status {
         Default,
         ComingUp,
         Rolling,
@@ -25,7 +25,7 @@ public class Status {
         }
     }
 
-    enum ReadingStatus {
+    enum ReadingStatus implements Status {
         Default,
         NotStarted,
         Started,
@@ -50,4 +50,6 @@ public class Status {
             }
         }
     }
+
+    int ordinal();
 }
