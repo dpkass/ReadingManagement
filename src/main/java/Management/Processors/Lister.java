@@ -35,10 +35,11 @@ public class Lister {
         Comparator<Entry> sorter = getSorter(orderMap.get("sb"));
         entrystream = filterStream(type0filterMap.get(true), entrystream);
 
+        // if not categorized print normally
         String[] obs = orderMap.get("ob");
         if (obs == null) return entrystream.sorted(sorter).map(f).toList();
 
-        Map<Status, List<Entry>> categorizedLists = categorize(entrystream, obs);
+        Map<Status, List<Entry>> categorizedLists = categorizetoMaps(entrystream, obs);
         return categorizedPrint(categorizedLists, sorter, f);
     }
 
@@ -53,7 +54,7 @@ public class Lister {
         return res;
     }
 
-    private static Map<Status, List<Entry>> categorize(Stream<Entry> entrystream, String[] categorizeArr) {
+    private static Map<Status, List<Entry>> categorizetoMaps(Stream<Entry> entrystream, String[] categorizeArr) {
         return entrystream.collect(Collectors.groupingBy(e -> switch (Helper.representation(categorizeArr[1])) {
             case "ws" -> e.writingStatus();
             case "rs" -> e.readingStatus();
@@ -142,8 +143,8 @@ public class Lister {
 
     private static boolean getReadFilter(String[] filter, Entry e) {
         try {
-            if (Objects.equals(filter[1], "<")) return Double.parseDouble(e.readto()) < Double.parseDouble(filter[2]);
-            else return Double.parseDouble(e.readto()) > Double.parseDouble(filter[2]);
+            if (Objects.equals(filter[1], "<")) return e.readto() < Double.parseDouble(filter[2]);
+            else return e.readto() > Double.parseDouble(filter[2]);
         } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("1");
         }
@@ -163,7 +164,7 @@ public class Lister {
             case "lr" -> e.lastread().format(dtf);
             case "ws" -> Objects.toString(e.writingStatus());
             case "rs" -> Objects.toString(e.readingStatus());
-            case "r", "rt" -> e.readto();
+            case "r", "rt" -> EntryUtil.tryIntConversion(e.readto());
             case "ab" -> e.abbreviations().toString();
             default -> throw new IllegalArgumentException("1");
         };

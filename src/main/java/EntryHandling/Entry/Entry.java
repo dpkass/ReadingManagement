@@ -4,14 +4,13 @@ import EntryHandling.Entry.Status.ReadingStatus;
 import EntryHandling.Entry.Status.WritingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 public class Entry {
     private String name;
-    private String readto;
+    private double readto;
     private String link;
     private WritingStatus writingStatus;
     private ReadingStatus readingStatus;
@@ -20,7 +19,7 @@ public class Entry {
 
     private List<String> abbreviations;
 
-    public Entry(String name, String readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, List<String> abbreviations) {
+    public Entry(String name, double readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
@@ -35,7 +34,7 @@ public class Entry {
         return name;
     }
 
-    public String readto() {
+    public double readto() {
         return readto;
     }
 
@@ -64,25 +63,12 @@ public class Entry {
         this.name = name;
     }
 
-    public void setReadto(String rt) {
-        try {
-            double value = EntryUtil.doubleValue(rt);
-            if (value % 1 == 0) readto = String.valueOf((int) value);
-            else readto = String.valueOf(value);
-        } catch (ParseException ignored) {
-            this.readto = rt;
-        }
+    public void setReadto(double rt) {
+        this.readto = rt;
     }
 
-    public boolean addRead(String read) {
-        try {
-            double value = EntryUtil.doubleValue(readto, read);
-            if (value % 1 == 0) readto = String.valueOf((int) value);
-            else readto = String.valueOf(value);
-            return true;
-        } catch (ParseException pe) {
-            return false;
-        }
+    public void addRead(double read) {
+        this.readto += read;
     }
 
     public void setLink(String link) {
@@ -99,14 +85,12 @@ public class Entry {
 
     public void setReadingStatus(String readingStatus) {
         this.readingStatus = ReadingStatus.getStatus(readingStatus);
-        if (this.readingStatus == ReadingStatus.Default)
-            throw new RuntimeException();
+        if (this.readingStatus == ReadingStatus.Default) throw new RuntimeException();
     }
 
     public void setWritingStatus(String writingStatus) {
         this.writingStatus = WritingStatus.getStatus(writingStatus);
-        if (this.writingStatus == WritingStatus.Default)
-            throw new RuntimeException();
+        if (this.writingStatus == WritingStatus.Default) throw new RuntimeException();
     }
 
     public void addAbbreviation(String abbreviation) {

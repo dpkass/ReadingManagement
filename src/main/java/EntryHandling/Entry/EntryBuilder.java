@@ -27,8 +27,7 @@ public class EntryBuilder {
         if (values.size() > 2) link = values.get(2);
         if (values.size() > 3) ws = WritingStatus.getStatus(values.get(3));
         if (values.size() > 4) lastread = toLDT(values.get(4));
-        if (values.size() > 5)
-            abbreviations.addAll(values.subList(5, values.size()));
+        if (values.size() > 5) abbreviations.addAll(values.subList(5, values.size()));
         chooseStatus();
     }
 
@@ -65,6 +64,8 @@ public class EntryBuilder {
     }
 
     public Entry toEntry() {
-        return new Entry(name, readto, link, ws, rs, lastread, abbreviations);
+        double rt;
+        try {rt = Double.parseDouble(readto);} catch (NumberFormatException e) {throw new RuntimeException("4");}
+        return new Entry(name, rt, link, ws, rs, lastread, abbreviations);
     }
 }

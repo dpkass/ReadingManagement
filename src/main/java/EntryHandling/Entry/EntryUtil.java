@@ -7,10 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class EntryUtil {
 
@@ -55,16 +52,12 @@ public class EntryUtil {
         return om.writerWithDefaultPrettyPrinter();
     }
 
-    static double doubleValue(String... read) throws ParseException {
-        double ret = 0;
-        for (String r : read) {
-            Number rtVal = NumberFormat.getInstance(Locale.US).parse(r);
-            ret += rtVal.doubleValue();
-        }
-        return ret;
-    }
-
     public static int statusOrdinal(Status s) {
         return s.ordinal();
+    }
+
+    public static String tryIntConversion(double readto) {
+        if (readto % 1 == 0) return String.valueOf((int) readto);
+        else return String.valueOf(readto);
     }
 }
