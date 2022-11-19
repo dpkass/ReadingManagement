@@ -36,7 +36,12 @@ public class Lister {
         Comparator<Entry> sorter = getSorter(orderMap.get("sb"));
         entrystream = filterStream(type0filterMap.get(true), entrystream);
 
-        // if not categorized print normally
+        return print(entrystream, f, orderMap, sorter);
+    }
+
+    @NotNull
+    private static List<String> print(Stream<Entry> entrystream, Function<Entry, String> f, Map<String, String[]> orderMap, Comparator<Entry> sorter) {
+        // if not grouped print normally
         String[] obs = orderMap.get("gb");
         if (obs == null) return entrystream.sorted(sorter).map(f).toList();
 
@@ -114,19 +119,45 @@ public class Lister {
 
     @NotNull
     private static Predicate<Entry> getFilter(String[] filter) {
+        String[] orFilter = filter[2].split("OR");
+        if (orFilter.length > 1) return complexFilter(filter, orFilter);
+        return simpleFilter(filter);
+    }
+
+    private static Predicate<Entry> complexFilter(String[] filter, String[] orFilter) {
+        if (!filter[1].equals("=")) throw new IllegalArgumentException("1");
+        return e -> {
+            for (String f : orFilter)
+                if (getEqFilter(filter[0], f).test(e))
+                    return true;
+            return false;
+        };
+    }
+
+    @NotNull
+    private static Predicate<Entry> simpleFilter(String[] filter) {
         return switch (filter[1]) {
-            case "=" -> e -> switch (Helper.representation(filter[0])) {
-                case "ws" -> Objects.toString(e.writingStatus()).equals(filter[2]);
-                case "rs" -> Objects.toString(e.readingStatus()).equals(filter[2]);
-                default -> throw new IllegalArgumentException("1");
-            };
-            case "<", ">" -> e -> switch (Helper.representation(filter[0])) {
-                case "lr" -> getDateFilter(filter, LocalDate.from(e.lastread()));
-                case "pu" -> getDateFilter(filter, e.pauseduntil());
-                case "r" -> getReadFilter(filter, e);
-                default -> throw new IllegalArgumentException("1");
-            };
+            case "=" -> getEqFilter(filter[0], filter[2]);
+            case "<", ">" -> getUneqFilter(filter);
             default -> throw new IllegalStateException();
+        };
+    }
+
+    private static Predicate<Entry> getEqFilter(String filterBy, String f) {
+        return e -> switch (Helper.representation(filterBy)) {
+            case "ws" -> Objects.equals(Objects.toString(e.writingStatus()), f);
+            case "rs" -> Objects.equals(Objects.toString(e.readingStatus()), f);
+            default -> throw new IllegalArgumentException("1");
+        };
+    }
+
+    @NotNull
+    private static Predicate<Entry> getUneqFilter(String[] filter) {
+        return e -> switch (Helper.representation(filter[0])) {
+            case "lr" -> getDateFilter(filter, LocalDate.from(e.lastread()));
+            case "pu" -> getDateFilter(filter, e.pauseduntil());
+            case "r" -> getReadFilter(filter, e);
+            default -> throw new IllegalArgumentException("1");
         };
     }
 

@@ -106,8 +106,8 @@ public class Helper {
                                                                 options:
                                                                     name = [name, n]
                                                                     link = [link, lk]
-                                                                    writing-status = [ws] ∈ {ComingUp, Rolling, Paused, Ended}
-                                                                    reading-status = [rs] ∈ {NotStarted, Started, Reading, Waiting, Paused, Done}
+                                                                    writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
+                                                                    reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                                                     abbreviation = [abbreviation, ab]
                                              {book}         name or abbreviation of the book
                                              {new-value}    value to be set as replacement
@@ -158,8 +158,8 @@ public class Helper {
                                                         lastread = [lr]
                                                         name = [name, n]
                                                         link = [link, lk]
-                                                        reading-status = [rs]
-                                                        writing-status = [ws]
+                                                        reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
+                                                        writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                         abbreviation = [abbreviation, ab]
                                                         read-to = [read-to, readto, rt, r]
                                                         pauseduntil = [pu] (soon: (auto-filter: rs=Paused||Waiting))
@@ -171,8 +171,8 @@ public class Helper {
                                                     {type} = type of data to filter by
                                                     options:
                                                         using "="
-                                                            reading-status = [rs]
-                                                            writing-status = [ws]
+                                                            reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
+                                                            writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                         using "<" or ">"
                                                             lastread = [lr] (Format: dd.MM.yyyy)
                                                             pauseduntil = [pu] (Format: dd.MM.yyyy)
