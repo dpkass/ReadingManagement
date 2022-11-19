@@ -144,7 +144,7 @@ public class Helper {
                                                 ...
                                               
                                            How to use list:
-                                           list + [type] + [filters] + [sortby]
+                                           list + [type] + [filters] + [sortby] + [groupby]
                                                                                     
                                            Alternative: l
                                                                                       
@@ -179,7 +179,7 @@ public class Helper {
                                                             read-to = [read-to, readto, rt, r]
                                            [sortby] = type of data to sort by
                                                     standard: last-read
-                                                    style: sortby={type}
+                                                    style: sortby={type} [sb, sort, sortBy]
                                                     options:
                                                         lastread = [lr]
                                                         name = [name, n]
@@ -187,6 +187,11 @@ public class Helper {
                                                         reading-status = [rs]
                                                         writing-status = [ws]
                                                         read-to = [read-to, readto, rt, r]
+                                           [groupby] = type of data to group by
+                                                    style: groupby={type}  [gb, group, groupBy]
+                                                    options:
+                                                        reading-status = [rs]
+                                                        writing-status = [ws]
                                            """;
 
 
@@ -305,6 +310,8 @@ public class Helper {
             case "open", "o" -> "o";
             case "help", "h" -> "h";
             case "name", "n" -> "n";
+            case "sortby", "sortBy", "sort", "sb" -> "sb";
+            case "groupby", "groupBy", "group", "gb" -> "gb";
             case "abbreviation", "ab" -> "ab";
             case "descending", "desc", "d" -> "desc";
             default -> part;

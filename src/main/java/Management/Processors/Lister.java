@@ -37,7 +37,7 @@ public class Lister {
         entrystream = filterStream(type0filterMap.get(true), entrystream);
 
         // if not categorized print normally
-        String[] obs = orderMap.get("ob");
+        String[] obs = orderMap.get("gb");
         if (obs == null) return entrystream.sorted(sorter).map(f).toList();
 
         Map<Status, List<Entry>> categorizedLists = categorizetoMaps(entrystream, obs);
@@ -72,7 +72,7 @@ public class Lister {
             boolean duplicate = false;
             switch (Helper.representation(parts[0])) {
                 case "sb" -> duplicate = result.putIfAbsent("sb", parts) != null;
-                case "ob" -> duplicate = result.putIfAbsent("ob", parts) != null;
+                case "gb" -> duplicate = result.putIfAbsent("gb", parts) != null;
             }
             if (duplicate) throw new IllegalArgumentException("1");
             filterList.remove(s);
@@ -82,7 +82,7 @@ public class Lister {
 
     @NotNull
     private static Predicate<String> isOrderString() {
-        return s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort") || s.startsWith("ob") || s.startsWith("orderBy") || s.startsWith("orderby") || s.startsWith("order");
+        return s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort") || s.startsWith("gb") || s.startsWith("groupBy") || s.startsWith("groupby") || s.startsWith("group");
     }
 
     private static Comparator<Entry> getSorter(String[] sortArgs) {
