@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -128,8 +129,7 @@ public class Lister {
         if (!filter[1].equals("=")) throw new IllegalArgumentException("1");
         return e -> {
             for (String f : orFilter)
-                if (getEqFilter(filter[0], f).test(e))
-                    return true;
+                if (getEqFilter(filter[0], f).test(e)) return true;
             return false;
         };
     }
@@ -154,21 +154,22 @@ public class Lister {
     @NotNull
     private static Predicate<Entry> getUneqFilter(String[] filter) {
         return e -> switch (Helper.representation(filter[0])) {
-            case "lr" -> getDateFilter(filter, LocalDate.from(e.lastread()));
+            case "lr" -> getDateFilter(filter, e.lastread());
             case "pu" -> getDateFilter(filter, e.pauseduntil());
             case "r" -> getReadFilter(filter, e);
             default -> throw new IllegalArgumentException("1");
         };
     }
 
-    private static boolean getDateFilter(String[] filter, LocalDate lastread) {
+    private static boolean getDateFilter(String[] filter, Temporal filterTemporal) {
+        if (filterTemporal == null) return true;
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDate inputTime = LocalDate.parse(filter[2], dtf);
-            LocalDate lastRead = LocalDate.from(lastread);
+            LocalDate filterdate = LocalDate.from(filterTemporal);
 
-            if (Objects.equals(filter[1], "<")) return lastRead.isBefore(inputTime);
-            else if (Objects.equals(filter[1], ">")) return lastRead.isAfter(inputTime);
+            if (Objects.equals(filter[1], "<")) return filterdate.isBefore(inputTime);
+            else if (Objects.equals(filter[1], ">")) return filterdate.isAfter(inputTime);
             else throw new IllegalStateException();
         } catch (DateTimeParseException nfe) {
             throw new IllegalArgumentException("1");
@@ -195,13 +196,8 @@ public class Lister {
         return switch (Helper.representation(filter)) {
             case "n" -> e.name();
             case "lk" -> e.link();
-            case "lr" -> e.lastread().format(dtf);
-            case "pu" -> {
-//                addFilter("rs=Paused||Waiting");      pu is only set for paused or waiting
-                LocalDate pu = e.pauseduntil();
-                if (pu != null) yield pu.format(df);
-                else yield "Not Set";
-            }
+            case "lr" -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
+            case "pu" -> EntryUtil.dateString(e.pauseduntil(), df, "Not Set");
             case "ws" -> Objects.toString(e.writingStatus());
             case "rs" -> Objects.toString(e.readingStatus());
             case "r", "rt" -> EntryUtil.tryIntConversion(e.readto());

@@ -17,4 +17,8 @@ public class EntryNotFoundException extends RuntimeException {
     public EntryNotFoundException(Throwable cause) {
         super(cause);
     }
+
+    public String getMessage() {
+        return message;
+    }
 }

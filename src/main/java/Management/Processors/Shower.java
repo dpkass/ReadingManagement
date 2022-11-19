@@ -1,12 +1,14 @@
 package Management.Processors;
 
 import EntryHandling.Entry.Entry;
+import EntryHandling.Entry.EntryUtil;
 import Management.Helper;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static Management.Helper.df;
 import static Management.Helper.dtf;
 
 public class Shower {
@@ -14,14 +16,14 @@ public class Shower {
         if (parts.size() == 2) return Collections.singleton(e.toString());
 
         return parts.stream().skip(2).map(s -> switch (Helper.representation(s)) {
-            case "r", "rt" -> "read-to: %s".formatted(e.readto());
+            case "r", "rt" -> "read-to: %s".formatted(EntryUtil.tryIntConversion(e.readto()));
             case "lk" -> "link: %s".formatted(e.link());
-            case "lr" -> "lastread: %s".formatted(e.lastread().format(dtf));
-            case "pu" -> "pauseduntil: %s".formatted(e.pauseduntil().format(dtf));
+            case "lr" -> "lastread: %s".formatted(EntryUtil.dateString(e.lastread(), dtf, "-"));
+            case "pu" -> "pauseduntil: %s".formatted(EntryUtil.dateString(e.pauseduntil(), df, "-"));
             case "ws" -> "writing-status: %s".formatted(e.writingStatus());
             case "rs" -> "reading-status: %s".formatted(e.readingStatus());
             case "ab" -> "abbreviations: %s".formatted(e.abbreviations().toString());
-            default -> throw new IllegalStateException("Unexpected value: " + s);
+            default -> throw new IllegalArgumentException("1");
         }).toList();
     }
 }

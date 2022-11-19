@@ -4,8 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Helper {
-    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM HH:mm");
-    public static final DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MMM");
+    public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    public static final DateTimeFormatter df = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private static final String standardhelp = """
                                                Use one of the following commands:
@@ -27,7 +27,7 @@ public class Helper {
     private static final String newhelp = """
                                           Adds a new book with given parameters to the list.
                                                                                     
-                                          How to use new:
+                                          How to use command:
                                           new + {book-name} + [page] + [link] + [writing-status] + [last-read] + [abbreviations...]
                                                                                      
                                           E.g.  new "Solo Leveling"
@@ -48,7 +48,7 @@ public class Helper {
     private static final String secrethelp = """
                                              Uses the secret list for the next action.
                                                                                        
-                                             How to use new:
+                                             How to use command:
                                              secret + {command} + [parameters]
                                                                                     
                                              Alternative: s
@@ -69,7 +69,7 @@ public class Helper {
                                            Sets the value of page/chapter read to.
                                            Automatically changes lastread to now.
                                                                                       
-                                           How to use read/read-to:
+                                           How to use command:
                                            {command} + {book} + {value}
                                                                                     
                                            Alternatives:
@@ -89,7 +89,7 @@ public class Helper {
                                              Changes the value of one of the entries by type.
                                              Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                           
-                                             How to use change:
+                                             How to use command:
                                              change + {type} + {book} + {new-value} + [optional]
                                                                                     
                                              Alternative: c
@@ -120,7 +120,7 @@ public class Helper {
                                           Adds the abbreviation to the given entry.
                                           Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                        
-                                          How to use change:
+                                          How to use command:
                                           add + {type} + {book} + {new-value}
                                                                                     
                                           Alternative: a
@@ -143,7 +143,7 @@ public class Helper {
                                                 {name3} --> {value3.1}, {value3.2}
                                                 ...
                                               
-                                           How to use list:
+                                           How to use command:
                                            list + [type] + [filters] + [sortby] + [groupby]
                                                                                     
                                            Alternative: l
@@ -158,11 +158,11 @@ public class Helper {
                                                         lastread = [lr]
                                                         name = [name, n]
                                                         link = [link, lk]
-                                                        reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
-                                                        writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
+                                                        pauseduntil = [pu]
                                                         abbreviation = [abbreviation, ab]
                                                         read-to = [read-to, readto, rt, r]
-                                                        pauseduntil = [pu] (soon: (auto-filter: rs=Paused||Waiting))
+                                                        writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
+                                                        reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                            [filters] = filters to exclude options not fitting (multiple possible)
                                                     style:
                                                         {type}={value}
@@ -171,12 +171,12 @@ public class Helper {
                                                     {type} = type of data to filter by
                                                     options:
                                                         using "="
-                                                            reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                                             writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
+                                                            reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                                         using "<" or ">"
+                                                            read-to = [read-to, readto, rt, r]
                                                             lastread = [lr] (Format: dd.MM.yyyy)
                                                             pauseduntil = [pu] (Format: dd.MM.yyyy)
-                                                            read-to = [read-to, readto, rt, r]
                                            [sortby] = type of data to sort by
                                                     standard: last-read
                                                     style: sortby={type} [sb, sort, sortBy]
@@ -203,7 +203,7 @@ public class Helper {
                                                 {value3}
                                                 ...
                                               
-                                           How to use list:
+                                           How to use command:
                                            show + {book} + [type...]
                                                                                     
                                            Alternative: sh
@@ -224,11 +224,42 @@ public class Helper {
                                                         read-to = [read-to, readto, rt, r]
                                                         abbreviation = [abbreviation, ab]
                                            """;
+    private static final String recommendhelp = """
+                                                Prints a recommendation of what to read next.
+                                                Form:
+                                                    Not-Started:
+                                                        {books}
+                                                        ...
+                                                    Started:
+                                                        {books}
+                                                        ...
+                                                    Reading (more than 2 chapters available):
+                                                        {books}
+                                                        ...
+                                                   
+                                                How to use command:
+                                                recommend
+                                                                                         
+                                                Alternative: rec
+                                                      
+                                                                   
+                                                {book} = name or abbreviation of the book
+                                                [type] = type of data to change
+                                                         standard: shows all attributes
+                                                         options:
+                                                             lastread = [lr]
+                                                             link = [link, lk]
+                                                             pauseduntil = [pu]
+                                                             reading-status = [rs]
+                                                             writing-status = [ws]
+                                                             read-to = [read-to, readto, rt, r]
+                                                             abbreviation = [abbreviation, ab]
+                                                """;
 
     private static final String openhelp = """
                                            Opens the link of the given book.
                                               
-                                           How to use list:
+                                           How to use command:
                                            open + {book}
                                                                                     
                                            Alternative: o
@@ -243,7 +274,7 @@ public class Helper {
                                               Prints a list of all Entries with all parameters.
                                               Form: {name}, {readto}, ..., [{abb1}, {abb2}, ...]
                                                                                          
-                                              How to use list-all:
+                                              How to use command:
                                               list-all
                                                                                             
                                               Alternative: la
@@ -267,8 +298,9 @@ public class Helper {
             case "c" -> changehelp;
             case "a" -> addhelp;
             case "l" -> listhelp;
-            case "la" -> listallhelp;
             case "sh" -> showhelp;
+            case "rec" -> recommendhelp;
+            case "la" -> listallhelp;
             case "o" -> openhelp;
             case "s" -> secrethelp;
             default -> errorMessage("1");

@@ -8,10 +8,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 
 public class EntryUtil {
 
-    private static final int codingOffset = 1;
+    public static String dateString(Temporal date, DateTimeFormatter dtf, String alt) {
+        return date == null ? alt : dtf.format(date);
+    }
 
     // checker
     public static boolean hasAbbreviation(Entry e, String s) {
@@ -20,10 +23,9 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        return "%s, %s, %s, %s, %s, (%s), %s [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
-                e.lastread().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
-                e.pauseduntil() == null ? null :
-                        e.pauseduntil().format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+        return "%s, %s, %s, %s, %s, (%s), (%s), [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
+                e.lastread() == null ? "-" : e.lastread().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
+                e.pauseduntil() == null ? "-" : e.pauseduntil().format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
                 String.join(", ", e.abbreviations()));
     }
 
@@ -37,9 +39,8 @@ public class EntryUtil {
                "writingstatus": "%s",
                "pauseduntil": "%s",
                "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
-                e.lastread().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
-                e.pauseduntil() == null ? "-" :
-                        e.pauseduntil().format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"),
+                dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"),
                 String.join(", ", e.abbreviations()));
     }
 
@@ -65,4 +66,6 @@ public class EntryUtil {
         if (readto % 1 == 0) return String.valueOf((int) readto);
         else return String.valueOf(readto);
     }
+
+
 }

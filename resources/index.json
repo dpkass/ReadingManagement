@@ -26,5 +26,14 @@
     "lastread" : "05.09.2022 01:29",
     "pauseduntil" : null,
     "abbreviations" : [ "TODAG", "todag", "tdg" ]
+  }, {
+    "name" : "Naruto",
+    "readto" : 180.0,
+    "link" : "www.naruto.com",
+    "writingStatus" : "Ended",
+    "readingStatus" : "Done",
+    "lastread" : "19.11.2022 12:29",
+    "pauseduntil" : null,
+    "abbreviations" : [ "nr" ]
   } ]
 }

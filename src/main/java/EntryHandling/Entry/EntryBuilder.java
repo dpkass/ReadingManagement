@@ -55,12 +55,15 @@ public class EntryBuilder {
         if (rs != ReadingStatus.Default) return;
 
         double rt = readto;
-        if (rt == 0) rs = ReadingStatus.NotStarted;
-        else if (rt <= 5) rs = ReadingStatus.Started;
+        if (rt == 0) {
+            rs = ReadingStatus.NotStarted;
+            lastread = null;
+        } else if (rt <= 5) rs = ReadingStatus.Started;
         else rs = ReadingStatus.Paused;
     }
 
     private LocalDateTime toLDT(String value) {
+        if (value == null) return null;
         try {
             return LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
         } catch (DateTimeParseException dtpe) {
