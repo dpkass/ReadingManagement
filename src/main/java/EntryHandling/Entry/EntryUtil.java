@@ -20,10 +20,11 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        return "%s, %s, %s, %s, %s, %s, [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), e.lastread()
-                                                                                                                               .format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
-                String.join(", ",
-                        e.abbreviations()));
+        return "%s, %s, %s, %s, %s, (%s), %s [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
+                e.lastread().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
+                e.pauseduntil() == null ? null :
+                        e.pauseduntil().format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                String.join(", ", e.abbreviations()));
     }
 
     public static String asJSON(Entry e) {
@@ -32,10 +33,14 @@ public class EntryUtil {
                "readto": "%s",
                "link": "%s",
                "lastread": "%s",
-               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.lastread()
-                                                                                     .format(DateTimeFormatter.ofPattern("dd MMM yyyy, " +
-                                                                                             "HH:mm")),
-                String.join("\", \"", e.abbreviations()));
+               "readingstatus": "%s",
+               "writingstatus": "%s",
+               "pauseduntil": "%s",
+               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
+                e.lastread().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
+                e.pauseduntil() == null ? "-" :
+                        e.pauseduntil().format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                String.join(", ", e.abbreviations()));
     }
 
     public static String toJSON(Object e) {

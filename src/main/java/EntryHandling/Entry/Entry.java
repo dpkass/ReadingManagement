@@ -4,6 +4,7 @@ import EntryHandling.Entry.Status.ReadingStatus;
 import EntryHandling.Entry.Status.WritingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -12,20 +13,26 @@ public class Entry {
     private String name;
     private double readto;
     private String link;
+
     private WritingStatus writingStatus;
     private ReadingStatus readingStatus;
+
     @JsonFormat (pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime lastread;
+    
+    @JsonFormat (pattern = "dd.MM.yyyy")
+    private LocalDate pauseduntil;
 
     private List<String> abbreviations;
 
-    public Entry(String name, double readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, List<String> abbreviations) {
+    public Entry(String name, double readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate pauseduntil, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
         this.writingStatus = writingStatus;
         this.readingStatus = readingStatus;
         this.lastread = lastread;
+        this.pauseduntil = pauseduntil;
         this.abbreviations = abbreviations;
     }
 
@@ -44,6 +51,10 @@ public class Entry {
 
     public LocalDateTime lastread() {
         return lastread;
+    }
+
+    public LocalDate pauseduntil() {
+        return pauseduntil;
     }
 
     public List<String> abbreviations() {
@@ -77,6 +88,10 @@ public class Entry {
 
     public void setLastread(LocalDateTime lastread) {
         this.lastread = lastread;
+    }
+
+    public void setPauseduntil(LocalDate pauseduntil) {
+        this.pauseduntil = pauseduntil;
     }
 
     public void setAbbreviations(List<String> abbreviations) {

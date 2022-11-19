@@ -15,13 +15,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static Management.Helper.df;
 import static Management.Helper.dtf;
 
 public class Lister {
 
     public static List<String> list(List<String> parts, Stream<Entry> entrystream) {
         if (parts.size() == 1) return entrystream.map(Entry::name).toList();
-        // remove command and duplicates and distinuish filters/sort/categorize from elements to list
+        // remove command and duplicates and distinguish filters/sort/categorize from elements to list
         Map<Boolean, List<String>> type0filterMap = parts.stream()
                                                          .skip(1)
                                                          .map(Helper::representation)
@@ -91,6 +92,7 @@ public class Lister {
                 case "r" -> Comparator.comparing(Entry::readto);
                 case "n" -> Comparator.comparing(Entry::name);
                 case "lr" -> Comparator.comparing(Entry::lastread);
+                case "pu" -> Comparator.comparing(Entry::pauseduntil);
                 case "ws" -> Comparator.comparing(e -> EntryUtil.statusOrdinal(e.writingStatus()));
                 case "rs" -> Comparator.comparing(e -> EntryUtil.statusOrdinal(e.readingStatus()));
                 default -> throw new IllegalArgumentException("1");
@@ -119,7 +121,8 @@ public class Lister {
                 default -> throw new IllegalArgumentException("1");
             };
             case "<", ">" -> e -> switch (Helper.representation(filter[0])) {
-                case "lr" -> getLastReadFilter(filter, e);
+                case "lr" -> getDateFilter(filter, LocalDate.from(e.lastread()));
+                case "pu" -> getDateFilter(filter, e.pauseduntil());
                 case "r" -> getReadFilter(filter, e);
                 default -> throw new IllegalArgumentException("1");
             };
@@ -127,11 +130,11 @@ public class Lister {
         };
     }
 
-    private static boolean getLastReadFilter(String[] filter, Entry e) {
+    private static boolean getDateFilter(String[] filter, LocalDate lastread) {
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            LocalDate inputTime = LocalDate.from(LocalDate.parse(filter[2], dtf));
-            LocalDate lastRead = LocalDate.from(e.lastread());
+            LocalDate inputTime = LocalDate.parse(filter[2], dtf);
+            LocalDate lastRead = LocalDate.from(lastread);
 
             if (Objects.equals(filter[1], "<")) return lastRead.isBefore(inputTime);
             else if (Objects.equals(filter[1], ">")) return lastRead.isAfter(inputTime);
@@ -151,10 +154,10 @@ public class Lister {
     }
 
     @NotNull
-    private static Function<Entry, String> getListType(List<String> filterList) {
-        return e -> e.name() + (filterList.size() == 0 ? "" : " --> " + String.join(", ", filterList.stream()
-                                                                                                    .map((f) -> getListValue(e, f))
-                                                                                                    .toList()));
+    private static Function<Entry, String> getListType(List<String> typeList) {
+        return e -> e.name() + (typeList.size() == 0 ? "" : " --> " + String.join(", ", typeList.stream()
+                                                                                                .map((f) -> getListValue(e, f))
+                                                                                                .toList()));
     }
 
     private static String getListValue(Entry e, String filter) {
@@ -162,6 +165,12 @@ public class Lister {
             case "n" -> e.name();
             case "lk" -> e.link();
             case "lr" -> e.lastread().format(dtf);
+            case "pu" -> {
+//                addFilter("rs=Paused||Waiting");      pu is only set for paused or waiting
+                LocalDate pu = e.pauseduntil();
+                if (pu != null) yield pu.format(df);
+                else yield "Not Set";
+            }
             case "ws" -> Objects.toString(e.writingStatus());
             case "rs" -> Objects.toString(e.readingStatus());
             case "r", "rt" -> EntryUtil.tryIntConversion(e.readto());

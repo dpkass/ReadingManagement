@@ -17,6 +17,7 @@ public class Shower {
             case "r", "rt" -> "read-to: %s".formatted(e.readto());
             case "lk" -> "link: %s".formatted(e.link());
             case "lr" -> "lastread: %s".formatted(e.lastread().format(dtf));
+            case "pu" -> "pauseduntil: %s".formatted(e.pauseduntil().format(dtf));
             case "ws" -> "writing-status: %s".formatted(e.writingStatus());
             case "rs" -> "reading-status: %s".formatted(e.readingStatus());
             case "ab" -> "abbreviations: %s".formatted(e.abbreviations().toString());

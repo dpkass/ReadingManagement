@@ -3,6 +3,8 @@ package EntryHandling.Entry;
 import EntryHandling.Entry.Status.ReadingStatus;
 import EntryHandling.Entry.Status.WritingStatus;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -12,18 +14,19 @@ import java.util.Map;
 
 public class EntryBuilder {
     String name;
-    String readto = "0";
+    double readto = 0.0;
     String link = "";
     WritingStatus ws;
     ReadingStatus rs;
 
     LocalDateTime lastread = LocalDateTime.now();
+    LocalDate pauseduntil = LocalDate.now();
 
     List<String> abbreviations = new ArrayList<>();
 
     public EntryBuilder(List<String> values) {
         name = values.get(0);
-        if (values.size() > 1) readto = values.get(1);
+        if (values.size() > 1) readto = parseReadTo(values.get(1));
         if (values.size() > 2) link = values.get(2);
         if (values.size() > 3) ws = WritingStatus.getStatus(values.get(3));
         if (values.size() > 4) lastread = toLDT(values.get(4));
@@ -35,9 +38,10 @@ public class EntryBuilder {
         for (Map.Entry<String, Object> entry : JSONmap.entrySet()) {
             switch (entry.getKey()) {
                 case "name" -> name = (String) entry.getValue();
-                case "readto" -> readto = (String) entry.getValue();
+                case "readto" -> readto = ((BigDecimal) entry.getValue()).doubleValue();
                 case "link" -> link = (String) entry.getValue();
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
+                case "pauseduntil" -> pauseduntil = toLD((String) entry.getValue());
                 case "writingStatus" -> ws = WritingStatus.getStatus((String) entry.getValue());
                 case "readingStatus" -> rs = ReadingStatus.getStatus((String) entry.getValue());
                 case "abbreviations" -> abbreviations = (List<String>) entry.getValue();
@@ -49,7 +53,7 @@ public class EntryBuilder {
     private void chooseStatus() {
         if (rs != ReadingStatus.Default) return;
 
-        double rt = Double.parseDouble(readto);
+        double rt = readto;
         if (rt == 0) rs = ReadingStatus.NotStarted;
         else if (rt <= 5) rs = ReadingStatus.Started;
         else rs = ReadingStatus.Paused;
@@ -63,9 +67,24 @@ public class EntryBuilder {
         }
     }
 
+    private LocalDate toLD(String value) {
+        if (value == null) return null;
+        try {
+            return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        } catch (DateTimeParseException dtpe) {
+            return null;
+        }
+    }
+
+    private double parseReadTo(String rt) {
+        try {
+            return Double.parseDouble(rt);
+        } catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("4");
+        }
+    }
+
     public Entry toEntry() {
-        double rt;
-        try {rt = Double.parseDouble(readto);} catch (NumberFormatException e) {throw new RuntimeException("4");}
-        return new Entry(name, rt, link, ws, rs, lastread, abbreviations);
+        return new Entry(name, readto, link, ws, rs, lastread, pauseduntil, abbreviations);
     }
 }

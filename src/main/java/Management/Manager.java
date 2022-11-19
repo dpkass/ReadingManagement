@@ -41,7 +41,11 @@ public class Manager {
 
 
     public void run() {
-        start();
+        try {
+            start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         while (process(io.read())) {}
         end();
     }

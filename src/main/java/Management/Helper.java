@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Helper {
     public static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM HH:mm");
+    public static final DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MMM");
 
     private static final String standardhelp = """
                                                Use one of the following commands:
@@ -89,7 +90,7 @@ public class Helper {
                                              Attention!! If there are multiple Entries to the given book or abb it will change a random one (for now).
                                                                                           
                                              How to use change:
-                                             change + {type} + {book} + {new-value}
+                                             change + {type} + {book} + {new-value} + [optional]
                                                                                     
                                              Alternative: c
                                                                                         
@@ -101,15 +102,18 @@ public class Helper {
                                                     change abb SL sl
                                                     --> only sl can be used now
                                                                                         
-                                             {type} = type of data to change
-                                                    options:
-                                                        name = [name, n]
-                                                        link = [link, lk]
-                                                        writing-status = [ws] ∈ {ComingUp, Rolling, Paused, Ended}
-                                                        reading-status = [rs] ∈ {NotStarted, Started, Reading, Waiting, Paused, Done}
-                                                        abbreviation = [abbreviation, ab]
-                                             {book} = name or abbreviation of the book
-                                             {new-value} = value to be set as replacement
+                                             {type}         type of data to change
+                                                                options:
+                                                                    name = [name, n]
+                                                                    link = [link, lk]
+                                                                    writing-status = [ws] ∈ {ComingUp, Rolling, Paused, Ended}
+                                                                    reading-status = [rs] ∈ {NotStarted, Started, Reading, Waiting, Paused, Done}
+                                                                    abbreviation = [abbreviation, ab]
+                                             {book}         name or abbreviation of the book
+                                             {new-value}    value to be set as replacement
+                                             [optional]     When changing reading-status to paused or waiting, pauseduntil can be set manually.
+                                                                format: dd.MM.yyyy
+                                                                standard: 4 weeks
                                              """;
 
     private static final String addhelp = """
@@ -151,13 +155,14 @@ public class Helper {
                                            [type] = type of data to list
                                                     standard: name
                                                     options:
-                                                        lastread = [lr] (sorted)
+                                                        lastread = [lr]
                                                         name = [name, n]
                                                         link = [link, lk]
                                                         reading-status = [rs]
                                                         writing-status = [ws]
                                                         abbreviation = [abbreviation, ab]
                                                         read-to = [read-to, readto, rt, r]
+                                                        pauseduntil = [pu] (soon: (auto-filter: rs=Paused||Waiting))
                                            [filters] = filters to exclude options not fitting (multiple possible)
                                                     style:
                                                         {type}={value}
@@ -170,13 +175,15 @@ public class Helper {
                                                             writing-status = [ws]
                                                         using "<" or ">"
                                                             lastread = [lr] (Format: dd.MM.yyyy)
+                                                            pauseduntil = [pu] (Format: dd.MM.yyyy)
                                                             read-to = [read-to, readto, rt, r]
                                            [sortby] = type of data to sort by
                                                     standard: last-read
                                                     style: sortby={type}
                                                     options:
-                                                        lastread = [lr] (sorted)
+                                                        lastread = [lr]
                                                         name = [name, n]
+                                                        pauseduntil = [pu]
                                                         reading-status = [rs]
                                                         writing-status = [ws]
                                                         read-to = [read-to, readto, rt, r]
@@ -206,6 +213,7 @@ public class Helper {
                                                     options:
                                                         lastread = [lr]
                                                         link = [link, lk]
+                                                        pauseduntil = [pu]
                                                         reading-status = [rs]
                                                         writing-status = [ws]
                                                         read-to = [read-to, readto, rt, r]
@@ -290,6 +298,7 @@ public class Helper {
             case "list", "l" -> "l";
             case "link", "lk" -> "lk";
             case "lastread", "lr" -> "lr";
+            case "pauseduntil", "pu" -> "pu";
             case "list-all", "la" -> "la";
             case "show", "sh" -> "sh";
             case "secret", "s" -> "s";
