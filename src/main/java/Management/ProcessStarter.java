@@ -50,6 +50,7 @@ public class ProcessStarter {
                 case "l" -> Processor.doList(parts);
                 case "sh" -> Processor.doShow(parts);
                 case "la" -> Processor.doListAll();
+                case "rec" -> Processor.doRecommend();
                 case "o" -> Processor.doOpen(parts);
                 case "s" -> doSecret(parts);
                 case "h" -> io.write(Helper.help(parts));

@@ -37,7 +37,7 @@ public interface Status {
         public String toString() {
             return switch (this) {
                 case Default -> "Not set";
-                case NotStarted -> "Not started";
+                case NotStarted -> "Not-Started";
                 default -> super.toString();
             };
         }

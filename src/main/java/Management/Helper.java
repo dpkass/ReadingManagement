@@ -306,6 +306,7 @@ public class Helper {
             case "pauseduntil", "pu" -> "pu";
             case "list-all", "la" -> "la";
             case "show", "sh" -> "sh";
+            case "recommend", "rec" -> "rec";
             case "secret", "s" -> "s";
             case "open", "o" -> "o";
             case "help", "h" -> "h";

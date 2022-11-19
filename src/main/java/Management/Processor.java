@@ -35,6 +35,10 @@ class Processor {
         out.addAll(Lister.listAll(el.entries()));
     }
 
+    public static void doRecommend() {
+        out.addAll(Recommender.recommend(el.entries()));
+    }
+
     public static void doShow(List<String> parts) {
         Entry e = getEntry(parts.get(1));
         out.addAll(Shower.show(e, parts));
