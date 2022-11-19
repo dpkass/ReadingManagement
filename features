@@ -1,9 +1,8 @@
-Next-up: Paused-until...
+Next-up: Pauseduntil to autonullify if date arrives
 
 Safe
-1. Pause (until enough has come out)
-2. Recommendation (based on pause and not yet started)
+1. What to read (based on pause and not yet started and how many chapters missed)
+2. OR filter
 
 Uncertain
-1. List mod (multiple options)
-2. Open mod (specialized on chrome, own class, springboot linked properties)
+1. Rating

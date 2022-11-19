@@ -51,6 +51,7 @@ public class EntryBuilder {
     }
 
     private void chooseStatus() {
+        if (rs == ReadingStatus.Paused && pauseduntil == null) rs = ReadingStatus.Reading;      // autonullify paused when date arrives
         if (rs != ReadingStatus.Default) return;
 
         double rt = readto;
@@ -70,7 +71,8 @@ public class EntryBuilder {
     private LocalDate toLD(String value) {
         if (value == null) return null;
         try {
-            return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            LocalDate ld = LocalDate.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+            return ld.isBefore(LocalDate.now()) ? null : ld;
         } catch (DateTimeParseException dtpe) {
             return null;
         }
