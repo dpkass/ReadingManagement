@@ -21,9 +21,7 @@ class Processor {
 
     static void doChange(List<String> parts) {
         if (parts.size() < 4) throw new IllegalArgumentException("1");
-
         Entry e = getEntry(parts.get(2));
-
         out.add(Changer.change(e, parts));
     }
 

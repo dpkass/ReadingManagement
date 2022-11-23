@@ -2,7 +2,6 @@ package Management.Processors;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
-import EntryHandling.Entry.Status;
 import Management.Helper;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,25 +45,27 @@ public class Lister {
         String[] obs = orderMap.get("gb");
         if (obs == null) return entrystream.sorted(sorter).map(f).toList();
 
-        Map<Status, List<Entry>> categorizedLists = categorizetoMaps(entrystream, obs);
+        Map<Object, List<Entry>> categorizedLists = categorizetoMaps(entrystream, obs);
         return categorizedPrint(categorizedLists, sorter, f);
     }
 
-    private static List<String> categorizedPrint(Map<Status, List<Entry>> categorizedLists, Comparator<Entry> sorter, Function<Entry, String> f) {
+    private static List<String> categorizedPrint(Map<Object, List<Entry>> categorizedLists, Comparator<Entry> sorter, Function<Entry, String> f) {
         List<String> res = new ArrayList<>();
 
-        List<Status> categories = categorizedLists.keySet().stream().sorted().toList();
-        for (Status s : categories) {
-            res.add(s + ":");
-            categorizedLists.get(s).stream().sorted(sorter).map(f).map(str -> "   " + str).forEach(res::add);
+        List<Object> categories = categorizedLists.keySet().stream().sorted().toList();
+        for (Object o : categories) {
+            res.add(o + ":");
+            categorizedLists.get(o).stream().sorted(sorter).map(f).map(str -> "   " + str).forEach(res::add);
         }
         return res;
     }
 
-    private static Map<Status, List<Entry>> categorizetoMaps(Stream<Entry> entrystream, String[] categorizeArr) {
+    private static Map<Object, List<Entry>> categorizetoMaps(Stream<Entry> entrystream, String[] categorizeArr) {
         return entrystream.collect(Collectors.groupingBy(e -> switch (Helper.representation(categorizeArr[1])) {
             case "ws" -> e.writingStatus();
             case "rs" -> e.readingStatus();
+            case "r" -> (int) (e.readto()) / 50 * 50;
+            case "lr" -> EntryUtil.dateString(e.lastread(), DateTimeFormatter.ofPattern("yyyy-MM"), "-");
             default -> throw new IllegalArgumentException("1");
         }));
     }
@@ -92,7 +93,7 @@ public class Lister {
     }
 
     private static Comparator<Entry> getSorter(String[] sortArgs) {
-        if (sortArgs == null) return Comparator.comparing(Entry::lastread);
+        if (sortArgs == null) return Comparator.comparing(Entry::readto);
         else {
             Comparator<Entry> comp = switch (Helper.representation(sortArgs[1])) {
                 case "r" -> Comparator.comparing(Entry::readto);

@@ -178,7 +178,7 @@ public class Helper {
                                                             lastread = [lr] (Format: dd.MM.yyyy)
                                                             pauseduntil = [pu] (Format: dd.MM.yyyy)
                                            [sortby] = type of data to sort by
-                                                    standard: last-read
+                                                    standard: readto
                                                     style: sortby={type} [sb, sort, sortBy]
                                                     options:
                                                         lastread = [lr]

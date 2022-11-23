@@ -24,8 +24,8 @@ public class EntryUtil {
     // representations
     public static String asCSV(Entry e) {
         return "%s, %s, %s, %s, %s, (%s), (%s), [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
-                e.lastread() == null ? "-" : e.lastread().format(DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")),
-                e.pauseduntil() == null ? "-" : e.pauseduntil().format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"),
+                dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"),
                 String.join(", ", e.abbreviations()));
     }
 
