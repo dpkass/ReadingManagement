@@ -3,6 +3,7 @@
     "name" : "Solo Leveling",
     "readto" : 179.5,
     "link" : "https://toonily.com/webtoon/solo-leveling-005/",
+    "rating" : -1.0,
     "writingStatus" : "Ended",
     "readingStatus" : "Paused",
     "lastread" : "07.04.2022 01:29",
@@ -12,6 +13,7 @@
     "name" : "The Beginning after The End",
     "readto" : 155.0,
     "link" : "https://toonily.com/webtoon/beginning-after-end/",
+    "rating" : -1.0,
     "writingStatus" : "Default",
     "readingStatus" : "Reading",
     "lastread" : "17.11.2022 15:27",
@@ -21,6 +23,7 @@
     "name" : "Tales Of Demons And Gods",
     "readto" : 390.1,
     "link" : "https://manhuaplus.com/manga/tales-of-demons-and-gods/",
+    "rating" : -1.0,
     "writingStatus" : "Rolling",
     "readingStatus" : "Reading",
     "lastread" : "05.09.2022 01:29",
@@ -30,10 +33,61 @@
     "name" : "Naruto",
     "readto" : 180.0,
     "link" : "www.naruto.com",
+    "rating" : -1.0,
     "writingStatus" : "Ended",
     "readingStatus" : "Done",
     "lastread" : "19.11.2022 12:29",
     "pauseduntil" : null,
     "abbreviations" : [ "nr" ]
+  }, {
+    "name" : "\"Solo Leveling\"",
+    "readto" : 0.0,
+    "link" : "",
+    "rating" : -1.0,
+    "writingStatus" : "Default",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : null,
+    "abbreviations" : [ ]
+  }, {
+    "name" : "Sth",
+    "readto" : 0.0,
+    "link" : "",
+    "rating" : -1.0,
+    "writingStatus" : "Default",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : null,
+    "abbreviations" : [ ]
+  }, {
+    "name" : "sth",
+    "readto" : 0.0,
+    "link" : "",
+    "rating" : -1.0,
+    "writingStatus" : "Default",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : null,
+    "abbreviations" : [ ]
+  }, {
+    "name" : "dflkaslkj",
+    "readto" : 0.0,
+    "link" : "",
+    "rating" : -1.0,
+    "writingStatus" : "Default",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : null,
+    "abbreviations" : [ ]
+  }, {
+    "name" : "ql;ej;lqw",
+    "readto" : 0.0,
+    "link" : "",
+    "rating" : -1.0,
+    "writingStatus" : "Default",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : "24.11.2022",
+    "abbreviations" : [ ]
   } ]
 }

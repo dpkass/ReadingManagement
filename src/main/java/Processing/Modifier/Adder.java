@@ -1,4 +1,4 @@
-package Processing;
+package Processing.Modifier;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;

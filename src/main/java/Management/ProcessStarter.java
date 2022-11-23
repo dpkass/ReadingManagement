@@ -1,49 +1,43 @@
 package Management;
 
+import AppRunner.Datastructures.Error;
 import EntryHandling.Entry.EntryList;
-import IOHandling.IOHandler;
 import Processing.Processor;
+import Processing.RequestResult;
 
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static Processing.Processor.out;
-
 public class ProcessStarter {
 
     final EntryList el;
     final EntryList secretel;
-    IOHandler io;
+    RequestResult rr;
 
-    public ProcessStarter(EntryList el, EntryList secretel, IOHandler io) {
+    public ProcessStarter(EntryList el, EntryList secretel, RequestResult rr) {
         this.el = el;
         this.secretel = secretel;
-        this.io = io;
+        this.rr = rr;
+        Processor.setRr(rr);
     }
 
-    boolean process(String s) {
-        if (s == null || s.isBlank()) return true;
-
-
+    void process(String s) {
+        if (s == null || s.isBlank()) return;
+        
         Processor.setEl(el);
         List<String> parts = Pattern.compile("([^\"]\\S*|\".*\")\\s*")
                                     .matcher(s)
                                     .results()
                                     .map(str -> str.group(1))
                                     .collect(Collectors.toList());
-        boolean b = process(parts);
 
-        out.forEach(io::write);
-        out.clear();
-
-        return b;
+        process(parts);
     }
 
-    boolean process(List<String> parts) {
+    void process(List<String> parts) {
         try {
             switch (Helper.representation(parts.get(0))) {
-                case "e" -> {return false;}
                 case "nw" -> Processor.doNew(parts);
                 case "r" -> Processor.doRead(parts);
                 case "rt" -> Processor.doReadTo(parts);
@@ -55,13 +49,19 @@ public class ProcessStarter {
                 case "rec" -> Processor.doRecommend();
                 case "o" -> Processor.doOpen(parts);
                 case "s" -> doSecret(parts);
-                case "h" -> io.write(Helper.help(parts));
+                case "h" -> doHelp(parts);
                 default -> throw new IllegalArgumentException("1");
             }
         } catch (Exception e) {
-            out.add(Helper.errorMessage(e.getMessage()));
+            int code = Integer.parseInt(e.getMessage());
+            String message = Helper.errorMessage(e.getMessage());
+            rr.setError(new Error(code, message));
         }
-        return true;
+    }
+
+    private void doHelp(List<String> parts) {
+        rr.setType(RequestResult.RequestResultType.HELP);
+        rr.setString(Helper.help(parts));
     }
 
     void doSecret(List<String> parts) {

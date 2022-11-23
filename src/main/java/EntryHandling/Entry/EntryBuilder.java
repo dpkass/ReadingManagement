@@ -1,8 +1,5 @@
 package EntryHandling.Entry;
 
-import EntryHandling.Entry.Status.ReadingStatus;
-import EntryHandling.Entry.Status.WritingStatus;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,7 +42,7 @@ public class EntryBuilder {
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
                 case "pauseduntil" -> pauseduntil = toLD((String) entry.getValue());
                 case "writingStatus" -> ws = WritingStatus.getStatus((String) entry.getValue());
-                case "readingStatus" -> rs = ReadingStatus.getStatus((String) entry.getValue());
+                case "readingStatus" -> rs = EntryHandling.Entry.ReadingStatus.getStatus((String) entry.getValue());
                 case "abbreviations" -> abbreviations = (List<String>) entry.getValue();
             }
         }
@@ -53,15 +50,16 @@ public class EntryBuilder {
     }
 
     private void chooseStatus() {
-        if (rs == ReadingStatus.Paused && pauseduntil == null) rs = ReadingStatus.Reading;      // autonullify paused when date arrives
-        if (rs != ReadingStatus.Default) return;
+        if (rs == EntryHandling.Entry.ReadingStatus.Paused && pauseduntil == null)
+            rs = EntryHandling.Entry.ReadingStatus.Reading;      // autonullify paused when date arrives
+        if (rs != EntryHandling.Entry.ReadingStatus.Default) return;
 
         double rt = readto;
         if (rt == 0) {
-            rs = ReadingStatus.NotStarted;
+            rs = EntryHandling.Entry.ReadingStatus.NotStarted;
             lastread = null;
-        } else if (rt <= 5) rs = ReadingStatus.Started;
-        else rs = ReadingStatus.Paused;
+        } else if (rt <= 5) rs = EntryHandling.Entry.ReadingStatus.Started;
+        else rs = EntryHandling.Entry.ReadingStatus.Paused;
     }
 
     private LocalDateTime toLDT(String value) {

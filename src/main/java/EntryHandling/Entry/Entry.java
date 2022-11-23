@@ -1,7 +1,5 @@
 package EntryHandling.Entry;
 
-import EntryHandling.Entry.Status.ReadingStatus;
-import EntryHandling.Entry.Status.WritingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -106,8 +104,8 @@ public class Entry {
     }
 
     public void setReadingStatus(String readingStatus) {
-        this.readingStatus = ReadingStatus.getStatus(readingStatus);
-        if (this.readingStatus == ReadingStatus.Default) throw new RuntimeException();
+        this.readingStatus = EntryHandling.Entry.ReadingStatus.getStatus(readingStatus);
+        if (this.readingStatus == EntryHandling.Entry.ReadingStatus.Default) throw new RuntimeException();
     }
 
     public void setWritingStatus(String writingStatus) {

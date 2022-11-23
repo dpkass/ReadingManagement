@@ -1,8 +1,12 @@
-package Processing;
+package Processing.Displayer;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
+import EntryHandling.Entry.ReadingStatus;
+import EntryHandling.Entry.WritingStatus;
 import Management.Helper;
+import Processing.RequestResult;
+import Processing.TableDataSupplier;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
@@ -15,60 +19,85 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static Management.Helper.df;
-import static Management.Helper.dtf;
+import static Processing.Processor.rr;
+import static java.util.stream.Collectors.toList;
 
 class Lister {
 
-    static List<String> list(List<String> parts, Stream<Entry> entrystream) {
-        if (parts.size() == 1) return entrystream.map(Entry::name).toList();
+    static void list(Stream<String> parts, Stream<Entry> entrystream) {
         // remove command and duplicates and distinguish filters/sort/categorize from elements to list
-        Map<Boolean, List<String>> type0filterMap = parts.stream()
-                                                         .skip(1)
-                                                         .map(Helper::representation)
+        Map<Boolean, List<String>> type0filterMap = parts.map(Helper::representation)
                                                          .distinct()
                                                          .collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
         // get printing function
-        Function<Entry, String> f = getListType(type0filterMap.get(false));
+        listfunctions(type0filterMap.get(false));
         // split sorting and categorizing commands in a map
         Map<String, String[]> orderMap = getOrderStrings(type0filterMap.get(true));
 
         Comparator<Entry> sorter = getSorter(orderMap.get("sb"));
         entrystream = filterStream(type0filterMap.get(true), entrystream);
 
-        return print(entrystream, f, orderMap, sorter);
+        putResult(entrystream, orderMap, sorter);
+        makeHeaderList(type0filterMap.get(false));
+    }
+
+    private static void makeHeaderList(List<String> strings) {
+        // later: get header name through helper
+        strings.add(0, "Name");
+        rr.setHeaderlist(strings);
     }
 
     @NotNull
-    private static List<String> print(Stream<Entry> entrystream, Function<Entry, String> f, Map<String, String[]> orderMap, Comparator<Entry> sorter) {
+    private static void putResult(Stream<Entry> entrystream, Map<String, String[]> orderMap, Comparator<Entry> sorter) {
         // if not grouped print normally
         String[] obs = orderMap.get("gb");
-        if (obs == null) return entrystream.sorted(sorter).map(f).toList();
-
-        Map<Object, List<Entry>> categorizedLists = categorizetoMaps(entrystream, obs);
-        return categorizedPrint(categorizedLists, sorter, f);
-    }
-
-    private static List<String> categorizedPrint(Map<Object, List<Entry>> categorizedLists, Comparator<Entry> sorter, Function<Entry, String> f) {
-        List<String> res = new ArrayList<>();
-
-        List<Object> categories = categorizedLists.keySet().stream().sorted().toList();
-        for (Object o : categories) {
-            res.add(o + ":");
-            categorizedLists.get(o).stream().sorted(sorter).map(f).map(str -> "   " + str).forEach(res::add);
+        if (obs == null) {
+            rr.setList(entrystream.sorted(sorter).toList());
+            rr.setType(RequestResult.RequestResultType.LIST);
+        } else {
+            SortedMap<?, List<Entry>> groupedLists = groupToMap(entrystream, obs[1]);
+            putGroupedResult(groupedLists, sorter);
+            rr.setType(RequestResult.RequestResultType.GROUPEDLIST);
         }
-        return res;
     }
 
-    private static Map<Object, List<Entry>> categorizetoMaps(Stream<Entry> entrystream, String[] categorizeArr) {
-        return entrystream.collect(Collectors.groupingBy(e -> switch (Helper.representation(categorizeArr[1])) {
-            case "ws" -> e.writingStatus();
-            case "rs" -> e.readingStatus();
-            case "r" -> (int) (e.readto()) / 50 * 50;
-            case "rtg" -> (int) (e.rating());
-            case "lr" -> EntryUtil.dateString(e.lastread(), DateTimeFormatter.ofPattern("yyyy-MM"), "-");
+    private static void putGroupedResult(SortedMap<?, List<Entry>> groupedLists, Comparator<Entry> sorter) {
+        groupedLists.values().forEach(a -> a.sort(sorter));
+        rr.setGroupedmap(groupedLists);
+    }
+
+    private static SortedMap<?, List<Entry>> groupToMap(Stream<Entry> entrystream, String groupby) {
+        return switch (Helper.representation(groupby)) {
+            case "ws" -> makeWSMap(entrystream);
+            case "rs" -> makeRSMap(entrystream);
+            case "r", "rtg" -> makeIntMap(entrystream, groupby);
+            case "lr" -> makeLDMap(entrystream);
             default -> throw new IllegalArgumentException("1");
-        }));
+        };
+    }
+
+    private static SortedMap<WritingStatus, List<Entry>> makeWSMap(Stream<Entry> entrystream) {
+        Function<Entry, WritingStatus> f = Entry::writingStatus;
+        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(Comparator.comparing(WritingStatus::ordinal)), toList()));
+    }
+
+    private static SortedMap<ReadingStatus, List<Entry>> makeRSMap(Stream<Entry> entrystream) {
+        Function<Entry, ReadingStatus> f = Entry::readingStatus;
+        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(Comparator.comparing(ReadingStatus::ordinal)), toList()));
+    }
+
+    private static SortedMap<Integer, List<Entry>> makeIntMap(Stream<Entry> entrystream, String groupby) {
+        Function<Entry, Integer> f = null;
+        switch (Helper.representation(groupby)) {
+            case "r" -> f = e -> (int) (e.readto()) / 50 * 50;
+            case "rtg" -> f = e -> (int) (e.rating());
+        }
+        return entrystream.collect(Collectors.groupingBy(f, TreeMap::new, toList()));
+    }
+
+    private static SortedMap<String, List<Entry>> makeLDMap(Stream<Entry> entrystream) {
+        Function<Entry, String> f = e -> EntryUtil.dateString(e.lastread(), DateTimeFormatter.ofPattern("MM-yyyy"), "-");
+        return entrystream.collect(Collectors.groupingBy(f, TreeMap::new, toList()));
     }
 
     private static Map<String, String[]> getOrderStrings(List<String> filterList) {
@@ -102,8 +131,8 @@ class Lister {
                 case "n" -> Comparator.comparing(Entry::name);
                 case "lr" -> Comparator.comparing(Entry::lastread);
                 case "pu" -> Comparator.comparing(Entry::pauseduntil);
-                case "ws" -> Comparator.comparing(e -> EntryUtil.statusOrdinal(e.writingStatus()));
-                case "rs" -> Comparator.comparing(e -> EntryUtil.statusOrdinal(e.readingStatus()));
+                case "ws" -> Comparator.comparing(Entry::writingStatus);
+                case "rs" -> Comparator.comparing(Entry::readingStatus);
                 default -> throw new IllegalArgumentException("1");
             };
 
@@ -190,29 +219,9 @@ class Lister {
         }
     }
 
-    @NotNull
-    private static Function<Entry, String> getListType(List<String> typeList) {
-        return e -> e.name() + (typeList.size() == 0 ? "" : " --> " + String.join(", ", typeList.stream()
-                                                                                                .map((f) -> getListValue(e, f))
-                                                                                                .toList()));
-    }
-
-    private static String getListValue(Entry e, String filter) {
-        return switch (Helper.representation(filter)) {
-            case "n" -> e.name();
-            case "lk" -> e.link();
-            case "r" -> EntryUtil.tryIntConversion(e.readto());
-            case "rtg" -> EntryUtil.tryIntConversion(e.rating());
-            case "lr" -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
-            case "pu" -> EntryUtil.dateString(e.pauseduntil(), df, "Not Set");
-            case "ws" -> Objects.toString(e.writingStatus());
-            case "rs" -> Objects.toString(e.readingStatus());
-            case "ab" -> e.abbreviations().toString();
-            default -> throw new IllegalArgumentException("1");
-        };
-    }
-
-    public static Collection<String> listAll(Stream<Entry> stream) {
-        return stream.map(Entry::toString).collect(Collectors.toSet());
+    private static void listfunctions(List<String> typeList) {
+        TableDataSupplier tds = new TableDataSupplier();
+        typeList.stream().map(DisplayUtil::getFunction).forEach(tds::add);
+        rr.setDatasupplier(tds);
     }
 }

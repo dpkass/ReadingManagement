@@ -154,51 +154,51 @@ public class Helper {
                                                  
                                                                                       
                                            [type] = type of data to list
-                                                    standard: name
-                                                    options:
-                                                        read = [r]
+                                                standard: name
+                                                options:
+                                                    read = [r]
+                                                    rating = [rtg]
+                                                    lastread = [lr]
+                                                    name = [name, n]
+                                                    link = [link, lk]
+                                                    pauseduntil = [pu]
+                                                    abbreviation = [abbreviation, ab]
+                                                    writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
+                                                    reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
+                                           [filters] = filters to exclude options not fitting (multiple possible)
+                                                style:
+                                                    {type}={value1}OR{value2}...
+                                                    {type}<{value}
+                                                    {type}>{value}
+                                                {type} = type of data to filter by
+                                                options:
+                                                    using "="
                                                         rating = [rtg]
-                                                        lastread = [lr]
-                                                        name = [name, n]
-                                                        link = [link, lk]
-                                                        pauseduntil = [pu]
-                                                        abbreviation = [abbreviation, ab]
                                                         writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                         reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
-                                           [filters] = filters to exclude options not fitting (multiple possible)
-                                                    style:
-                                                        {type}={value1}OR{value2}...
-                                                        {type}<{value}
-                                                        {type}>{value}
-                                                    {type} = type of data to filter by
-                                                    options:
-                                                        using "="
-                                                            rating = [rtg]
-                                                            writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
-                                                            reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
-                                                        using "<" or ">"
-                                                            read = [r]
-                                                            rating = [rtg]
-                                                            lastread = [lr] (Format: dd.MM.yyyy)
-                                                            pauseduntil = [pu] (Format: dd.MM.yyyy)
-                                           [sortby] = type of data to sort by
-                                                    standard: readto
-                                                    style: sortby={type} [sb, sort, sortBy]
-                                                    options:
+                                                    using "<" or ">"
                                                         read = [r]
-                                                        lastread = [lr]
-                                                        name = [name, n]
-                                                        pauseduntil = [pu]
-                                                        reading-status = [rs]
-                                                        writing-status = [ws]
-                                           [groupby] = type of data to group by
-                                                    style: groupby={type}  [gb, group, groupBy]
-                                                    options:
-                                                        read = [r] (50)
                                                         rating = [rtg]
-                                                        lastread = [lr] (month)
-                                                        reading-status = [rs]
-                                                        writing-status = [ws]
+                                                        lastread = [lr] (Format: dd.MM.yyyy)
+                                                        pauseduntil = [pu] (Format: dd.MM.yyyy)
+                                           [sortby] = type of data to sort by
+                                                standard: readto
+                                                style: sortby={type} [sb, sort, sortBy]
+                                                options:
+                                                    read = [r]
+                                                    lastread = [lr]
+                                                    name = [name, n]
+                                                    pauseduntil = [pu]
+                                                    reading-status = [rs]
+                                                    writing-status = [ws]
+                                           [groupby] = type of data to group by
+                                                style: groupby={type}  [gb, group, groupBy]
+                                                options:
+                                                    read = [r] (50)
+                                                    rating = [rtg]
+                                                    lastread = [lr] (month)
+                                                    reading-status = [rs]
+                                                    writing-status = [ws]
                                            """;
 
 

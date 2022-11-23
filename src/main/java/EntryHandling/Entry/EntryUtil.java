@@ -67,10 +67,6 @@ public class EntryUtil {
         return om.writerWithDefaultPrettyPrinter();
     }
 
-    public static int statusOrdinal(Status s) {
-        return s.ordinal();
-    }
-
     public static String tryIntConversion(float f) {
         return f == (int) f ? "%d".formatted((int) f) : "%s".formatted(f);
     }

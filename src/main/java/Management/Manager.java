@@ -3,7 +3,7 @@ package Management;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import EntryHandling.JSONHandler;
-import IOHandling.IOHandler;
+import Processing.RequestResult;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -16,7 +16,7 @@ public class Manager {
     File file;
     File secretfile;
 
-    IOHandler io;
+    RequestResult rr;
     FileHandler fh;
     FileHandler secretfh;
     EntryList el;
@@ -35,29 +35,23 @@ public class Manager {
         secretfh = new JSONHandler(secretfile, true);
     }
 
-
-    public void run() {
-        start();
-        while (process(io.read())) {}
-        end();
-    }
-
     public void start() {
         el = fh.read();
         secretel = secretfh.read();
-        ps = new ProcessStarter(el, secretel, io);
+        ps = new ProcessStarter(el, secretel, rr);
     }
 
-    private void end() {
+    private void save() {
         fh.write(el);
         secretfh.write(secretel);
     }
 
-    public boolean process(String s) {
-        return ps.process(s);
+    public void process(String s) {
+        ps.process(s);
+        save();
     }
 
-    public void setIo(IOHandler io) {
-        this.io = io;
+    public void setRr(RequestResult rr) {
+        this.rr = rr;
     }
 }
