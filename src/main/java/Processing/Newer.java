@@ -1,12 +1,12 @@
-package Management.Processors;
+package Processing;
 
 import EntryHandling.Entry.EntryList;
 
 import java.util.List;
 
-public class Newer {
+class Newer {
 
-    public static String make(EntryList el, List<String> parts) {
+    static String make(EntryList el, List<String> parts) {
         try {
             List<String> vals = parts.subList(1, parts.size());
             el.add(vals);

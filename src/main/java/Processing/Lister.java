@@ -1,4 +1,4 @@
-package Management.Processors;
+package Processing;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
@@ -18,9 +18,9 @@ import java.util.stream.Stream;
 import static Management.Helper.df;
 import static Management.Helper.dtf;
 
-public class Lister {
+class Lister {
 
-    public static List<String> list(List<String> parts, Stream<Entry> entrystream) {
+    static List<String> list(List<String> parts, Stream<Entry> entrystream) {
         if (parts.size() == 1) return entrystream.map(Entry::name).toList();
         // remove command and duplicates and distinguish filters/sort/categorize from elements to list
         Map<Boolean, List<String>> type0filterMap = parts.stream()

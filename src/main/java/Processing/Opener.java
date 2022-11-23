@@ -1,4 +1,4 @@
-package Management.Processors;
+package Processing;
 
 import EntryHandling.Entry.Entry;
 
@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class Opener {
+class Opener {
 
-    public static void open(Entry e) {
+    static void open(Entry e) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {
                 URI link = new URI(e.link());

@@ -1,35 +1,38 @@
-package Management;
+package Processing;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryNotFoundException;
-import Management.Processors.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Processor {
+public class Processor {
 
-    static final List<String> out = new ArrayList<>();
+    public static final List<String> out = new ArrayList<>();
     static EntryList el;
 
-    static void doAdd(List<String> parts) {
+    public static void setEl(EntryList el) {
+        Processor.el = el;
+    }
+
+    public static void doAdd(List<String> parts) {
         if (parts.size() < 4) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts.get(2));
         out.add(Adder.add(el.entries(), e, parts));
     }
 
-    static void doChange(List<String> parts) {
+    public static void doChange(List<String> parts) {
         if (parts.size() < 4) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts.get(2));
         out.add(Changer.change(e, parts));
     }
 
-    static void doList(List<String> parts) {
+    public static void doList(List<String> parts) {
         out.addAll(Lister.list(parts, el.entries()));
     }
 
-    static void doListAll() {
+    public static void doListAll() {
         out.addAll(Lister.listAll(el.entries()));
     }
 
@@ -42,7 +45,7 @@ class Processor {
         out.addAll(Shower.show(e, parts));
     }
 
-    static void doNew(List<String> parts) {
+    public static void doNew(List<String> parts) {
         if (parts.size() < 2) throw new IllegalArgumentException("1");
         Entry e = el.get(parts.get(1));
         if (e != null) throw new IllegalArgumentException("2");
@@ -55,13 +58,13 @@ class Processor {
         Opener.open(e);
     }
 
-    static void doRead(List<String> parts) {
+    public static void doRead(List<String> parts) {
         if (parts.size() != 3) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts.get(1));
         out.add(Reader.read(e, parts.get(2)));
     }
 
-    static void doReadTo(List<String> parts) {
+    public static void doReadTo(List<String> parts) {
         if (parts.size() != 3) throw new IllegalArgumentException("1");
         Entry e = getEntry(parts.get(1));
         out.add(Reader.readto(e, parts.get(2)));

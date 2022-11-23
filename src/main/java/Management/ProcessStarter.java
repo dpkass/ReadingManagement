@@ -2,18 +2,19 @@ package Management;
 
 import EntryHandling.Entry.EntryList;
 import IOHandling.IOHandler;
+import Processing.Processor;
 
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static Management.Processor.out;
+import static Processing.Processor.out;
 
 public class ProcessStarter {
 
     final EntryList el;
     final EntryList secretel;
-    final IOHandler io;
+    IOHandler io;
 
     public ProcessStarter(EntryList el, EntryList secretel, IOHandler io) {
         this.el = el;
@@ -24,7 +25,8 @@ public class ProcessStarter {
     boolean process(String s) {
         if (s == null || s.isBlank()) return true;
 
-        Processor.el = el;
+
+        Processor.setEl(el);
         List<String> parts = Pattern.compile("([^\"]\\S*|\".*\")\\s*")
                                     .matcher(s)
                                     .results()
@@ -64,7 +66,7 @@ public class ProcessStarter {
 
     void doSecret(List<String> parts) {
         parts = parts.subList(1, parts.size());
-        Processor.el = secretel;
+        Processor.setEl(secretel);
         process(parts);
     }
 }

@@ -1,4 +1,4 @@
-package Management.Processors;
+package Processing;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
@@ -9,8 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-public class Changer {
-    public static String change(Entry e, List<String> parts) {
+class Changer {
+    static String change(Entry e, List<String> parts) {
         switch (Helper.representation(parts.get(1))) {
             case "n" -> e.setName(parts.get(3));
             case "rtg" -> {

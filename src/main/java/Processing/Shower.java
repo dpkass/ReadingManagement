@@ -1,4 +1,4 @@
-package Management.Processors;
+package Processing;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
@@ -11,8 +11,8 @@ import java.util.List;
 import static Management.Helper.df;
 import static Management.Helper.dtf;
 
-public class Shower {
-    public static Collection<String> show(Entry e, List<String> parts) {
+class Shower {
+    static Collection<String> show(Entry e, List<String> parts) {
         if (parts.size() == 2) return Collections.singleton(e.toString());
 
         return parts.stream().skip(2).map(s -> switch (Helper.representation(s)) {

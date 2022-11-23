@@ -4,7 +4,6 @@ import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import EntryHandling.JSONHandler;
 import IOHandling.IOHandler;
-import IOHandling.StdIOHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -24,8 +23,6 @@ public class Manager {
     EntryList secretel;
 
     ProcessStarter ps;
-    private final boolean greeted = false;
-
 
     public Manager() {
         file = standardfile;
@@ -33,25 +30,19 @@ public class Manager {
         init();
     }
 
-    private void init() {
-        io = new StdIOHandler();
+    public void init() {
         fh = new JSONHandler(file, false);
         secretfh = new JSONHandler(secretfile, true);
     }
 
 
     public void run() {
-        try {
-            start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        start();
         while (process(io.read())) {}
         end();
     }
 
-    private void start() {
-        io.write("Hi :)");
+    public void start() {
         el = fh.read();
         secretel = secretfh.read();
         ps = new ProcessStarter(el, secretel, io);
@@ -60,25 +51,13 @@ public class Manager {
     private void end() {
         fh.write(el);
         secretfh.write(secretel);
-        io.write("Bye :(");
-    }
-
-    public void processSingle(String s) {
-        start();
-        process(s);
     }
 
     public boolean process(String s) {
         return ps.process(s);
     }
 
-    public void setFile(String f) {
-        file = new File(f);
-        fh = new JSONHandler(file, false);
-    }
-
-    public void setSecretfile(String f) {
-        secretfile = new File(f);
-        secretfh = new JSONHandler(secretfile, true);
+    public void setIo(IOHandler io) {
+        this.io = io;
     }
 }

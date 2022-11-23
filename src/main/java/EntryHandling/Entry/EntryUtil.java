@@ -9,8 +9,19 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 public class EntryUtil {
+
+    public static void checkAbbreviations(Stream<Entry> el, String... newAbs) {
+        if (el.map(Entry::abbreviations)
+              .flatMap(Collection::stream)
+              .anyMatch(ab -> Arrays.asList(newAbs).contains(ab))) {
+            throw new IllegalArgumentException("7");
+        }
+    }
 
     public static boolean checkRating(float f) {
         return f >= 0f && f <= 5f;

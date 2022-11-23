@@ -1,7 +1,5 @@
 package EntryHandling.Entry;
 
-import Management.Processors.Adder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +35,6 @@ public class EntryList {
     }
 
     private void checkAbbreviations(Entry e) {
-        Adder.checkAbbreviations(entries(), e.abbreviations().toArray(String[]::new));
+        EntryUtil.checkAbbreviations(entries(), e.abbreviations().toArray(String[]::new));
     }
 }
