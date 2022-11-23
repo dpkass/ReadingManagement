@@ -65,6 +65,7 @@ public class Lister {
             case "ws" -> e.writingStatus();
             case "rs" -> e.readingStatus();
             case "r" -> (int) (e.readto()) / 50 * 50;
+            case "rtg" -> (int) (e.rating());
             case "lr" -> EntryUtil.dateString(e.lastread(), DateTimeFormatter.ofPattern("yyyy-MM"), "-");
             default -> throw new IllegalArgumentException("1");
         }));
@@ -97,6 +98,7 @@ public class Lister {
         else {
             Comparator<Entry> comp = switch (Helper.representation(sortArgs[1])) {
                 case "r" -> Comparator.comparing(Entry::readto);
+                case "rtg" -> Comparator.comparing(Entry::rating);
                 case "n" -> Comparator.comparing(Entry::name);
                 case "lr" -> Comparator.comparing(Entry::lastread);
                 case "pu" -> Comparator.comparing(Entry::pauseduntil);
@@ -146,6 +148,7 @@ public class Lister {
 
     private static Predicate<Entry> getEqFilter(String filterBy, String f) {
         return e -> switch (Helper.representation(filterBy)) {
+            case "rtg" -> e.rating() == Float.parseFloat(f);
             case "ws" -> Objects.equals(Objects.toString(e.writingStatus()), f);
             case "rs" -> Objects.equals(Objects.toString(e.readingStatus()), f);
             default -> throw new IllegalArgumentException("1");
@@ -157,7 +160,8 @@ public class Lister {
         return e -> switch (Helper.representation(filter[0])) {
             case "lr" -> getDateFilter(filter, e.lastread());
             case "pu" -> getDateFilter(filter, e.pauseduntil());
-            case "r" -> getReadFilter(filter, e);
+            case "r" -> getNumberFilter(filter, e.readto());
+            case "rtg" -> getNumberFilter(filter, e.rating());
             default -> throw new IllegalArgumentException("1");
         };
     }
@@ -177,10 +181,10 @@ public class Lister {
         }
     }
 
-    private static boolean getReadFilter(String[] filter, Entry e) {
+    private static boolean getNumberFilter(String[] filter, float num) {
         try {
-            if (Objects.equals(filter[1], "<")) return e.readto() < Double.parseDouble(filter[2]);
-            else return e.readto() > Double.parseDouble(filter[2]);
+            if (Objects.equals(filter[1], "<")) return num < Float.parseFloat(filter[2]);
+            else return num > Float.parseFloat(filter[2]);
         } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("1");
         }
@@ -197,11 +201,12 @@ public class Lister {
         return switch (Helper.representation(filter)) {
             case "n" -> e.name();
             case "lk" -> e.link();
+            case "r" -> EntryUtil.tryIntConversion(e.readto());
+            case "rtg" -> EntryUtil.tryIntConversion(e.rating());
             case "lr" -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
             case "pu" -> EntryUtil.dateString(e.pauseduntil(), df, "Not Set");
             case "ws" -> Objects.toString(e.writingStatus());
             case "rs" -> Objects.toString(e.readingStatus());
-            case "r", "rt" -> EntryUtil.tryIntConversion(e.readto());
             case "ab" -> e.abbreviations().toString();
             default -> throw new IllegalArgumentException("1");
         };

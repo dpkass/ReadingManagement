@@ -14,7 +14,8 @@ import java.util.Map;
 
 public class EntryBuilder {
     String name;
-    double readto = 0.0;
+    float readto = 0f;
+    float rating = -1f;
     String link = "";
     WritingStatus ws;
     ReadingStatus rs;
@@ -38,7 +39,8 @@ public class EntryBuilder {
         for (Map.Entry<String, Object> entry : JSONmap.entrySet()) {
             switch (entry.getKey()) {
                 case "name" -> name = (String) entry.getValue();
-                case "readto" -> readto = ((BigDecimal) entry.getValue()).doubleValue();
+                case "readto" -> readto = ((BigDecimal) entry.getValue()).floatValue();
+                case "rating" -> rating = ((BigDecimal) entry.getValue()).floatValue();
                 case "link" -> link = (String) entry.getValue();
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
                 case "pauseduntil" -> pauseduntil = toLD((String) entry.getValue());
@@ -81,15 +83,15 @@ public class EntryBuilder {
         }
     }
 
-    private double parseReadTo(String rt) {
+    private float parseReadTo(String rt) {
         try {
-            return Double.parseDouble(rt);
+            return Float.parseFloat(rt);
         } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("4");
         }
     }
 
     public Entry toEntry() {
-        return new Entry(name, readto, link, ws, rs, lastread, pauseduntil, abbreviations);
+        return new Entry(name, readto, link, rating, ws, rs, lastread, pauseduntil, abbreviations);
     }
 }

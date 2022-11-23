@@ -1,6 +1,7 @@
 package Management.Processors;
 
 import EntryHandling.Entry.Entry;
+import EntryHandling.Entry.EntryUtil;
 import Management.Helper;
 
 import java.time.LocalDate;
@@ -12,6 +13,10 @@ public class Changer {
     public static String change(Entry e, List<String> parts) {
         switch (Helper.representation(parts.get(1))) {
             case "n" -> e.setName(parts.get(3));
+            case "rtg" -> {
+                float f = Float.parseFloat(parts.get(3));
+                if (EntryUtil.checkRating(f)) e.setRating(f);
+            }
             case "lk" -> e.setLink(parts.get(3));
             case "pu" -> e.setPauseduntil(toLD(parts.get(3)));
             case "ws" -> e.setWritingStatus(parts.get(3));
@@ -38,7 +43,7 @@ public class Changer {
         try {
             return LocalDate.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         } catch (DateTimeParseException dtpe) {
-            return null;
+            throw new IllegalArgumentException("1");
         }
     }
 }

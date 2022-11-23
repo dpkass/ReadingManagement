@@ -11,24 +11,27 @@ import java.util.Objects;
 
 public class Entry {
     private String name;
-    private double readto;
+    private float readto;
     private String link;
+
+    private float rating;
 
     private WritingStatus writingStatus;
     private ReadingStatus readingStatus;
 
     @JsonFormat (pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime lastread;
-    
+
     @JsonFormat (pattern = "dd.MM.yyyy")
     private LocalDate pauseduntil;
 
     private List<String> abbreviations;
 
-    public Entry(String name, double readto, String link, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate pauseduntil, List<String> abbreviations) {
+    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate pauseduntil, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
+        this.rating = rating;
         this.writingStatus = writingStatus;
         this.readingStatus = readingStatus;
         this.lastread = lastread;
@@ -41,7 +44,7 @@ public class Entry {
         return name;
     }
 
-    public double readto() {
+    public float readto() {
         return readto;
     }
 
@@ -69,12 +72,16 @@ public class Entry {
         return writingStatus;
     }
 
+    public float rating() {
+        return rating;
+    }
+
     // setter
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setReadto(double rt) {
+    public void setReadto(float rt) {
         this.readto = rt;
     }
 
@@ -106,6 +113,10 @@ public class Entry {
     public void setWritingStatus(String writingStatus) {
         this.writingStatus = WritingStatus.getStatus(writingStatus);
         if (this.writingStatus == WritingStatus.Default) throw new RuntimeException();
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public void addAbbreviation(String abbreviation) {

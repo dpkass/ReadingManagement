@@ -12,6 +12,10 @@ import java.time.temporal.Temporal;
 
 public class EntryUtil {
 
+    public static boolean checkRating(float f) {
+        return f >= 0f && f <= 5f;
+    }
+
     public static String dateString(Temporal date, DateTimeFormatter dtf, String alt) {
         return date == null ? alt : dtf.format(date);
     }
@@ -23,10 +27,7 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        return "%s, %s, %s, %s, %s, (%s), (%s), [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
-                dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"),
-                dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"),
-                String.join(", ", e.abbreviations()));
+        return "%s, %s, %s, %s, %s, (%s), (%s), [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"), dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"), String.join(", ", e.abbreviations()));
     }
 
     public static String asJSON(Entry e) {
@@ -38,10 +39,7 @@ public class EntryUtil {
                "readingstatus": "%s",
                "writingstatus": "%s",
                "pauseduntil": "%s",
-               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(),
-                dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"),
-                dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"),
-                String.join(", ", e.abbreviations()));
+               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"), dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"), String.join(", ", e.abbreviations()));
     }
 
     public static String toJSON(Object e) {
@@ -62,10 +60,7 @@ public class EntryUtil {
         return s.ordinal();
     }
 
-    public static String tryIntConversion(double readto) {
-        if (readto % 1 == 0) return String.valueOf((int) readto);
-        else return String.valueOf(readto);
+    public static String tryIntConversion(float f) {
+        return f == (int) f ? "%d".formatted((int) f) : "%s".formatted(f);
     }
-
-
 }

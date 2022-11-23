@@ -17,7 +17,7 @@ public class Reader {
 
     public static String readto(Entry e, String read) {
         try {
-            e.setReadto(Double.parseDouble(read));
+            e.setReadto(Float.parseFloat(read));
             e.setLastread(LocalDateTime.now());
             return "Read-to changed.";
         } catch (NumberFormatException nfe) {

@@ -104,11 +104,12 @@ public class Helper {
                                                                                         
                                              {type}         type of data to change
                                                                 options:
-                                                                    name = [name, n]
-                                                                    link = [link, lk]
+                                                                    name = [n]
+                                                                    link = [lk]
+                                                                    rating = [rtg]
+                                                                    abbreviation = [ab]
                                                                     writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                                     reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
-                                                                    abbreviation = [abbreviation, ab]
                                              {book}         name or abbreviation of the book
                                              {new-value}    value to be set as replacement
                                              [optional]     When changing reading-status to paused or waiting, pauseduntil can be set manually.
@@ -149,47 +150,53 @@ public class Helper {
                                            Alternative: l
                                                                                       
                                            E.g.  list link read ws lr<01.01.2022
-                                                 l ab r>50
+                                                 l ab r>50 gb=
                                                  
                                                                                       
                                            [type] = type of data to list
                                                     standard: name
                                                     options:
+                                                        read = [r]
+                                                        rating = [rtg]
                                                         lastread = [lr]
                                                         name = [name, n]
                                                         link = [link, lk]
                                                         pauseduntil = [pu]
                                                         abbreviation = [abbreviation, ab]
-                                                        read-to = [read-to, readto, rt, r]
                                                         writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                         reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                            [filters] = filters to exclude options not fitting (multiple possible)
                                                     style:
-                                                        {type}={value}
+                                                        {type}={value1}OR{value2}...
                                                         {type}<{value}
                                                         {type}>{value}
                                                     {type} = type of data to filter by
                                                     options:
                                                         using "="
+                                                            rating = [rtg]
                                                             writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                             reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                                         using "<" or ">"
-                                                            read-to = [read-to, readto, rt, r]
+                                                            read = [r]
+                                                            rating = [rtg]
                                                             lastread = [lr] (Format: dd.MM.yyyy)
                                                             pauseduntil = [pu] (Format: dd.MM.yyyy)
                                            [sortby] = type of data to sort by
                                                     standard: readto
                                                     style: sortby={type} [sb, sort, sortBy]
                                                     options:
+                                                        read = [r]
                                                         lastread = [lr]
                                                         name = [name, n]
                                                         pauseduntil = [pu]
                                                         reading-status = [rs]
                                                         writing-status = [ws]
-                                                        read-to = [read-to, readto, rt, r]
                                            [groupby] = type of data to group by
                                                     style: groupby={type}  [gb, group, groupBy]
                                                     options:
+                                                        read = [r] (50)
+                                                        rating = [rtg]
+                                                        lastread = [lr] (month)
                                                         reading-status = [rs]
                                                         writing-status = [ws]
                                            """;
@@ -216,12 +223,12 @@ public class Helper {
                                            [type] = type of data to change
                                                     standard: shows all attributes
                                                     options:
+                                                        read = [r]
                                                         lastread = [lr]
                                                         link = [link, lk]
                                                         pauseduntil = [pu]
                                                         reading-status = [rs]
                                                         writing-status = [ws]
-                                                        read-to = [read-to, readto, rt, r]
                                                         abbreviation = [abbreviation, ab]
                                            """;
     private static final String recommendhelp = """
@@ -247,12 +254,12 @@ public class Helper {
                                                 [type] = type of data to change
                                                          standard: shows all attributes
                                                          options:
+                                                             read = [r]
                                                              lastread = [lr]
                                                              link = [link, lk]
                                                              pauseduntil = [pu]
                                                              reading-status = [rs]
                                                              writing-status = [ws]
-                                                             read-to = [read-to, readto, rt, r]
                                                              abbreviation = [abbreviation, ab]
                                                 """;
 
@@ -328,6 +335,7 @@ public class Helper {
             case "new" -> "nw";
             case "read", "r" -> "r";
             case "read-to", "readto", "rt" -> "rt";
+            case "rating", "rtg" -> "rtg";
             case "reading-status", "readingstatus", "rs" -> "rs";
             case "writing-status", "writingstatus", "ws" -> "ws";
             case "add", "a" -> "a";

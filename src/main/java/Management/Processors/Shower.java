@@ -16,7 +16,8 @@ public class Shower {
         if (parts.size() == 2) return Collections.singleton(e.toString());
 
         return parts.stream().skip(2).map(s -> switch (Helper.representation(s)) {
-            case "r", "rt" -> "read-to: %s".formatted(EntryUtil.tryIntConversion(e.readto()));
+            case "r" -> "read-to: " + EntryUtil.tryIntConversion(e.readto());
+            case "rtg" -> "rating: " + EntryUtil.tryIntConversion(e.rating());
             case "lk" -> "link: %s".formatted(e.link());
             case "lr" -> "lastread: %s".formatted(EntryUtil.dateString(e.lastread(), dtf, "-"));
             case "pu" -> "pauseduntil: %s".formatted(EntryUtil.dateString(e.pauseduntil(), df, "-"));
