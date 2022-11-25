@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TheReadingManager</title>
+    <!--CSS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script th:src="@{/cssandjs/ScriptFile.js}"></script>
+<div class="container">
+    <h1>Request</h1>
+    <!--Form-->
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Form</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:object="${request}">
+                        <div class="form-row">
+                            <!--Operator-->
+                            <div class="form-group col-md-6">
+                                <label for="idoperator">Operator</label>
+                                <select class="form-control" name="operator" id="idoperator"
+                                        onchange="formupdate(this);">
+                                    <option disabled selected>Select operator</option>
+                                    <option th:each="op : ${operators}" th:text="${op.displayvalue()}"></option>
+                                </select>
+                            </div>
+                            <!--Book text, only if New is selected-->
+                            <div class="form-group col-md-6" id="idbooktxtdiv">
+                                <label for="idbooktxt">Book</label>
+                                <input class="form-control" name="book" id="idbooktxt">
+                            </div>
+                            <!--Book select, only if Add, Change, Read, ReadTo, Open, Show is selected-->
+                            <div class="form-group col-md-6" id="idbookseldiv">
+                                <label for="idbooksel">Book</label>
+                                <select class="form-control" name="book" id="idbooksel">
+                                    <option disabled selected>Select book</option>
+                                    <option th:each="book : ${books}" th:text="${book}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--Additional args: Add (ab), Change (oldval/type -> newval), Read (page), ReadTo(page-count), New (Page, Link, WS, lastread)-->
+                        <div class="form-row">
+                            <!--Additional args: Add (ab)-->
+                            <div class="form-group col-md-12" id="idadditionaladddiv">
+                                <label for="idadditionaladd">Abbreviation to add</label>
+                                <input class="form-control" type="text" name="abbreviation" id="idadditionaladd">
+                            </div>
+                            <!--Additional args: Change (type -> newval)-->
+                            <div class="form-group col-md-6" id="idadditionalchangetypediv">
+                                <label for="idadditionalchangetype">Type</label>
+                                <select class="form-control" name="changetype" id="idadditionalchangetype">
+                                    <option disabled selected>Select Type</option>
+                                    <option th:each="co : ${changing_options}" th:text="${co}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" id="idadditionalchangenewdiv">
+                                <label for="idadditionalchangenew">New Value</label>
+                                <input class="form-control" type="text" name="changenew" id="idadditionalchangenew">
+                            </div>
+                            <!--Additional args: Read (page)-->
+                            <div class="form-group col-md-12" id="idadditionalreaddiv">
+                                <label for="idadditionalread">Page/Chapter</label>
+                                <input class="form-control" type="number" name="read" id="idadditionalread">
+                            </div>
+                            <!--Additional args: New (Page, Link, WS, lastread)-->
+                            <div class="form-group col-md-6" id="idadditionalnewpagediv">
+                                <label for="idadditionalnewpage">Page/Chapter</label>
+                                <input class="form-control" type="number" name="read" id="idadditionalnewpage">
+                            </div>
+                            <div class="form-group col-md-6" id="idadditionalnewlinkdiv">
+                                <label for="idadditionalnewlink">Link</label>
+                                <input class="form-control" type="url" name="link" id="idadditionalnewlink">
+                            </div>
+                            <div class="form-group col-md-6" id="idadditionalnewwsdiv">
+                                <label for="idadditionalnewws">Writing Status</label>
+                                <select class="form-control" name="writingstatus" id="idadditionalnewws">
+                                    <option disabled selected>Select Writing Status</option>
+                                    <option th:each="ws : ${writing_statuses}" th:text="${ws}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" id="idadditionalnewlrdiv">
+                                <label for="idadditionalnewlr">Last Read</label>
+                                <input class="form-control" type="datetime-local" name="lastread"
+                                       id="idadditionalnewlr">
+                            </div>
+                        </div>
+                        <!--Display args, only if display op (list, show) is selected-->
+                        <div class="form-row">
+                            <div class="form-group col-mb-12" id="iddisplayargsdiv">
+                                <label for="iddisplayargsinnerdiv">Display</label>
+                                <div id="iddisplayargsinnerdiv">
+                                    <div class="form-check form-check-inline">
+                                        <input name="displayread" class="form-check-input" type="checkbox"
+                                               id="iddisplayread">
+                                        <label for="iddisplayread" class="form-check-label">Read</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="displaylink" class="form-check-input" type="checkbox"
+                                               id="iddisplaylink">
+                                        <label for="iddisplaylink" class="form-check-label">Link</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="displayrating" class="form-check-input" type="checkbox"
+                                               id="iddisplayrating">
+                                        <label for="iddisplayrating" class="form-check-label">Rating</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="displaylastread" class="form-check-input" type="checkbox"
+                                               id="iddisplaylastread">
+                                        <label for="iddisplaylastread" class="form-check-label">Last Read</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="displaypauseduntil" class="form-check-input" type="checkbox"
+                                               id="iddisplaypauseduntil">
+                                        <label for="iddisplaypauseduntil" class="form-check-label">Paused
+                                            Until</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="displayreadingstatus" class="form-check-input" type="checkbox"
+                                               id="iddisplayreadingstatus">
+                                        <label for="iddisplayreadingstatus" class="form-check-label">Reading
+                                            Status</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="displaywritingstatus" class="form-check-input" type="checkbox"
+                                               id="iddisplaywritingstatus">
+                                        <label for="iddisplaywritingstatus" class="form-check-label">Writing
+                                            Status</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Order args, only if List is selected-->
+                        <div class="form-row">
+                            <div class="form-group col-md-6" id="idordersortdiv">
+                                <label for="idsort">Sort-by</label>
+                                <select class="form-control" name="sort" id="idsort">
+                                    <option th:each="s : ${sorting_options}" th:text="${s}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" id="idordergroupdiv">
+                                <label for="idgroup">Group-by</label>
+                                <select class="form-control" name="group" id="idgroup">
+                                    <option th:each="g : ${grouping_options}" th:text="${g}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Requestresult-->
+        <div class="col-sm">
+            <div class="card" th:if="${requestresult!=null && !requestresult.hasError()}"
+                 th:object="${requestresult}">
+                <div class="card-header">
+                    <h2 class="card-title">Requestresult</h2>
+                </div>
+                <div class="card-body">
+                    <!--Success-->
+                    <p class="text-success"
+                       th:if="*{type().ordinal()==0}"
+                       th:text="*{string()}"></p>
+                    <!--Show-->
+                    <ul class="list-group" th:if="*{type().ordinal()==1}">
+                        <li class="list-group-item" th:each="func : *{datafunctions()}"
+                            th:text="${func.apply(requestresult.list().get(0))}"></li>
+                    </ul>
+                    <!--List-->
+                    <div class="table-responsive" th:if="${requestresult.type().ordinal()==2}">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="e : *{list()}">
+                                <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Grouped List-->
+                    <div class="card" th:if="${requestresult.type().ordinal()==3}" th:each="entry : *{groupedmap()}">
+                        <div class="card-header">
+                            <h3 class="card-title" th:text="${entry.key}"></h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="e : ${entry.value}">
+                                        <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Help-->
+                    <p class="text-info" style="white-space: pre-wrap"
+                       th:if="${requestresult.type().ordinal()==4}"
+                       th:text="${requestresult.string()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    getelements()
+    forminvisible()
+</script>
+</html>

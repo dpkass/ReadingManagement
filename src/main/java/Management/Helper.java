@@ -96,18 +96,12 @@ public class Helper {
                                                                                         
                                              E.g.  c link www.link.com/sl www.someotherlink.com/sl
                                                    change name tbate "Beginning after End"
-                                                   
-                                             Special change:
-                                             If type is set to abbreviation then the abbreviation given as {book} will be replaced.
-                                                    change abb SL sl
-                                                    --> only sl can be used now
                                                                                         
                                              {type}         type of data to change
                                                                 options:
                                                                     name = [n]
                                                                     link = [lk]
                                                                     rating = [rtg]
-                                                                    abbreviation = [ab]
                                                                     writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                                     reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                              {book}         name or abbreviation of the book
@@ -320,10 +314,10 @@ public class Helper {
             case "2" -> "The given book is already in the list.";
             case "3" -> "The given book was not found. If you want to add a new Entry use \"new\".";
             case "4" -> "The read-to value of the given book is not a number. Use command read-to to adjust.";
-            case "5" -> "The provided link seems to be wrong. Please correct the link with \"change link\" and try again. For " +
-                    "more info on how to change link use \"help change\".\nThe provided link is:";
-            case "6" -> "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " +
-                    "choosing:\n";
+            case "5" ->
+                    "The provided link seems to be wrong. Please correct the link with \"change link\" and try again. For " + "more info on how to change link use \"help change\".\nThe provided link is:";
+            case "6" ->
+                    "Your OS does not support opening a link. Copy the following link and paste it to a browser of your " + "choosing:\n";
             case "7" -> "The given abbreviation is already used on another Book. Please try another one.";
             default -> error;
         };
@@ -331,29 +325,33 @@ public class Helper {
 
     public static String representation(String part) {
         return switch (part) {
-            case "exit", "e" -> "e";
-            case "new" -> "nw";
-            case "read", "r" -> "r";
-            case "read-to", "readto", "rt" -> "rt";
+            // ops
+            case "NEW" -> "nw";
+            case "READ", "r" -> "r";
+            case "READTO" -> "rt";
+            case "ADD" -> "a";
+            case "CHANGE" -> "c";
+            case "LIST" -> "l";
+            case "LISTALL" -> "la";
+            case "SHOW" -> "sh";
+            case "OPEN" -> "o";
+            case "HELP" -> "h";
+
+            // attributes
+            case "name", "n" -> "n";
+            case "link", "lk" -> "lk";
+            case "secret", "s" -> "s";
             case "rating", "rtg" -> "rtg";
+            case "lastread", "lr" -> "lr";
+            case "recommend", "rec" -> "rec";
+            case "pauseduntil", "pu" -> "pu";
+            case "abbreviation", "ab" -> "ab";
             case "reading-status", "readingstatus", "rs" -> "rs";
             case "writing-status", "writingstatus", "ws" -> "ws";
-            case "add", "a" -> "a";
-            case "change", "c" -> "c";
-            case "list", "l" -> "l";
-            case "link", "lk" -> "lk";
-            case "lastread", "lr" -> "lr";
-            case "pauseduntil", "pu" -> "pu";
-            case "list-all", "la" -> "la";
-            case "show", "sh" -> "sh";
-            case "recommend", "rec" -> "rec";
-            case "secret", "s" -> "s";
-            case "open", "o" -> "o";
-            case "help", "h" -> "h";
-            case "name", "n" -> "n";
+
+            // order
             case "sortby", "sortBy", "sort", "sb" -> "sb";
             case "groupby", "groupBy", "group", "gb" -> "gb";
-            case "abbreviation", "ab" -> "ab";
             case "descending", "desc", "d" -> "desc";
             default -> part;
         };

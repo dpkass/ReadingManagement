@@ -1,5 +1,6 @@
 package Management;
 
+import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import EntryHandling.JSONHandler;
@@ -7,6 +8,7 @@ import Processing.RequestResult;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.stream.Stream;
 
 @Component
 public class Manager {
@@ -49,6 +51,10 @@ public class Manager {
     public void process(String s) {
         ps.process(s);
         save();
+    }
+
+    public Stream<Entry> entries() {
+        return el.entries();
     }
 
     public void setRr(RequestResult rr) {

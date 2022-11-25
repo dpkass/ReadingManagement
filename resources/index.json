@@ -87,7 +87,7 @@
     "writingStatus" : "Default",
     "readingStatus" : "NotStarted",
     "lastread" : null,
-    "pauseduntil" : "24.11.2022",
+    "pauseduntil" : null,
     "abbreviations" : [ ]
   } ]
 }

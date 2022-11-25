@@ -14,27 +14,35 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <h1>Request</h1>
-    </div>
+    <h1>Request</h1>
     <div class="row">
         <div class="col-sm">
-            <h2 class="card-title">Form</h2>
-            <form method="post" action="/request">
-                <div class="mb-3">
-                    <label for="idcommand">Command:</label>
-                    <input name="command" class="form-control" type="text" id="idcommand" th:value="${command}">
-                    <small class="text-danger" th:if="${error!=null && (error.code()==1||error.code()==2)}"
-                           th:text="${error.message}"></small>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Commandline</h2>
                 </div>
-                <button type="submit" class="btn btn-primary">Request</button>
-            </form>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="idcommand">Command:</label>
+                            <input name="command" class="form-control" type="text" id="idcommand" th:value="${command}">
+                            <small class="text-danger" th:if="${error!=null && (error.code()==1||error.code()==2)}"
+                                   th:text="${error.message}"></small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Request</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
+        <!--Requestresult-->
         <div class="col-sm">
-            <div class="card" th:if="${requestresult!=null && !requestresult.hasError()}" th:object="${requestresult}">
-                <div class="card-body">
+            <div class="card" th:if="${requestresult!=null && !requestresult.hasError()}"
+                 th:object="${requestresult}">
+                <div class="card-header">
                     <h2 class="card-title">Requestresult</h2>
+                </div>
+                <div class="card-body">
                     <!--Success-->
                     <p class="text-success"
                        th:if="*{type().ordinal()==0}"
@@ -60,20 +68,26 @@
                         </table>
                     </div>
                     <!--Grouped List-->
-                    <div class="table-responsive" th:if="${requestresult.type().ordinal()==3}">
-                        <table class="table table-hover" th:each="entry : *{groupedmap()}">
-                            <h2 class="table-title" th:text="${entry.key}"></h2>
-                            <thead>
-                            <tr>
-                                <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="e : ${entry.value}">
-                                <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="card" th:if="${requestresult.type().ordinal()==3}" th:each="entry : *{groupedmap()}">
+                        <div class="card-header">
+                            <h3 class="card-title" th:text="${entry.key}"></h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="e : ${entry.value}">
+                                        <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <!--Help-->
                     <p class="text-info" style="white-space: pre-wrap"

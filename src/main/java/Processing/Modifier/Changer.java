@@ -21,10 +21,6 @@ class Changer {
             case "pu" -> e.setPauseduntil(toLD(parts.get(3)));
             case "ws" -> e.setWritingStatus(parts.get(3));
             case "rs" -> changeReadingStatus(e, parts);
-            case "ab" -> {
-                e.removeAbbreviation(parts.get(2));
-                e.addAbbreviation(parts.get(3));
-            }
             default -> throw new IllegalArgumentException("1");
         }
         return "Entry changed.";
