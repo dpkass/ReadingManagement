@@ -15,7 +15,8 @@ public class RequestBuilder {
     // main
     private static Operator operator;
     private static Operator helpoperator;
-    private static String book;
+    private static String booksel;
+    private static String booknew;
 
     // addtional change
     private static String changeattribute;
@@ -59,7 +60,7 @@ public class RequestBuilder {
     }
 
     private static void buildNew(List<String> parts) {
-        book = parts.get(0);
+        booknew = parts.get(0);
         newpagevalue = Float.parseFloat(parts.get(1));
         newlinkvalue = parts.get(2);
         newwsvalue = parts.get(3);
@@ -67,12 +68,12 @@ public class RequestBuilder {
     }
 
     private static void buildRead(List<String> parts) {
-        book = parts.get(0);
+        booksel = parts.get(0);
         readvalue = Float.parseFloat(parts.get(1));
     }
 
     private static void buildAdd(List<String> parts) {
-        book = parts.get(0);
+        booksel = parts.get(0);
         addvalue = parts.get(1);
     }
 
@@ -82,11 +83,11 @@ public class RequestBuilder {
     }
 
     private static void buildOpen(List<String> parts) {
-        book = parts.get(0);
+        booksel = parts.get(0);
     }
 
     private static void buildShow(List<String> parts) {
-        book = parts.get(0);
+        booksel = parts.get(0);
         daf = DisplayAttributesUtil.build(parts.size() > 1 ? parts.subList(1, parts.size() - 1) : List.of());
     }
 
@@ -120,7 +121,8 @@ public class RequestBuilder {
 
         request.setOperator(operator);
         request.setHelpoperator(helpoperator);
-        request.setBook(book);
+        request.setBooknew(booknew);
+        request.setBooksel(booksel);
         request.setChangeattribute(changeattribute);
         request.setChangevalue(changevalue);
         request.setAddvalue(addvalue);

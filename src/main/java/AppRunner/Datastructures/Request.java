@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 public final class Request {
     private Operator operator;
     private Operator helpoperator;
-    private String book;
+    private String booknew;
+    private String booksel;
 
     // addtional change
     private Attribute changeattribute;
@@ -44,14 +45,15 @@ public final class Request {
 
         request.setOperator(String.valueOf(operator));
         request.setHelpoperator(String.valueOf(helpoperator));
-        request.setBook(book);
+        request.setBooknew(booknew);
+        request.setBooksel(booksel);
         request.setChangeattribute(String.valueOf(changeattribute));
         request.setChangevalue(changevalue);
         request.setAddvalue(addvalue);
         request.setNewpagevalue(newpagevalue);
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(String.valueOf(newwsvalue));
-        request.setNewlrvalue(newlrvalue);
+        request.setNewlrvalue(String.valueOf(newlrvalue));
         request.setReadvalue(readvalue);
         request.setDaf(daf);
         request.setFilters(filters);
@@ -63,11 +65,27 @@ public final class Request {
 
     @Override
     public String toString() {
-        return "Request{" + "operator=" + operator + ", helpoperator=" + helpoperator + ", book='" + book + '\'' + ", changeattribute=" + changeattribute + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + '}';
+        return "Request{" +
+                "operator=" + operator +
+                ", helpoperator=" + helpoperator +
+                ", booknew='" + booknew + '\'' +
+                ", booksel='" + booksel + '\'' +
+                ", changeattribute=" + changeattribute +
+                ", changevalue='" + changevalue + '\'' +
+                ", addvalue='" + addvalue + '\'' +
+                ", newpagevalue=" + newpagevalue +
+                ", newlinkvalue='" + newlinkvalue + '\'' +
+                ", newwsvalue=" + newwsvalue +
+                ", newlrvalue=" + newlrvalue +
+                ", readvalue=" + readvalue +
+                ", daf=" + daf +
+                ", filters=" + filters +
+                ", sortby=" + sortby +
+                ", groupby=" + groupby +
+                '}';
     }
 
     // getters and setters
-
     public Operator operator() {
         return operator;
     }
@@ -92,12 +110,20 @@ public final class Request {
         this.helpoperator = Operator.getOperator(helpoperator);
     }
 
-    public String book() {
-        return book;
+    public String booknew() {
+        return booknew;
     }
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setBooknew(String booknew) {
+        this.booknew = booknew;
+    }
+
+    public String booksel() {
+        return booksel;
+    }
+
+    public void setBooksel(String booksel) {
+        this.booksel = booksel;
     }
 
     public DisplayAttributesForm daf() {

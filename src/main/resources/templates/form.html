@@ -39,12 +39,12 @@
                             <!--Book text, only if New is selected-->
                             <div class="form-group col-md-6" id="idbooktxtdiv">
                                 <label for="idbooktxt">Book</label>
-                                <input class="form-control" id="idbooktxt" th:field="*{book}">
+                                <input class="form-control" id="idbooktxt" th:field="*{booknew}">
                             </div>
                             <!--Book select, only if Add, Change, Read, ReadTo, Open, Show is selected-->
                             <div class="form-group col-md-6" id="idbookseldiv">
                                 <label for="idbooksel">Book</label>
-                                <select class="form-control" id="idbooksel" th:field="*{book}">
+                                <select class="form-control" id="idbooksel" th:field="*{booksel}">
                                     <option disabled selected value="none">Select book</option>
                                     <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                 </select>

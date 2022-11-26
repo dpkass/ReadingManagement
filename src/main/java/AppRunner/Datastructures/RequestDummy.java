@@ -1,13 +1,17 @@
 package AppRunner.Datastructures;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class RequestDummy {
     private String operator = "none";
     private String helpoperator = "none";
-    private String book;
+    private String booknew;
+    private String booksel;
 
     // addtional change
     private String changeattribute = "none";
@@ -18,7 +22,8 @@ public final class RequestDummy {
     private float newpagevalue = 0;
     private String newlinkvalue = "";
     private String newwsvalue = "";
-    private LocalDateTime newlrvalue = LocalDateTime.now();
+    @DateTimeFormat (pattern = "dd.MM.yyyy HH:mm")
+    private String newlrvalue;
     // additional readr
     private float readvalue = 1;
 
@@ -40,19 +45,22 @@ public final class RequestDummy {
         Request request = new Request();
 
         List<Boolean> daf = List.of(displayread, displaylink, displayrating, displaylastread, displaypauseduntil, displayreadingstatus, displaywritingstatus);
-        List<Filter<?>> filters = this.filters == null ? null :
-                this.filters.stream().map(Filter::createFilter).collect(Collectors.toList());
+        List<Filter<?>> filters = this.filters == null ? null : this.filters.stream()
+                                                                            .map(Filter::createFilter)
+                                                                            .collect(Collectors.toList());
+        LocalDateTime parsed = toLD();
 
         request.setOperator(operator);
         request.setHelpoperator(helpoperator);
-        request.setBook(book);
+        request.setBooknew(booknew);
+        request.setBooksel(booksel);
         request.setChangeattribute(changeattribute);
         request.setChangevalue(changevalue);
         request.setAddvalue(addvalue);
         request.setNewpagevalue(newpagevalue);
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(newwsvalue);
-        request.setNewlrvalue(newlrvalue);
+        request.setNewlrvalue(parsed);
         request.setReadvalue(readvalue);
         request.setDaf(new DisplayAttributesForm(daf));
         request.setFilters(filters);
@@ -62,13 +70,44 @@ public final class RequestDummy {
         return request;
     }
 
+    private LocalDateTime toLD() {
+        try {
+            return LocalDateTime.parse(newlrvalue);
+        } catch (DateTimeParseException dtpe) {
+            return null;
+        }
+    }
+
     public static RequestDummy standard() {
         return new RequestDummy();
     }
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", book='" + book + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaypauseduntil=" + displaypauseduntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", filters=" + filters + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + '}';
+        return "RequestDummy{" +
+                "operator='" + operator + '\'' +
+                ", helpoperator='" + helpoperator + '\'' +
+                ", booknew='" + booknew + '\'' +
+                ", booksel='" + booksel + '\'' +
+                ", changeattribute='" + changeattribute + '\'' +
+                ", changevalue='" + changevalue + '\'' +
+                ", addvalue='" + addvalue + '\'' +
+                ", newpagevalue=" + newpagevalue +
+                ", newlinkvalue='" + newlinkvalue + '\'' +
+                ", newwsvalue='" + newwsvalue + '\'' +
+                ", newlrvalue='" + newlrvalue + '\'' +
+                ", readvalue=" + readvalue +
+                ", displayread=" + displayread +
+                ", displaylink=" + displaylink +
+                ", displayrating=" + displayrating +
+                ", displaylastread=" + displaylastread +
+                ", displaypauseduntil=" + displaypauseduntil +
+                ", displayreadingstatus=" + displayreadingstatus +
+                ", displaywritingstatus=" + displaywritingstatus +
+                ", filters=" + filters +
+                ", sortby='" + sortby + '\'' +
+                ", groupby='" + groupby + '\'' +
+                '}';
     }
 
     public void setDaf(List<Boolean> daf) {
@@ -99,12 +138,20 @@ public final class RequestDummy {
         this.helpoperator = helpoperator;
     }
 
-    public String getBook() {
-        return book;
+    public String getBooknew() {
+        return booknew;
     }
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setBooknew(String booknew) {
+        this.booknew = booknew;
+    }
+
+    public String getBooksel() {
+        return booksel;
+    }
+
+    public void setBooksel(String booksel) {
+        this.booksel = booksel;
     }
 
     public String getChangeattribute() {
@@ -155,11 +202,11 @@ public final class RequestDummy {
         this.newwsvalue = newwsvalue;
     }
 
-    public LocalDateTime getNewlrvalue() {
+    public String getNewlrvalue() {
         return newlrvalue;
     }
 
-    public void setNewlrvalue(LocalDateTime newlrvalue) {
+    public void setNewlrvalue(String newlrvalue) {
         this.newlrvalue = newlrvalue;
     }
 

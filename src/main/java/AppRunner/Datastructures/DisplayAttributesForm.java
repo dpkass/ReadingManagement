@@ -18,6 +18,6 @@ public record DisplayAttributesForm(boolean displayread, boolean displaylink, bo
     }
 
     public boolean isEmpty() {
-        return displayread || displaylink || displayrating || displaylastread || displaypauseduntil || displayreadingstatus || displaywritingstatus;
+        return !(displayread || displaylink || displayrating || displaylastread || displaypauseduntil || displayreadingstatus || displaywritingstatus);
     }
 }

@@ -7,23 +7,18 @@ import EntryHandling.Entry.EntryNotFoundException;
 import Processing.Displayer.Displayer;
 import Processing.Modifier.Modifier;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Processor {
 
     static EntryList el;
     public static RequestResult rr;
 
-    List<String> out = new ArrayList<>();
-
     public static void doAdd(Request rq) {
-        Entry e = getEntry(rq.book());
+        Entry e = getEntry(rq.booksel());
         Modifier.add(e, rq.addvalue(), el.entries());
     }
 
     public static void doChange(Request rq) {
-        Entry e = getEntry(rq.book());
+        Entry e = getEntry(rq.booksel());
         Modifier.change(e, rq.changeattribute(), rq.changevalue());
     }
 
@@ -40,28 +35,28 @@ public class Processor {
     }
 
     public static void doShow(Request rq) {
-        Entry e = getEntry(rq.book());
+        Entry e = getEntry(rq.booksel());
         Displayer.show(e, rq.daf());
     }
 
     public static void doNew(Request rq) {
-        Entry e = el.get(rq.book());
+        Entry e = el.get(rq.booknew());
         if (e != null) throw new IllegalArgumentException("2");
-        Modifier.make(el, rq.book(), rq.newpagevalue(), rq.newlinkvalue(), rq.newwsvalue(), rq.newlrvalue());
+        Modifier.make(el, rq.booknew(), rq.newpagevalue(), rq.newlinkvalue(), rq.newwsvalue(), rq.newlrvalue());
     }
 
     public static void doOpen(Request rq) {
-        Entry e = getEntry(rq.book());
+        Entry e = getEntry(rq.booksel());
         Opener.open(e);
     }
 
     public static void doRead(Request rq) {
-        Entry e = getEntry(rq.book());
+        Entry e = getEntry(rq.booksel());
         Modifier.read(e, rq.readvalue());
     }
 
     public static void doReadTo(Request rq) {
-        Entry e = getEntry(rq.book());
+        Entry e = getEntry(rq.booksel());
         Modifier.readto(e, rq.readvalue());
     }
 

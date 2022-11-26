@@ -42,7 +42,7 @@ public enum Attribute {
     public static Attribute getAttribute(String s) {
         try {
             return valueOf(s);
-        } catch (IllegalArgumentException ile) {
+        } catch (Exception e) {
             return null;
         }
     }

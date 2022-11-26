@@ -40,54 +40,14 @@
     "pauseduntil" : null,
     "abbreviations" : [ "nr" ]
   }, {
-    "name" : "\"Solo Leveling\"",
-    "readto" : 0.0,
+    "name" : "Zurück in die Zeit",
+    "readto" : 35.0,
     "link" : "",
     "rating" : -1.0,
     "writingStatus" : "Default",
-    "readingStatus" : "NotStarted",
-    "lastread" : null,
-    "pauseduntil" : null,
-    "abbreviations" : [ ]
-  }, {
-    "name" : "Sth",
-    "readto" : 0.0,
-    "link" : "",
-    "rating" : -1.0,
-    "writingStatus" : "Default",
-    "readingStatus" : "NotStarted",
-    "lastread" : null,
-    "pauseduntil" : null,
-    "abbreviations" : [ ]
-  }, {
-    "name" : "sth",
-    "readto" : 0.0,
-    "link" : "",
-    "rating" : -1.0,
-    "writingStatus" : "Default",
-    "readingStatus" : "NotStarted",
-    "lastread" : null,
-    "pauseduntil" : null,
-    "abbreviations" : [ ]
-  }, {
-    "name" : "dflkaslkj",
-    "readto" : 0.0,
-    "link" : "",
-    "rating" : -1.0,
-    "writingStatus" : "Default",
-    "readingStatus" : "NotStarted",
-    "lastread" : null,
-    "pauseduntil" : null,
-    "abbreviations" : [ ]
-  }, {
-    "name" : "ql;ej;lqw",
-    "readto" : 0.0,
-    "link" : "",
-    "rating" : -1.0,
-    "writingStatus" : "Default",
-    "readingStatus" : "NotStarted",
-    "lastread" : null,
-    "pauseduntil" : null,
+    "readingStatus" : "Paused",
+    "lastread" : "25.11.2022 23:23",
+    "pauseduntil" : "26.11.2022",
     "abbreviations" : [ ]
   } ]
 }

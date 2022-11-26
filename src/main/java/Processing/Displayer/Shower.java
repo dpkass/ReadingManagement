@@ -7,13 +7,11 @@ import Processing.RequestResult;
 import Processing.TableDataSupplier;
 
 import java.util.Collections;
-import java.util.stream.Stream;
 
 import static Processing.Processor.rr;
 
 class Shower {
     static void show(Entry e, DisplayAttributesForm daf) {
-        Stream<String> partsStream;
         if (daf.isEmpty()) daf = DisplayAttributesForm.all();
 
         TableDataSupplier tds = new TableDataSupplier();
