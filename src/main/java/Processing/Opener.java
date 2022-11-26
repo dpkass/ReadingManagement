@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 
 class Opener {
 
+    // rework
     static void open(Entry e) {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
             try {

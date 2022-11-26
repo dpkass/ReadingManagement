@@ -1,5 +1,6 @@
 package EntryHandling.Entry;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,18 @@ public class EntryList {
 
     public void add(List<String> values) {
         EntryBuilder eb = new EntryBuilder(values);
+        Entry e = eb.toEntry();
+        checkAbbreviations(e);
+        books.add(e);
+    }
+
+    public void add(String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
+        EntryBuilder eb = new EntryBuilder();
+        eb.setName(book);
+        eb.setReadto(newpagevalue);
+        eb.setLink(newlinkvalue);
+        eb.setWs(newwsvalue);
+        eb.setLastread(newlrvalue);
         Entry e = eb.toEntry();
         checkAbbreviations(e);
         books.add(e);

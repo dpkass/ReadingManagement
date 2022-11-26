@@ -49,6 +49,10 @@ public class EntryBuilder {
         chooseStatus();
     }
 
+    public EntryBuilder() {
+
+    }
+
     private void chooseStatus() {
         if (rs == EntryHandling.Entry.ReadingStatus.Paused && pauseduntil == null)
             rs = EntryHandling.Entry.ReadingStatus.Reading;      // autonullify paused when date arrives
@@ -87,6 +91,26 @@ public class EntryBuilder {
         } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("4");
         }
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setReadto(float readto) {
+        this.readto = readto;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setWs(WritingStatus ws) {
+        this.ws = ws;
+    }
+
+    public void setLastread(LocalDateTime lastread) {
+        this.lastread = lastread;
     }
 
     public Entry toEntry() {

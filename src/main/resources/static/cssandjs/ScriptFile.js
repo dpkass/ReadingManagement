@@ -23,9 +23,10 @@ function getelements() {
     idordergroup = document.getElementById("idordergroupdiv")
 }
 
-function formupdate(element) {
+function formupdate() {
 
-    let selectedOp = element.value
+    let selectedOp = document.getElementById("idoperator").value
+
 
     forminvisible()
 
@@ -43,7 +44,7 @@ function formupdate(element) {
             break
 
         case "Read":
-        case "Read To":
+        case "ReadTo":
             makeVisible(idbooksel);
             makeVisible(idadditionalread);
             break
@@ -65,14 +66,18 @@ function formupdate(element) {
 
         case "Show":
             makeVisible(idbooksel);
+            makeVisible(iddisplayargs);
+            break
+
         case "List":
             makeVisible(idordersort);
             makeVisible(idordergroup);
             makeVisible(iddisplayargs);
             break
 
-        case "List All":
+        case "ListAll":
         case "Recommend":
+        case "":
             break
     }
 }

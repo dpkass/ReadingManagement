@@ -1,13 +1,10 @@
 package Management;
 
 import AppRunner.Datastructures.Error;
+import AppRunner.Datastructures.Request;
 import EntryHandling.Entry.EntryList;
 import Processing.Processor;
 import Processing.RequestResult;
-
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class ProcessStarter {
 
@@ -22,34 +19,24 @@ public class ProcessStarter {
         Processor.setRr(rr);
     }
 
-    void process(String s) {
-        if (s == null || s.isBlank()) return;
-        
+    void process(Request rq) {
+        if (rq == null) return;
+
         Processor.setEl(el);
-        List<String> parts = Pattern.compile("([^\"]\\S*|\".*\")\\s*")
-                                    .matcher(s)
-                                    .results()
-                                    .map(str -> str.group(1))
-                                    .collect(Collectors.toList());
 
-        process(parts);
-    }
-
-    void process(List<String> parts) {
         try {
-            switch (Helper.representation(parts.get(0))) {
-                case "nw" -> Processor.doNew(parts);
-                case "r" -> Processor.doRead(parts);
-                case "rt" -> Processor.doReadTo(parts);
-                case "a" -> Processor.doAdd(parts);
-                case "c" -> Processor.doChange(parts);
-                case "l" -> Processor.doList(parts);
-                case "sh" -> Processor.doShow(parts);
-                case "la" -> Processor.doListAll();
-                case "rec" -> Processor.doRecommend();
-                case "o" -> Processor.doOpen(parts);
-                case "s" -> doSecret(parts);
-                case "h" -> doHelp(parts);
+            switch (rq.operator()) {
+                case New -> Processor.doNew(rq);
+                case Read -> Processor.doRead(rq);
+                case ReadTo -> Processor.doReadTo(rq);
+                case Add -> Processor.doAdd(rq);
+                case Change -> Processor.doChange(rq);
+                case List -> Processor.doList(rq);
+                case Show -> Processor.doShow(rq);
+                case ListAll -> Processor.doListAll();
+                case Recommend -> Processor.doRecommend();
+                case Open -> Processor.doOpen(rq);
+                case Help -> doHelp(rq);
                 default -> throw new IllegalArgumentException("1");
             }
         } catch (Exception e) {
@@ -59,14 +46,14 @@ public class ProcessStarter {
         }
     }
 
-    private void doHelp(List<String> parts) {
+    private void doHelp(Request rq) {
+        rr.setString(Helper.help(rq.helpoperator()));
         rr.setType(RequestResult.RequestResultType.HELP);
-        rr.setString(Helper.help(parts));
     }
 
-    void doSecret(List<String> parts) {
-        parts = parts.subList(1, parts.size());
-        Processor.setEl(secretel);
-        process(parts);
-    }
+//    void doSecret(List<String> rq) {
+//        rq = rq.subList(1, rq.size());
+//        Processor.setEl(secretel);
+//        process(rq);
+//    }
 }

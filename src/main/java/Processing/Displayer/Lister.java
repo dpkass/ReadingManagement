@@ -1,5 +1,9 @@
 package Processing.Displayer;
 
+import AppRunner.Datastructures.Attribute;
+import AppRunner.Datastructures.DisplayAttributesForm;
+import AppRunner.Datastructures.DisplayAttributesUtil;
+import AppRunner.Datastructures.Filter;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
 import EntryHandling.Entry.ReadingStatus;
@@ -24,38 +28,28 @@ import static java.util.stream.Collectors.toList;
 
 class Lister {
 
-    static void list(Stream<String> parts, Stream<Entry> entrystream) {
-        // remove command and duplicates and distinguish filters/sort/categorize from elements to list
-        Map<Boolean, List<String>> type0filterMap = parts.map(Helper::representation)
-                                                         .distinct()
-                                                         .collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
-        // get printing function
-        listfunctions(type0filterMap.get(false));
-        // split sorting and categorizing commands in a map
-        Map<String, String[]> orderMap = getOrderStrings(type0filterMap.get(true));
-
-        Comparator<Entry> sorter = getSorter(orderMap.get("sb"));
-        entrystream = filterStream(type0filterMap.get(true), entrystream);
-
-        putResult(entrystream, orderMap, sorter);
-        makeHeaderList(type0filterMap.get(false));
+    static void list(Stream<Entry> entries, DisplayAttributesForm daf, List<Filter<?>> filters, Attribute sortby, Attribute groupby) {
+        listfunctions(daf);
+        Comparator<Entry> sorter = getSorter(sortby);
+        entries = filterStream(entries, filters);
+        putResult(entries, sorter, groupby);
+        makeHeaderList(daf);
     }
 
-    private static void makeHeaderList(List<String> strings) {
-        // later: get header name through helper
-        strings.add(0, "Name");
-        rr.setHeaderlist(strings);
+    private static void makeHeaderList(DisplayAttributesForm daf) {
+        List<String> rrtableheader = new ArrayList<>();
+        rrtableheader.add("Name");
+        DisplayAttributesUtil.stream(daf).map(Attribute::displayvalue).forEach(rrtableheader::add);
+        rr.setHeaderlist(rrtableheader);
     }
 
     @NotNull
-    private static void putResult(Stream<Entry> entrystream, Map<String, String[]> orderMap, Comparator<Entry> sorter) {
-        // if not grouped print normally
-        String[] obs = orderMap.get("gb");
-        if (obs == null) {
+    private static void putResult(Stream<Entry> entrystream, Comparator<Entry> sorter, Attribute groupby) {
+        if (groupby == null) {
             rr.setList(entrystream.sorted(sorter).toList());
             rr.setType(RequestResult.RequestResultType.LIST);
         } else {
-            SortedMap<?, List<Entry>> groupedLists = groupToMap(entrystream, obs[1]);
+            SortedMap<?, List<Entry>> groupedLists = groupToMap(entrystream, groupby);
             putGroupedResult(groupedLists, sorter);
             rr.setType(RequestResult.RequestResultType.GROUPEDLIST);
         }
@@ -66,12 +60,13 @@ class Lister {
         rr.setGroupedmap(groupedLists);
     }
 
-    private static SortedMap<?, List<Entry>> groupToMap(Stream<Entry> entrystream, String groupby) {
-        return switch (Helper.representation(groupby)) {
-            case "ws" -> makeWSMap(entrystream);
-            case "rs" -> makeRSMap(entrystream);
-            case "r", "rtg" -> makeIntMap(entrystream, groupby);
-            case "lr" -> makeLDMap(entrystream);
+    private static SortedMap<?, List<Entry>> groupToMap(Stream<Entry> entrystream, Attribute groupby) {
+        return switch (groupby) {
+            case writingStatus -> makeWSMap(entrystream);
+            case readingStatus -> makeRSMap(entrystream);
+            case readto -> makeIntMap(entrystream, e -> (int) (e.readto()) / 50 * 50);
+            case rating -> makeIntMap(entrystream, e -> (int) (e.rating()));
+            case lastread -> makeLDMap(entrystream);
             default -> throw new IllegalArgumentException("1");
         };
     }
@@ -86,12 +81,7 @@ class Lister {
         return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(Comparator.comparing(ReadingStatus::ordinal)), toList()));
     }
 
-    private static SortedMap<Integer, List<Entry>> makeIntMap(Stream<Entry> entrystream, String groupby) {
-        Function<Entry, Integer> f = null;
-        switch (Helper.representation(groupby)) {
-            case "r" -> f = e -> (int) (e.readto()) / 50 * 50;
-            case "rtg" -> f = e -> (int) (e.rating());
-        }
+    private static SortedMap<Integer, List<Entry>> makeIntMap(Stream<Entry> entrystream, Function<Entry, Integer> f) {
         return entrystream.collect(Collectors.groupingBy(f, TreeMap::new, toList()));
     }
 
@@ -122,28 +112,28 @@ class Lister {
         return s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort") || s.startsWith("gb") || s.startsWith("groupBy") || s.startsWith("groupby") || s.startsWith("group");
     }
 
-    private static Comparator<Entry> getSorter(String[] sortArgs) {
-        if (sortArgs == null) return Comparator.comparing(Entry::readto);
+    private static Comparator<Entry> getSorter(Attribute sortby) {
+        if (sortby == null) return Comparator.comparing(Entry::name);
         else {
-            Comparator<Entry> comp = switch (Helper.representation(sortArgs[1])) {
-                case "r" -> Comparator.comparing(Entry::readto);
-                case "rtg" -> Comparator.comparing(Entry::rating);
-                case "n" -> Comparator.comparing(Entry::name);
-                case "lr" -> Comparator.comparing(Entry::lastread);
-                case "pu" -> Comparator.comparing(Entry::pauseduntil);
-                case "ws" -> Comparator.comparing(Entry::writingStatus);
-                case "rs" -> Comparator.comparing(Entry::readingStatus);
+//            rework sort descending
+//            if (sortArgs.length > 2 && Helper.representation(sortArgs[2]).equals("desc")) return comp.reversed();
+
+            return switch (sortby) {
+                case name -> Comparator.comparing(Entry::name);
+                case readto -> Comparator.comparing(Entry::readto);
+                case rating -> Comparator.comparing(Entry::rating);
+                case lastread -> Comparator.comparing(Entry::lastread, Comparator.nullsFirst(Comparator.naturalOrder()));
+                case pauseduntil -> Comparator.comparing(Entry::pauseduntil, Comparator.nullsFirst(Comparator.naturalOrder()));
+                case writingStatus -> Comparator.comparing(Entry::writingStatus);
+                case readingStatus -> Comparator.comparing(Entry::readingStatus);
                 default -> throw new IllegalArgumentException("1");
             };
-
-            if (sortArgs.length > 2 && Helper.representation(sortArgs[2]).equals("desc")) return comp.reversed();
-            return comp;
         }
     }
 
-    private static Stream<Entry> filterStream(List<String> filterstrings, Stream<Entry> stream) {
-        List<String[]> filters = filterstrings.stream().map(filter -> filter.split("((?<=[=<>])|(?=[=<>]))")).toList();
-        for (String[] filter : filters) {
+    private static Stream<Entry> filterStream(Stream<Entry> stream, List<Filter<?>> filters) {
+        if (filters == null) return stream;
+        for (Filter<?> filter : filters) {
             Predicate<Entry> p = getFilter(filter);
             stream = stream.filter(p);
         }
@@ -151,77 +141,86 @@ class Lister {
     }
 
     @NotNull
-    private static Predicate<Entry> getFilter(String[] filter) {
-        String[] orFilter = filter[2].split("OR");
-        if (orFilter.length > 1) return complexFilter(filter, orFilter);
+    private static Predicate<Entry> getFilter(Filter<?> filter) {
+        if (filter.isOrFilter()) return complexFilter(filter);
         return simpleFilter(filter);
     }
 
-    private static Predicate<Entry> complexFilter(String[] filter, String[] orFilter) {
-        if (!filter[1].equals("=")) throw new IllegalArgumentException("1");
+    private static Predicate<Entry> complexFilter(Filter<?> filter) {
+        if (!filter.operator().equals("=")) throw new IllegalArgumentException("1");
         return e -> {
-            for (String f : orFilter)
-                if (getEqFilter(filter[0], f).test(e)) return true;
+            for (String f : filter.splitValue())
+                if (getStringEqFilter(filter.attribute(), f).test(e)) return true;
             return false;
         };
     }
 
     @NotNull
-    private static Predicate<Entry> simpleFilter(String[] filter) {
-        return switch (filter[1]) {
-            case "=" -> getEqFilter(filter[0], filter[2]);
+    private static Predicate<Entry> simpleFilter(Filter<?> filter) {
+        return switch (filter.operator()) {
+            case "=" -> getEqFilter(filter.attribute(), filter.value());
             case "<", ">" -> getUneqFilter(filter);
             default -> throw new IllegalStateException();
         };
     }
 
-    private static Predicate<Entry> getEqFilter(String filterBy, String f) {
-        return e -> switch (Helper.representation(filterBy)) {
-            case "rtg" -> e.rating() == Float.parseFloat(f);
-            case "ws" -> Objects.equals(Objects.toString(e.writingStatus()), f);
-            case "rs" -> Objects.equals(Objects.toString(e.readingStatus()), f);
+    private static Predicate<Entry> getEqFilter(Attribute attribute, Object value) {
+        if (value instanceof String) return getStringEqFilter(attribute, (String) value);
+        if (value instanceof Float) return getFloatEqFilter(attribute, ((Float) value).floatValue());
+        throw new IllegalStateException();
+    }
+
+    private static Predicate<Entry> getFloatEqFilter(Attribute attribute, float value) {
+        return e -> switch (attribute) {
+            case rating -> e.rating() == value;
+            default -> throw new IllegalArgumentException("1");
+        };
+    }
+
+    private static Predicate<Entry> getStringEqFilter(Attribute filterBy, String s) {
+        return e -> switch (filterBy) {
+            case writingStatus -> Objects.equals(e.writingStatus(), WritingStatus.getStatus(s));
+            case readingStatus -> Objects.equals(e.readingStatus(), ReadingStatus.getStatus(s));
             default -> throw new IllegalArgumentException("1");
         };
     }
 
     @NotNull
-    private static Predicate<Entry> getUneqFilter(String[] filter) {
-        return e -> switch (Helper.representation(filter[0])) {
-            case "lr" -> getDateFilter(filter, e.lastread());
-            case "pu" -> getDateFilter(filter, e.pauseduntil());
-            case "r" -> getNumberFilter(filter, e.readto());
-            case "rtg" -> getNumberFilter(filter, e.rating());
+    private static Predicate<Entry> getUneqFilter(Filter<?> filter) {
+        return e -> switch (filter.attribute()) {
+            case readto -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.readto());
+            case rating -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.rating());
+            case lastread -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.lastread());
+            case pauseduntil -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.pauseduntil());
             default -> throw new IllegalArgumentException("1");
         };
     }
 
-    private static boolean getDateFilter(String[] filter, Temporal filterTemporal) {
-        if (filterTemporal == null) return true;
+    private static boolean getDateUneqFilter(String operator, LocalDate filterdate, Temporal entrydate) {
+        if (entrydate == null) return true;
         try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            LocalDate inputTime = LocalDate.parse(filter[2], dtf);
-            LocalDate filterdate = LocalDate.from(filterTemporal);
+            LocalDate entryld = LocalDate.from(entrydate);
 
-            if (Objects.equals(filter[1], "<")) return filterdate.isBefore(inputTime);
-            else if (Objects.equals(filter[1], ">")) return filterdate.isAfter(inputTime);
+            if (Objects.equals(operator, "<")) return entryld.isBefore(filterdate);
+            else if (Objects.equals(operator, ">")) return entryld.isAfter(filterdate);
             else throw new IllegalStateException();
         } catch (DateTimeParseException nfe) {
             throw new IllegalArgumentException("1");
         }
     }
 
-    private static boolean getNumberFilter(String[] filter, float num) {
+    private static boolean getFloatUneqFilter(String operator, float filtervalue, float entryvalue) {
         try {
-            if (Objects.equals(filter[1], "<")) return num < Float.parseFloat(filter[2]);
-            else return num > Float.parseFloat(filter[2]);
+            if (Objects.equals(operator, "<")) return entryvalue < filtervalue;
+            else return entryvalue > filtervalue;
         } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("1");
         }
     }
 
-    private static void listfunctions(List<String> typeList) {
+    private static void listfunctions(DisplayAttributesForm daf) {
         TableDataSupplier tds = new TableDataSupplier();
-        typeList.stream().map(DisplayUtil::getFunction).forEach(tds::add);
+        DisplayAttributesUtil.stream(daf).map(DisplayUtil::getFunction).forEach(tds::add);
         rr.setDatasupplier(tds);
     }
 }

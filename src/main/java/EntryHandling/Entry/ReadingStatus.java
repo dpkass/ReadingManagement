@@ -2,17 +2,27 @@ package EntryHandling.Entry;
 
 public enum ReadingStatus {
 
-    Default, NotStarted, Started, Reading, Waiting, Paused, Done;
+    Default("-"), NotStarted("Not Started"), Started("Started"), Reading("Reading"), Waiting("Waiting"), Paused("Paused"), Done(
+            "Done");
 
+    final String displayvalue;
+
+    @Override
     public String toString() {
-        return switch (this) {
-            case Default -> "Not set";
-            case NotStarted -> "Not-Started";
-            default -> super.toString();
-        };
+        return "ReadingStatus{" +
+                "displayvalue='" + displayvalue + '\'' +
+                '}';
     }
 
-    public static EntryHandling.Entry.ReadingStatus getStatus(String name) {
+    ReadingStatus(String displayvalue) {
+        this.displayvalue = displayvalue;
+    }
+
+    public String displayvalue() {
+        return displayvalue;
+    }
+
+    public static ReadingStatus getStatus(String name) {
         try {
             return valueOf(name);
         } catch (Exception e) {

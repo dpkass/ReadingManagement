@@ -1,7 +1,11 @@
-Next-up: Navbar everywhere (injection)
+Next-up: connect form to request
 
 Safe
-1. change h1 (text)
+1. Activate errors
+2. Navbar everywhere (injection)
+3. change h1 (text)
 
 Uncertain
 1. Change to SQL-based database
+2. Rewrite Exceptions to be more specific (especially for form)
+3. Required + pattern off when invisible

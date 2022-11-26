@@ -1,5 +1,6 @@
 package Processing;
 
+import AppRunner.Datastructures.Request;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryNotFoundException;
@@ -11,24 +12,23 @@ import java.util.List;
 
 public class Processor {
 
-    public static final List<String> out = new ArrayList<>();
     static EntryList el;
     public static RequestResult rr;
-    
-    public static void doAdd(List<String> parts) {
-        if (parts.size() < 4) throw new IllegalArgumentException("1");
-        Entry e = getEntry(parts.get(2));
-        Modifier.add(el.entries(), e, parts);
+
+    List<String> out = new ArrayList<>();
+
+    public static void doAdd(Request rq) {
+        Entry e = getEntry(rq.book());
+        Modifier.add(e, rq.addvalue(), el.entries());
     }
 
-    public static void doChange(List<String> parts) {
-        if (parts.size() < 4) throw new IllegalArgumentException("1");
-        Entry e = getEntry(parts.get(2));
-        Modifier.change(e, parts);
+    public static void doChange(Request rq) {
+        Entry e = getEntry(rq.book());
+        Modifier.change(e, rq.changeattribute(), rq.changevalue());
     }
 
-    public static void doList(List<String> parts) {
-        Displayer.list(parts, el.entries());
+    public static void doList(Request rq) {
+        Displayer.list(el.entries(), rq.daf(), rq.filters(), rq.sortby(), rq.groupby());
     }
 
     public static void doListAll() {
@@ -39,38 +39,33 @@ public class Processor {
         Displayer.recommend(el.entries());
     }
 
-    public static void doShow(List<String> parts) {
-        if (parts.size() < 2) throw new IllegalArgumentException("1");
-        Entry e = getEntry(parts.get(1));
-        Displayer.show(e, parts);
+    public static void doShow(Request rq) {
+        Entry e = getEntry(rq.book());
+        Displayer.show(e, rq.daf());
     }
 
-    public static void doNew(List<String> parts) {
-        if (parts.size() < 2) throw new IllegalArgumentException("1");
-        Entry e = el.get(parts.get(1));
+    public static void doNew(Request rq) {
+        Entry e = el.get(rq.book());
         if (e != null) throw new IllegalArgumentException("2");
-        Modifier.make(el, parts);
+        Modifier.make(el, rq.book(), rq.newpagevalue(), rq.newlinkvalue(), rq.newwsvalue(), rq.newlrvalue());
     }
 
-    public static void doOpen(List<String> parts) {
-        if (parts.size() != 2) throw new IllegalArgumentException("1");
-        Entry e = getEntry(parts.get(1));
+    public static void doOpen(Request rq) {
+        Entry e = getEntry(rq.book());
         Opener.open(e);
     }
 
-    public static void doRead(List<String> parts) {
-        if (parts.size() != 3) throw new IllegalArgumentException("1");
-        Entry e = getEntry(parts.get(1));
-        Modifier.read(e, parts.get(2));
+    public static void doRead(Request rq) {
+        Entry e = getEntry(rq.book());
+        Modifier.read(e, rq.readvalue());
     }
 
-    public static void doReadTo(List<String> parts) {
-        if (parts.size() != 3) throw new IllegalArgumentException("1");
-        Entry e = getEntry(parts.get(1));
-        Modifier.readto(e, parts.get(2));
+    public static void doReadTo(Request rq) {
+        Entry e = getEntry(rq.book());
+        Modifier.readto(e, rq.readvalue());
     }
 
-    private static Entry getEntry(String part) {
+    public static Entry getEntry(String part) {
         Entry e = el.get(part);
         if (e == null) throw new EntryNotFoundException("3");
         return e;

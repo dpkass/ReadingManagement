@@ -1,5 +1,6 @@
 package Processing.Displayer;
 
+import AppRunner.Datastructures.Request;
 import EntryHandling.Entry.Entry;
 
 import java.time.LocalDate;
@@ -10,8 +11,9 @@ class Recommender {
     static void recommend(Stream<Entry> entries) {
         LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
         String twoWeeksAgoString = twoWeeksAgo.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        
-        Stream<String> command = Stream.of("gb=rs", "rs=ReadingORStartedORNot-Started", "ws=Rolling", "lr<" + twoWeeksAgoString);
-        Lister.list(command, entries);
+
+        String command = "List gb=rs rs=ReadingORStartedORNot-Started ws=Rolling lr<" + twoWeeksAgoString;
+        Request rq = Request.parse(command);
+        Lister.list(entries, null, rq.filters(), null, rq.groupby());
     }
 }

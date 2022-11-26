@@ -1,37 +1,38 @@
 package Processing.Modifier;
 
+import AppRunner.Datastructures.Attribute;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
-import Management.Helper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 
 class Changer {
-    static String change(Entry e, List<String> parts) {
-        switch (Helper.representation(parts.get(1))) {
-            case "n" -> e.setName(parts.get(3));
-            case "rtg" -> {
-                float f = Float.parseFloat(parts.get(3));
+    public static String change(Entry e, Attribute attribute, String changevalue) {
+        switch (attribute) {
+            case name -> e.setName(changevalue);
+            case rating -> {
+                float f = Float.parseFloat(changevalue);
                 if (EntryUtil.checkRating(f)) e.setRating(f);
             }
-            case "lk" -> e.setLink(parts.get(3));
-            case "pu" -> e.setPauseduntil(toLD(parts.get(3)));
-            case "ws" -> e.setWritingStatus(parts.get(3));
-            case "rs" -> changeReadingStatus(e, parts);
+            case link -> e.setLink(changevalue);
+            case pauseduntil -> e.setPauseduntil(toLD(changevalue));
+            case writingStatus -> e.setWritingStatus(changevalue);
+            case readingStatus -> changeReadingStatus(e, changevalue);
             default -> throw new IllegalArgumentException("1");
         }
-        return "Entry changed.";
+        return attribute.displayvalue() + " changed.";
     }
 
-    private static void changeReadingStatus(Entry e, List<String> parts) {
-        e.setReadingStatus(parts.get(3));
-        if (parts.get(3).equals("Paused") || parts.get(3).equals("Waiting"))
-            if (parts.size() > 4)
-                e.setPauseduntil(LocalDate.parse(parts.get(4), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-            else e.setPauseduntil(LocalDate.now().plusWeeks(4));
+    private static void changeReadingStatus(Entry e, String changevalue) {
+        e.setReadingStatus(changevalue);
+        if (changevalue.equals("Paused") || changevalue.equals("Waiting"))
+//            rework if change rs to be able to change pu
+//            if (parts.size() > 4)
+//                e.setPauseduntil(LocalDate.parse(parts.get(4), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+//            else
+            e.setPauseduntil(LocalDate.now().plusWeeks(4));
         else e.setPauseduntil(null);
     }
 

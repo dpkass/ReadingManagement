@@ -1,5 +1,6 @@
 package Management;
 
+import AppRunner.Datastructures.Request;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
@@ -48,8 +49,8 @@ public class Manager {
         secretfh.write(secretel);
     }
 
-    public void process(String s) {
-        ps.process(s);
+    public void process(Request r) {
+        ps.process(r);
         save();
     }
 

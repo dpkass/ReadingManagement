@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>TheReadingManager</title>
@@ -27,23 +27,26 @@
                             <!--Operator-->
                             <div class="form-group col-md-6">
                                 <label for="idoperator">Operator</label>
+                                <label for="idoperator">Operator</label>
                                 <select class="form-control" name="operator" id="idoperator"
-                                        onchange="formupdate(this);">
-                                    <option disabled selected>Select operator</option>
-                                    <option th:each="op : ${operators}" th:text="${op.displayvalue()}"></option>
+                                        onchange="formupdate();" th:field="*{operator}">
+                                    <option disabled selected value="none">Select operator</option>
+                                    <option th:each="op : ${operators}"
+                                            th:text="${op.displayvalue()}"
+                                            th:value="${op}"></option>
                                 </select>
                             </div>
                             <!--Book text, only if New is selected-->
                             <div class="form-group col-md-6" id="idbooktxtdiv">
                                 <label for="idbooktxt">Book</label>
-                                <input class="form-control" name="book" id="idbooktxt">
+                                <input class="form-control" id="idbooktxt" th:field="*{book}">
                             </div>
                             <!--Book select, only if Add, Change, Read, ReadTo, Open, Show is selected-->
                             <div class="form-group col-md-6" id="idbookseldiv">
                                 <label for="idbooksel">Book</label>
-                                <select class="form-control" name="book" id="idbooksel">
-                                    <option disabled selected>Select book</option>
-                                    <option th:each="book : ${books}" th:text="${book}"></option>
+                                <select class="form-control" id="idbooksel" th:field="*{book}">
+                                    <option disabled selected value="none">Select book</option>
+                                    <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                 </select>
                             </div>
                         </div>
@@ -52,44 +55,50 @@
                             <!--Additional args: Add (ab)-->
                             <div class="form-group col-md-12" id="idadditionaladddiv">
                                 <label for="idadditionaladd">Abbreviation to add</label>
-                                <input class="form-control" type="text" name="abbreviation" id="idadditionaladd">
+                                <input class="form-control" type="text" th:field="*{addvalue}" id="idadditionaladd">
                             </div>
                             <!--Additional args: Change (type -> newval)-->
                             <div class="form-group col-md-6" id="idadditionalchangetypediv">
-                                <label for="idadditionalchangetype">Type</label>
-                                <select class="form-control" name="changetype" id="idadditionalchangetype">
-                                    <option disabled selected>Select Type</option>
-                                    <option th:each="co : ${changing_options}" th:text="${co}"></option>
+                                <label for="idadditionalchangeattribute">Type</label>
+                                <select class="form-control" th:field="*{changeattribute}"
+                                        id="idadditionalchangeattribute">
+                                    <option disabled selected value="none">Select Type</option>
+                                    <option th:each="co : ${changing_options}" th:text="${co.displayvalue()}"
+                                            th:value="${co}"></option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6" id="idadditionalchangenewdiv">
-                                <label for="idadditionalchangenew">New Value</label>
-                                <input class="form-control" type="text" name="changenew" id="idadditionalchangenew">
+                                <label for="idadditionalchangevalue">New Value</label>
+                                <input class="form-control" type="text" th:field="*{changevalue}"
+                                       id="idadditionalchangevalue">
                             </div>
                             <!--Additional args: Read (page)-->
                             <div class="form-group col-md-12" id="idadditionalreaddiv">
                                 <label for="idadditionalread">Page/Chapter</label>
-                                <input class="form-control" type="number" name="read" id="idadditionalread">
+                                <input class="form-control" type="number" th:field="*{readvalue}" id="idadditionalread">
                             </div>
                             <!--Additional args: New (Page, Link, WS, lastread)-->
                             <div class="form-group col-md-6" id="idadditionalnewpagediv">
                                 <label for="idadditionalnewpage">Page/Chapter</label>
-                                <input class="form-control" type="number" name="read" id="idadditionalnewpage">
+                                <input class="form-control" type="number" th:field="*{newpagevalue}"
+                                       id="idadditionalnewpage">
                             </div>
                             <div class="form-group col-md-6" id="idadditionalnewlinkdiv">
                                 <label for="idadditionalnewlink">Link</label>
-                                <input class="form-control" type="url" name="link" id="idadditionalnewlink">
+                                <input class="form-control" type="url" th:field="*{newlinkvalue}"
+                                       id="idadditionalnewlink">
                             </div>
                             <div class="form-group col-md-6" id="idadditionalnewwsdiv">
                                 <label for="idadditionalnewws">Writing Status</label>
-                                <select class="form-control" name="writingstatus" id="idadditionalnewws">
-                                    <option disabled selected>Select Writing Status</option>
-                                    <option th:each="ws : ${writing_statuses}" th:text="${ws}"></option>
+                                <select class="form-control" th:field="*{newwsvalue}" id="idadditionalnewws">
+                                    <option disabled selected value="Default">Select Writing Status</option>
+                                    <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
+                                            th:value="ws"></option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6" id="idadditionalnewlrdiv">
                                 <label for="idadditionalnewlr">Last Read</label>
-                                <input class="form-control" type="datetime-local" name="lastread"
+                                <input class="form-control" type="datetime-local" th:field="*{newlrvalue}"
                                        id="idadditionalnewlr">
                             </div>
                         </div>
@@ -99,40 +108,40 @@
                                 <label for="iddisplayargsinnerdiv">Display</label>
                                 <div id="iddisplayargsinnerdiv">
                                     <div class="form-check form-check-inline">
-                                        <input name="displayread" class="form-check-input" type="checkbox"
+                                        <input class="form-check-input" type="checkbox" th:field="*{displayread}"
                                                id="iddisplayread">
-                                        <label for="iddisplayread" class="form-check-label">Read</label>
+                                        <label for="iddisplayread" class="form-check-label">Page/Chapter</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input name="displaylink" class="form-check-input" type="checkbox"
+                                        <input class="form-check-input" type="checkbox" th:field="*{displaylink}"
                                                id="iddisplaylink">
                                         <label for="iddisplaylink" class="form-check-label">Link</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input name="displayrating" class="form-check-input" type="checkbox"
+                                        <input class="form-check-input" type="checkbox" th:field="*{displayrating}"
                                                id="iddisplayrating">
                                         <label for="iddisplayrating" class="form-check-label">Rating</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input name="displaylastread" class="form-check-input" type="checkbox"
+                                        <input class="form-check-input" type="checkbox" th:field="*{displaylastread}"
                                                id="iddisplaylastread">
                                         <label for="iddisplaylastread" class="form-check-label">Last Read</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input name="displaypauseduntil" class="form-check-input" type="checkbox"
+                                        <input class="form-check-input" type="checkbox" th:field="*{displaypauseduntil}"
                                                id="iddisplaypauseduntil">
                                         <label for="iddisplaypauseduntil" class="form-check-label">Paused
                                             Until</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input name="displayreadingstatus" class="form-check-input" type="checkbox"
-                                               id="iddisplayreadingstatus">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:field="*{displayreadingstatus}" id="iddisplayreadingstatus">
                                         <label for="iddisplayreadingstatus" class="form-check-label">Reading
                                             Status</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input name="displaywritingstatus" class="form-check-input" type="checkbox"
-                                               id="iddisplaywritingstatus">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:field="*{displaywritingstatus}" id="iddisplaywritingstatus">
                                         <label for="iddisplaywritingstatus" class="form-check-label">Writing
                                             Status</label>
                                     </div>
@@ -143,14 +152,18 @@
                         <div class="form-row">
                             <div class="form-group col-md-6" id="idordersortdiv">
                                 <label for="idsort">Sort-by</label>
-                                <select class="form-control" name="sort" id="idsort">
-                                    <option th:each="s : ${sorting_options}" th:text="${s}"></option>
+                                <select class="form-control" th:field="*{sortby}" id="idsort">
+                                    <option selected value="">None</option>
+                                    <option th:each="s : ${sorting_options}" th:text="${s.displayvalue()}"
+                                            th:value="${s}"></option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6" id="idordergroupdiv">
                                 <label for="idgroup">Group-by</label>
-                                <select class="form-control" name="group" id="idgroup">
-                                    <option th:each="g : ${grouping_options}" th:text="${g}"></option>
+                                <select class="form-control" th:field="*{groupby}" id="idgroup">
+                                    <option selected value="">None</option>
+                                    <option th:each="g : ${grouping_options}" th:text="${g.displayvalue()}"
+                                            th:value="${g}"></option>
                                 </select>
                             </div>
                         </div>
@@ -226,6 +239,6 @@
 </body>
 <script>
     getelements()
-    forminvisible()
+    formupdate()
 </script>
 </html>

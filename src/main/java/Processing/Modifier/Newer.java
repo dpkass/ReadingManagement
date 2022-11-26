@@ -1,15 +1,16 @@
 package Processing.Modifier;
 
 import EntryHandling.Entry.EntryList;
+import EntryHandling.Entry.WritingStatus;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 class Newer {
 
-    static String make(EntryList el, List<String> parts) {
+    public static String make(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue,
+                              LocalDateTime newlrvalue) {
         try {
-            List<String> vals = parts.subList(1, parts.size());
-            el.add(vals);
+            el.add(book, newpagevalue, newlinkvalue, newwsvalue, newlrvalue);
             return "Entry added.";
         } catch (Exception e) {
             throw new IllegalArgumentException("1");

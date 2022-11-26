@@ -1,20 +1,28 @@
 package AppRunner.Datastructures;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 
 public enum Operator {
-    NEW("New"), READ("Read"), READTO("Read To"), ADD("Add"), CHANGE("Change"), OPEN("Open"), RECOMMEND("Recommend"), SHOW("Show"), LIST("List"), LISTALL("List All");
+    New("New"), Read("Read"), ReadTo("Read To"), Add("Add"), Change("Change"), Open("Open"), Recommend("Recommend"), Show("Show"), List("List"), ListAll("List All"), Help("Help");
 
     private final String displayvalue;
+
+    public static List<Operator> formoperators() {
+        return Arrays.stream(values()).filter(f -> f != Help).toList();
+    }
+
+    public static Operator getOperator(String s) {
+        try {
+            return valueOf(s);
+        } catch (IllegalArgumentException iae) {
+            return null;
+        }
+    }
 
     Operator(String displayvalue) {this.displayvalue = displayvalue;}
 
     public String displayvalue() {
         return displayvalue;
-    }
-
-    public static Operator getWithDisplayValue(String displayValue) {
-        return Arrays.stream(values()).filter(e -> Objects.equals(e.displayvalue(), displayValue)).findAny().orElse(null);
     }
 }
