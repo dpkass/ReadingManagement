@@ -12,6 +12,10 @@ public record DisplayAttributesForm(boolean displayread, boolean displaylink, bo
         return new DisplayAttributesForm(true, true, true, true, true, true, true);
     }
 
+    public static DisplayAttributesForm none() {
+        return new DisplayAttributesForm(false, false, false, false, false, false, false);
+    }
+
     public List<Boolean> asList() {
         return List.of(displayread, displaylink, displayrating, displaylastread, displaypauseduntil, displayreadingstatus,
                 displaywritingstatus);

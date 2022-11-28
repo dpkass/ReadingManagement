@@ -23,18 +23,18 @@ public enum Attribute {
         return List.of(readto, rating, lastread, writingStatus, readingStatus);
     }
 
-    public static String representation(String s) {
+    public static Attribute representation(String s) {
         return switch (s) {
-            case "name", "n" -> name.displayvalue;
-            case "read", "r" -> readto.displayvalue;
-            case "link", "lk" -> link.displayvalue;
+            case "name", "n" -> name;
+            case "read", "r" -> readto;
+            case "link", "lk" -> link;
 //            case "secret", "s" -> "s";
-            case "rating", "rtg" -> rating.displayvalue;
-            case "lastread", "lr" -> lastread.displayvalue;
-            case "pauseduntil", "pu" -> pauseduntil.displayvalue;
-            case "abbreviation", "ab" -> abbreviations.displayvalue;
-            case "reading-status", "readingstatus", "rs" -> readingStatus.displayvalue;
-            case "writing-status", "writingstatus", "ws" -> writingStatus.displayvalue;
+            case "rating", "rtg" -> rating;
+            case "lastread", "lr" -> lastread;
+            case "pauseduntil", "pu" -> pauseduntil;
+            case "abbreviation", "ab" -> abbreviations;
+            case "reading-status", "readingstatus", "rs" -> readingStatus;
+            case "writing-status", "writingstatus", "ws" -> writingStatus;
             default -> throw new IllegalArgumentException("1");
         };
     }

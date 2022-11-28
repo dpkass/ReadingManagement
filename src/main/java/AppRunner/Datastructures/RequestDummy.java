@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class RequestDummy {
-    private String operator = "none";
-    private String helpoperator = "none";
+    private String operator = "";
+    private String helpoperator = "";
     private String booknew;
-    private String booksel;
+    private String booksel = "";
 
     // addtional change
-    private String changeattribute = "none";
+    private String changeattribute = "";
     private String changevalue = "";
     // addtional add
     private String addvalue = "";
@@ -24,7 +24,7 @@ public final class RequestDummy {
     private String newwsvalue = "";
     @DateTimeFormat (pattern = "dd.MM.yyyy HH:mm")
     private String newlrvalue;
-    // additional readr
+    // additional read
     private float readvalue = 1;
 
     // list display
@@ -44,7 +44,7 @@ public final class RequestDummy {
     public Request toRequest() {
         Request request = new Request();
 
-        List<Boolean> daf = List.of(displayread, displaylink, displayrating, displaylastread, displaypauseduntil, displayreadingstatus, displaywritingstatus);
+        List<Boolean> daf = java.util.List.of(displayread, displaylink, displayrating, displaylastread, displaypauseduntil, displayreadingstatus, displaywritingstatus);
         List<Filter<?>> filters = this.filters == null ? null : this.filters.stream()
                                                                             .map(Filter::createFilter)
                                                                             .collect(Collectors.toList());
@@ -84,30 +84,7 @@ public final class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" +
-                "operator='" + operator + '\'' +
-                ", helpoperator='" + helpoperator + '\'' +
-                ", booknew='" + booknew + '\'' +
-                ", booksel='" + booksel + '\'' +
-                ", changeattribute='" + changeattribute + '\'' +
-                ", changevalue='" + changevalue + '\'' +
-                ", addvalue='" + addvalue + '\'' +
-                ", newpagevalue=" + newpagevalue +
-                ", newlinkvalue='" + newlinkvalue + '\'' +
-                ", newwsvalue='" + newwsvalue + '\'' +
-                ", newlrvalue='" + newlrvalue + '\'' +
-                ", readvalue=" + readvalue +
-                ", displayread=" + displayread +
-                ", displaylink=" + displaylink +
-                ", displayrating=" + displayrating +
-                ", displaylastread=" + displaylastread +
-                ", displaypauseduntil=" + displaypauseduntil +
-                ", displayreadingstatus=" + displayreadingstatus +
-                ", displaywritingstatus=" + displaywritingstatus +
-                ", filters=" + filters +
-                ", sortby='" + sortby + '\'' +
-                ", groupby='" + groupby + '\'' +
-                '}';
+        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue=" + readvalue + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaypauseduntil=" + displaypauseduntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", filters=" + filters + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + '}';
     }
 
     public void setDaf(List<Boolean> daf) {

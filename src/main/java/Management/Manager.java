@@ -19,7 +19,7 @@ public class Manager {
     File file;
     File secretfile;
 
-    RequestResult rr;
+    RequestResult rr = new RequestResult();
     FileHandler fh;
     FileHandler secretfh;
     EntryList el;
@@ -49,16 +49,14 @@ public class Manager {
         secretfh.write(secretel);
     }
 
-    public void process(Request r) {
+    public RequestResult process(Request r) {
+        rr.clear();
         ps.process(r);
         save();
+        return rr.copy();
     }
 
     public Stream<Entry> entries() {
         return el.entries();
-    }
-
-    public void setRr(RequestResult rr) {
-        this.rr = rr;
     }
 }

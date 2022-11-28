@@ -6,6 +6,11 @@
     <!--CSS-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        .invalid-feedback {
+        "display: block"
+        }
+    </style>
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -13,13 +18,13 @@
         crossorigin="anonymous"></script>
 <script th:src="@{/cssandjs/ScriptFile.js}"></script>
 <div class="container">
-    <h1>Request</h1>
+    <h1>Form</h1>
     <!--Form-->
     <div class="row">
-        <div class="col-sm">
+        <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Form</h2>
+                    <h2 class="card-title">Request</h2>
                 </div>
                 <div class="card-body">
                     <form method="post" th:object="${request}">
@@ -27,27 +32,37 @@
                             <!--Operator-->
                             <div class="form-group col-md-6">
                                 <label for="idoperator">Operator</label>
-                                <label for="idoperator">Operator</label>
                                 <select class="form-control" name="operator" id="idoperator"
                                         onchange="formupdate();" th:field="*{operator}">
-                                    <option disabled selected value="none">Select operator</option>
+                                    <option disabled selected value="">Select operator</option>
                                     <option th:each="op : ${operators}"
                                             th:text="${op.displayvalue()}"
                                             th:value="${op}"></option>
                                 </select>
+                                <div class="invalid-feedback">
+                                    <p th:if="${#fields.hasErrors('operator')}"
+                                       th:errors="${#fields.errors('operator')}">
+                                    </p>
+                                </div>
                             </div>
                             <!--Book text, only if New is selected-->
                             <div class="form-group col-md-6" id="idbooktxtdiv">
                                 <label for="idbooktxt">Book</label>
                                 <input class="form-control" id="idbooktxt" th:field="*{booknew}">
+                                <div th:if="${#fields.hasErrors('booknew')}">
+                                    <p th:errors="${#fields.errors('booknew')}"></p>
+                                </div>
                             </div>
                             <!--Book select, only if Add, Change, Read, ReadTo, Open, Show is selected-->
                             <div class="form-group col-md-6" id="idbookseldiv">
                                 <label for="idbooksel">Book</label>
                                 <select class="form-control" id="idbooksel" th:field="*{booksel}">
-                                    <option disabled selected value="none">Select book</option>
+                                    <option disabled selected value="">Select book</option>
                                     <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                 </select>
+                                <div th:if="${#fields.hasErrors('booksel')}">
+                                    <p th:errors="${#fields.errors('booksel')}"></p>
+                                </div>
                             </div>
                         </div>
                         <!--Additional args: Add (ab), Change (oldval/type -> newval), Read (page), ReadTo(page-count), New (Page, Link, WS, lastread)-->
@@ -62,7 +77,7 @@
                                 <label for="idadditionalchangeattribute">Type</label>
                                 <select class="form-control" th:field="*{changeattribute}"
                                         id="idadditionalchangeattribute">
-                                    <option disabled selected value="none">Select Type</option>
+                                    <option disabled selected value="">Select Type</option>
                                     <option th:each="co : ${changing_options}" th:text="${co.displayvalue()}"
                                             th:value="${co}"></option>
                                 </select>
@@ -91,9 +106,9 @@
                             <div class="form-group col-md-6" id="idadditionalnewwsdiv">
                                 <label for="idadditionalnewws">Writing Status</label>
                                 <select class="form-control" th:field="*{newwsvalue}" id="idadditionalnewws">
-                                    <option disabled selected value="Default">Select Writing Status</option>
+                                    <option selected disabled value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
-                                            th:value="ws"></option>
+                                            th:value="${ws}"></option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6" id="idadditionalnewlrdiv">
@@ -174,7 +189,7 @@
         </div>
 
         <!--Requestresult-->
-        <div class="col-sm">
+        <div class="col">
             <div class="card" th:if="${requestresult!=null && !requestresult.hasError()}"
                  th:object="${requestresult}">
                 <div class="card-header">
@@ -183,8 +198,8 @@
                 <div class="card-body">
                     <!--Success-->
                     <p class="text-success"
-                       th:if="*{type().ordinal()==0}"
-                       th:text="*{string()}"></p>
+                       th:if="*{type().ordinal()==0}" th:text="*{string()}">
+                    </p>
                     <!--Show-->
                     <ul class="list-group" th:if="*{type().ordinal()==1}">
                         <li class="list-group-item" th:each="func : *{datafunctions()}"
@@ -206,26 +221,29 @@
                         </table>
                     </div>
                     <!--Grouped List-->
-                    <div class="card" th:if="${requestresult.type().ordinal()==3}" th:each="entry : *{groupedmap()}">
-                        <div class="card-header">
-                            <h3 class="card-title" th:text="${entry.key}"></h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="e : ${entry.value}">
-                                        <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                    <div th:if="${requestresult.type().ordinal()==3}" th:each="entry : *{groupedmap()}">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" th:text="${entry.key}"></h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="e : ${entry.value}">
+                                            <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                        <br>
                     </div>
                     <!--Help-->
                     <p class="text-info" style="white-space: pre-wrap"

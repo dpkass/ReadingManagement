@@ -16,8 +16,7 @@ public class DisplayAttributesUtil {
     public static DisplayAttributesForm build(List<String> subList) {
         boolean displayread = false, displaylink = false, displayrating = false, displaylastread = false, displaypauseduntil = false, displayreadingstatus = false, displaywritingstatus = false;
         for (String s : subList) {
-            s = Attribute.representation(s);
-            Attribute att = Attribute.getAttribute(s);
+            Attribute att = representation(s);
             switch (att) {
                 case readto -> displayread = true;
                 case link -> displaylink = true;
@@ -44,8 +43,8 @@ public class DisplayAttributesUtil {
         if (daf.displayrating()) res.add(rating);
         if (daf.displaylastread()) res.add(lastread);
         if (daf.displaypauseduntil()) res.add(pauseduntil);
-        if (daf.displayreadingstatus()) res.add(writingStatus);
-        if (daf.displaywritingstatus()) res.add(readingStatus);
+        if (daf.displayreadingstatus()) res.add(readingStatus);
+        if (daf.displaywritingstatus()) res.add(writingStatus);
         enabledSet = res;
     }
 

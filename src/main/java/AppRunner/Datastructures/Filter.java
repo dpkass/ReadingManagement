@@ -3,9 +3,10 @@ package AppRunner.Datastructures;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// rework OR filters
 public record Filter<T>(Attribute attribute, String operator, T value) {
     public static Filter<?> createFilter(String[] filter) {
-        Attribute attribute = Attribute.getAttribute(filter[0]);
+        Attribute attribute = Attribute.representation(filter[0]);
         String operator = filter[1];
         return switch (attribute) {
             case readto, rating -> new Filter<>(attribute, operator, Float.parseFloat(filter[2]));

@@ -4,27 +4,36 @@ import AppRunner.Datastructures.Attribute;
 import AppRunner.Datastructures.Operator;
 import AppRunner.Datastructures.Request;
 import AppRunner.Datastructures.RequestDummy;
+import AppRunner.Validation.RequestValidator;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.WritingStatus;
 import Management.Manager;
 import Processing.RequestResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @Controller
 public class RequestController {
-    static RequestResult rr = new RequestResult();
-    static Manager mgr = new Manager();
+    Manager mgr;
 
+    public RequestController() {
+        mgr = new Manager();
 
-    static {
-        mgr.setRr(rr);
         mgr.init();
         mgr.start();
+    }
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(new RequestValidator());
     }
 
     @GetMapping ("/form")
@@ -41,38 +50,43 @@ public class RequestController {
     }
 
     @PostMapping ("/form")
-    public String processForm(RequestDummy rq, Model m) {
-        mgr.process(rq.toRequest());
-
+    public String processForm(@Valid RequestDummy rq, BindingResult br, Model m) {
         buildForm(m);
         m.addAttribute("request", rq);
 
-        if (rr.hasError()) displayError(m);
-        else insertResult(m);
-        rr.clear();
+        if (br.hasErrors()) {
+            System.out.println("found error");
+            System.out.println(br.getFieldErrors());
+            return "form";
+        }
+
+        RequestResult rr = mgr.process(rq.toRequest());
+
+        if (rr.hasError()) displayError(m, rr);
+        else insertResult(m, rr);
 
         return "form";
     }
 
     @PostMapping ("/commandline")
     public String processCommandline(String command, Model m) {
-        Request rq = Request.parse(command);
-        mgr.process(rq);
-
         m.addAttribute("command", command);
 
-        if (rr.hasError()) displayError(m);
-        else insertResult(m);
+        Request rq = Request.parse(command);
+        RequestResult rr = mgr.process(rq);
+
+        if (rr.hasError()) displayError(m, rr);
+        else insertResult(m, rr);
         rr.clear();
 
         return "commandline";
     }
 
-    private void insertResult(Model m) {
+    private void insertResult(Model m, RequestResult rr) {
         m.addAttribute("requestresult", rr.copy());
     }
 
-    private void displayError(Model m) {
+    private void displayError(Model m, RequestResult rr) {
         m.addAttribute("error", rr.error());
     }
 

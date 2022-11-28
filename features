@@ -1,11 +1,12 @@
-Next-up: connect form to request
+Next-up: Validate Form
 
 Safe
 1. Activate errors
-2. Navbar everywhere (injection)
-3. change h1 (text)
+2. Do reworks
+3. Navbar everywhere (injection)
+4. change to give number input for rating and select option for ws & rs (+date pauseduntil for paused & waiting)
+5. grouped requestresult to display status displayvalue not statusname
 
 Uncertain
 1. Change to SQL-based database
-2. Rewrite Exceptions to be more specific (especially for form)
-3. Required + pattern off when invisible
+2. Rewrite Exceptions to be more specific (for command)

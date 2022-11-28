@@ -1,22 +1,22 @@
 {
   "books" : [ {
     "name" : "Solo Leveling",
-    "readto" : 179.5,
+    "readto" : 1.0,
     "link" : "https://toonily.com/webtoon/solo-leveling-005/",
     "rating" : -1.0,
     "writingStatus" : "Ended",
     "readingStatus" : "Paused",
-    "lastread" : "07.04.2022 01:29",
+    "lastread" : "28.11.2022 14:25",
     "pauseduntil" : "01.12.2022",
     "abbreviations" : [ "SL", "sl", "solo" ]
   }, {
     "name" : "The Beginning after The End",
-    "readto" : 155.0,
+    "readto" : 1.0,
     "link" : "https://toonily.com/webtoon/beginning-after-end/",
     "rating" : -1.0,
     "writingStatus" : "Default",
     "readingStatus" : "Reading",
-    "lastread" : "17.11.2022 15:27",
+    "lastread" : "27.11.2022 13:16",
     "pauseduntil" : null,
     "abbreviations" : [ "TBATE", "tbate" ]
   }, {
@@ -45,9 +45,29 @@
     "link" : "",
     "rating" : -1.0,
     "writingStatus" : "Default",
-    "readingStatus" : "Paused",
+    "readingStatus" : "Reading",
     "lastread" : "25.11.2022 23:23",
-    "pauseduntil" : "26.11.2022",
+    "pauseduntil" : null,
+    "abbreviations" : [ ]
+  }, {
+    "name" : "Zurück in die Zeit 2",
+    "readto" : 0.0,
+    "link" : "https://www.zidz2.com",
+    "rating" : -1.0,
+    "writingStatus" : "Default",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : "28.11.2022",
+    "abbreviations" : [ ]
+  }, {
+    "name" : "Zurück in die Zeit 3",
+    "readto" : 0.0,
+    "link" : "https://www.zidz3.com",
+    "rating" : -1.0,
+    "writingStatus" : "ComingUp",
+    "readingStatus" : "NotStarted",
+    "lastread" : null,
+    "pauseduntil" : "28.11.2022",
     "abbreviations" : [ ]
   } ]
 }
