@@ -40,6 +40,8 @@ public final class RequestDummy {
     // order args
     private String sortby;
     private String groupby;
+    private boolean sortdescending;
+    private boolean groupdescending;
 
     public Request toRequest() {
         Request request = new Request();
@@ -66,6 +68,8 @@ public final class RequestDummy {
         request.setFilters(filters);
         request.setSortby(sortby);
         request.setGroupby(groupby);
+        request.setSortdescending(sortdescending);
+        request.setGroupdescending(groupdescending);
 
         return request;
     }
@@ -273,5 +277,21 @@ public final class RequestDummy {
 
     public void setGroupby(String groupby) {
         this.groupby = groupby;
+    }
+
+    public boolean isSortdescending() {
+        return sortdescending;
+    }
+
+    public void setSortdescending(boolean sortdescending) {
+        this.sortdescending = sortdescending;
+    }
+
+    public boolean isGroupdescending() {
+        return groupdescending;
+    }
+
+    public void setGroupdescending(boolean groupdescending) {
+        this.groupdescending = groupdescending;
     }
 }

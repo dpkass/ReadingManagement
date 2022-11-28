@@ -181,6 +181,20 @@
                                             th:value="${g}"></option>
                                 </select>
                             </div>
+                            <div class="form-group col-md-6" id="idordersortdirectiondiv">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:field="*{sortdescending}"
+                                           id="idsortdirection">
+                                    <label for="idsortdirection">Sort descending</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6" id="idordergroupdirectiondiv">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:field="*{groupdescending}"
+                                           id="idgroupdirection">
+                                    <label for="idgroupdirection">Group descending</label>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Request</button>
                     </form>

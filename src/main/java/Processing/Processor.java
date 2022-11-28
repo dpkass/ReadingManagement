@@ -23,7 +23,7 @@ public class Processor {
     }
 
     public static void doList(Request rq) {
-        Displayer.list(el.entries(), rq.daf(), rq.filters(), rq.sortby(), rq.groupby());
+        Displayer.list(el.entries(), rq.daf(), rq.filters(), rq.sortby(), rq.groupby(), rq.sortdescending(), rq.groupdescending());
     }
 
     public static void doListAll() {

@@ -28,11 +28,11 @@ import static java.util.stream.Collectors.toList;
 
 class Lister {
 
-    static void list(Stream<Entry> entries, DisplayAttributesForm daf, List<Filter<?>> filters, Attribute sortby, Attribute groupby) {
+    static void list(Stream<Entry> entries, DisplayAttributesForm daf, List<Filter<?>> filters, Attribute sortby, Attribute groupby, boolean sortdescending, boolean groupdescending) {
         listfunctions(daf);
-        Comparator<Entry> sorter = getSorter(sortby);
+        Comparator<Entry> sorter = getSorter(sortby, sortdescending);
         entries = filterStream(entries, filters);
-        putResult(entries, sorter, groupby);
+        putResult(entries, sorter, groupby, groupdescending);
         makeHeaderList(daf);
     }
 
@@ -44,50 +44,54 @@ class Lister {
     }
 
     @NotNull
-    private static void putResult(Stream<Entry> entrystream, Comparator<Entry> sorter, Attribute groupby) {
+    private static void putResult(Stream<Entry> entrystream, Comparator<Entry> sorter, Attribute groupby, boolean groupdescending) {
         if (groupby == null) {
             rr.setList(entrystream.sorted(sorter).toList());
             rr.setType(RequestResult.RequestResultType.LIST);
         } else {
-            SortedMap<?, List<Entry>> groupedLists = groupToMap(entrystream, groupby);
-            putGroupedResult(groupedLists, sorter);
+            SortedMap<?, List<Entry>> groupedMap = groupToMap(entrystream, groupby, groupdescending);
+            putGroupedResult(groupedMap, sorter);
             rr.setType(RequestResult.RequestResultType.GROUPEDLIST);
         }
     }
 
-    private static void putGroupedResult(SortedMap<?, List<Entry>> groupedLists, Comparator<Entry> sorter) {
-        groupedLists.values().forEach(a -> a.sort(sorter));
-        rr.setGroupedmap(groupedLists);
+    private static void putGroupedResult(SortedMap<?, List<Entry>> groupedMap, Comparator<Entry> sorter) {
+        groupedMap.values().forEach(a -> a.sort(sorter));
+        rr.setGroupedmap(groupedMap);
     }
 
-    private static SortedMap<?, List<Entry>> groupToMap(Stream<Entry> entrystream, Attribute groupby) {
+    private static SortedMap<?, List<Entry>> groupToMap(Stream<Entry> entrystream, Attribute groupby, boolean groupdescending) {
         return switch (groupby) {
-            case writingStatus -> makeWSMap(entrystream);
-            case readingStatus -> makeRSMap(entrystream);
-            case readto -> makeIntMap(entrystream, e -> (int) (e.readto()) / 50 * 50);
-            case rating -> makeIntMap(entrystream, e -> (int) (e.rating()));
-            case lastread -> makeLDMap(entrystream);
+            case writingStatus -> makeWSMap(entrystream, groupdescending);
+            case readingStatus -> makeRSMap(entrystream, groupdescending);
+            case readto -> makeIntMap(entrystream, e -> (int) (e.readto()) / 50 * 50, groupdescending);
+            case rating -> makeIntMap(entrystream, e -> (int) (e.rating()), groupdescending);
+            case lastread -> makeLDMap(entrystream, groupdescending);
             default -> throw new IllegalArgumentException("1");
         };
     }
 
-    private static SortedMap<WritingStatus, List<Entry>> makeWSMap(Stream<Entry> entrystream) {
+    private static SortedMap<WritingStatus, List<Entry>> makeWSMap(Stream<Entry> entrystream, boolean groupdescending) {
         Function<Entry, WritingStatus> f = Entry::writingStatus;
-        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(Comparator.comparing(WritingStatus::ordinal)), toList()));
+        final Comparator<WritingStatus> comp = groupdescending ? Comparator.reverseOrder() : Comparator.naturalOrder();
+        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(comp), toList()));
     }
 
-    private static SortedMap<ReadingStatus, List<Entry>> makeRSMap(Stream<Entry> entrystream) {
+    private static SortedMap<ReadingStatus, List<Entry>> makeRSMap(Stream<Entry> entrystream, boolean groupdescending) {
         Function<Entry, ReadingStatus> f = Entry::readingStatus;
-        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(Comparator.comparing(ReadingStatus::ordinal)), toList()));
+        final Comparator<ReadingStatus> comp = groupdescending ? Comparator.reverseOrder() : Comparator.naturalOrder();
+        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(comp), toList()));
     }
 
-    private static SortedMap<Integer, List<Entry>> makeIntMap(Stream<Entry> entrystream, Function<Entry, Integer> f) {
-        return entrystream.collect(Collectors.groupingBy(f, TreeMap::new, toList()));
+    private static SortedMap<Integer, List<Entry>> makeIntMap(Stream<Entry> entrystream, Function<Entry, Integer> f, boolean groupdescending) {
+        final Comparator<Integer> comp = groupdescending ? Comparator.reverseOrder() : Comparator.naturalOrder();
+        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(comp), toList()));
     }
 
-    private static SortedMap<String, List<Entry>> makeLDMap(Stream<Entry> entrystream) {
+    private static SortedMap<String, List<Entry>> makeLDMap(Stream<Entry> entrystream, boolean groupdescending) {
         Function<Entry, String> f = e -> EntryUtil.dateString(e.lastread(), DateTimeFormatter.ofPattern("MM-yyyy"), "-");
-        return entrystream.collect(Collectors.groupingBy(f, TreeMap::new, toList()));
+        final Comparator<String> comp = groupdescending ? Comparator.reverseOrder() : Comparator.naturalOrder();
+        return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(comp), toList()));
     }
 
     private static Map<String, String[]> getOrderStrings(List<String> filterList) {
@@ -112,13 +116,10 @@ class Lister {
         return s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort") || s.startsWith("gb") || s.startsWith("groupBy") || s.startsWith("groupby") || s.startsWith("group");
     }
 
-    private static Comparator<Entry> getSorter(Attribute sortby) {
+    private static Comparator<Entry> getSorter(Attribute sortby, boolean sortdescending) {
         if (sortby == null) return Comparator.comparing(Entry::name);
         else {
-//            rework sort descending
-//            if (sortArgs.length > 2 && Helper.representation(sortArgs[2]).equals("desc")) return comp.reversed();
-
-            return switch (sortby) {
+            Comparator<Entry> comp = switch (sortby) {
                 case name -> Comparator.comparing(Entry::name);
                 case readto -> Comparator.comparing(Entry::readto);
                 case rating -> Comparator.comparing(Entry::rating);
@@ -128,6 +129,9 @@ class Lister {
                 case readingStatus -> Comparator.comparing(Entry::readingStatus);
                 default -> throw new IllegalArgumentException("1");
             };
+
+            if (sortdescending) return comp.reversed();
+            return comp;
         }
     }
 

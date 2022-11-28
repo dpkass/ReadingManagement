@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Displayer {
-    public static void list(Stream<Entry> entries, DisplayAttributesForm daf, List<Filter<?>> filters, Attribute sortby, Attribute groupby) {
-        Lister.list(entries, daf, filters, sortby, groupby);
+    public static void list(Stream<Entry> entries, DisplayAttributesForm daf, List<Filter<?>> filters, Attribute sortby, Attribute groupby, boolean sortdescending, boolean groupdescending) {
+        Lister.list(entries, daf, filters, sortby, groupby, sortdescending, groupdescending);
     }
 
     public static void listAll(Stream<Entry> entries) {
-        Lister.list(entries, DisplayAttributesForm.all(), null, null, null);
+        Lister.list(entries, DisplayAttributesForm.all(), null, null, null, false, false);
     }
 
     public static void recommend(Stream<Entry> entries) {

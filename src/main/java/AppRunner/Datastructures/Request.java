@@ -32,6 +32,8 @@ public final class Request {
     // order args
     private Attribute sortby;
     private Attribute groupby;
+    private boolean sortdescending;
+    private boolean groupdescending;
 
     public static Request parse(String command) {
         return RequestBuilder.build(command);
@@ -220,5 +222,21 @@ public final class Request {
 
     public void setReadvalue(float readvalue) {
         this.readvalue = readvalue;
+    }
+
+    public boolean sortdescending() {
+        return sortdescending;
+    }
+
+    public void setSortdescending(boolean sortdescending) {
+        this.sortdescending = sortdescending;
+    }
+
+    public boolean groupdescending() {
+        return groupdescending;
+    }
+
+    public void setGroupdescending(boolean groupdescending) {
+        this.groupdescending = groupdescending;
     }
 }

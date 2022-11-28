@@ -1,6 +1,6 @@
 let idbooktxt, idbooksel, idadditionalread, idadditionaladd, idadditionalchangetype, idadditionalchangenew,
     idadditionalnewpage, idadditionalnewlink, idadditionalnewws, idadditionalnewlr, iddisplayargs, idordersort,
-    idordergroup;
+    idordergroup, idordersortdirection, idordergroupdirection;
 
 function getelements() {
     // books
@@ -21,6 +21,8 @@ function getelements() {
     iddisplayargs = document.getElementById("iddisplayargsdiv")
     idordersort = document.getElementById("idordersortdiv")
     idordergroup = document.getElementById("idordergroupdiv")
+    idordersortdirection = document.getElementById("idordersortdirectiondiv")
+    idordergroupdirection = document.getElementById("idordergroupdirectiondiv")
 }
 
 function formupdate() {
@@ -72,6 +74,8 @@ function formupdate() {
         case "List":
             makeVisible(idordersort);
             makeVisible(idordergroup);
+            makeVisible(idordersortdirection);
+            makeVisible(idordergroupdirection);
             makeVisible(iddisplayargs);
             break
 
@@ -106,4 +110,6 @@ function forminvisible() {
     makeInvisible(iddisplayargs)
     makeInvisible(idordersort)
     makeInvisible(idordergroup)
+    makeInvisible(idordersortdirection)
+    makeInvisible(idordergroupdirection)
 }

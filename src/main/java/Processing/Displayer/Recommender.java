@@ -15,6 +15,6 @@ class Recommender {
 
         String command = "List gb=rs rs=ReadingORStartedORNot-Started ws=Rolling lr<" + twoWeeksAgoString;
         Request rq = Request.parse(command);
-        Lister.list(entries, DisplayAttributesForm.none(), rq.filters(), null, rq.groupby());
+        Lister.list(entries, DisplayAttributesForm.none(), rq.filters(), null, rq.groupby(), false, false);
     }
 }
