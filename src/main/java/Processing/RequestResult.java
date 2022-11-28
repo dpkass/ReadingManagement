@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class RequestResult {
 
     public enum RequestResultType {
-        SUCCESS, SHOW, LIST, GROUPEDLIST, HELP
+        SUCCESS, SHOW, LIST, GROUPEDLIST, OPEN, HELP
     }
 
     public RequestResult() {}

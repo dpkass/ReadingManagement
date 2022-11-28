@@ -259,9 +259,12 @@
                         </div>
                         <br>
                     </div>
+                    <!--Open-->
+                    <a th:if="${requestresult.type().ordinal()==4}" th:href="*{string}"
+                       rel="noopener noreferrer">Open</a>
                     <!--Help-->
                     <p class="text-info" style="white-space: pre-wrap"
-                       th:if="${requestresult.type().ordinal()==4}"
+                       th:if="${requestresult.type().ordinal()==5}"
                        th:text="${requestresult.string()}"></p>
                 </div>
             </div>

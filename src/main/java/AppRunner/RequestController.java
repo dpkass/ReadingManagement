@@ -61,7 +61,7 @@ public class RequestController {
         }
 
         RequestResult rr = mgr.process(rq.toRequest());
-
+        
         if (rr.hasError()) displayError(m, rr);
         else insertResult(m, rr);
 

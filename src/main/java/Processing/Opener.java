@@ -1,25 +1,19 @@
 package Processing;
 
-import EntryHandling.Entry.Entry;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import static Processing.Processor.rr;
 
 class Opener {
 
-    // rework
-    static void open(Entry e) {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            try {
-                URI link = new URI(e.link());
-                Desktop.getDesktop().browse(link);
-            } catch (URISyntaxException | IOException ex) {
-                throw new IllegalArgumentException("5");
-            }
-        } else {
-            throw new IllegalArgumentException("6");
+    static void open(String link) {
+        try {
+            new URL(link);
+            rr.setType(RequestResult.RequestResultType.OPEN);
+            rr.setString(link);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("5");
         }
     }
 }

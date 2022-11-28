@@ -1,8 +1,7 @@
 Next-up: Do reworks
-			1. List Sort Desc
-			2. Open
-			3. Validation of CommandLine
-			4. Validator look up if abb or book is in db
+			1. Open
+			2. Validation of CommandLine
+			3. Validator look up if abb or book is in db
 
 Safe
 1. Navbar everywhere (injection)

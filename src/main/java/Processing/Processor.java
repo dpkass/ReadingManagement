@@ -47,7 +47,7 @@ public class Processor {
 
     public static void doOpen(Request rq) {
         Entry e = getEntry(rq.booksel());
-        Opener.open(e);
+        Opener.open(e.link());
     }
 
     public static void doRead(Request rq) {
