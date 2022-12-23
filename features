@@ -1,13 +1,10 @@
-Next-up: Do reworks
-			1. Validation of CommandLine
+Next-up: Navbar everywhere (injection)
 
 Safe
-1. Validate if abb or book is in db
-2. Navbar everywhere (injection)
-3. change to give number input for rating and select option for ws & rs (+date pauseduntil for paused & waiting) (JavaScript)
-4. grouped requestresult to display status displayvalue not statusname (better in backend)
-5. OR Filters
-6. Sort List-All
+1. change to give number input for rating and select option for ws & rs (+date pauseduntil for paused & waiting) (JavaScript)
+2. grouped requestresult to display status displayvalue not statusname (better in backend)
+3. OR Filters
+4. Sort List-All
 
 Uncertain
 1. Change to SQL-based database

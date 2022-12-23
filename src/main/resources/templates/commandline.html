@@ -13,10 +13,11 @@
     </style>
 </head>
 <body>
+<div th:replace="fragments/topnav :: navbar"></div>
 <div class="container">
     <h1>Commandline</h1>
     <div class="row">
-        <div class="col-sm">
+        <div class="col">
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Request</h2>
@@ -35,67 +36,7 @@
             </div>
         </div>
 
-        <!--Requestresult-->
-        <div class="col-sm">
-            <div class="card" th:if="${requestresult!=null && !requestresult.hasError()}"
-                 th:object="${requestresult}">
-                <div class="card-header">
-                    <h2 class="card-title">Requestresult</h2>
-                </div>
-                <div class="card-body">
-                    <!--Success-->
-                    <p class="text-success"
-                       th:if="*{type().ordinal()==0}"
-                       th:text="*{string()}"></p>
-                    <!--Show-->
-                    <ul class="list-group" th:if="*{type().ordinal()==1}">
-                        <li class="list-group-item" th:each="func : *{datafunctions()}"
-                            th:text="${func.apply(requestresult.list().get(0))}"></li>
-                    </ul>
-                    <!--List-->
-                    <div class="table-responsive" th:if="${requestresult.type().ordinal()==2}">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="e : *{list()}">
-                                <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--Grouped List-->
-                    <div class="card" th:if="${requestresult.type().ordinal()==3}" th:each="entry : *{groupedmap()}">
-                        <div class="card-header">
-                            <h3 class="card-title" th:text="${entry.key}"></h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" th:each="str : *{headerlist()}" th:text="${str}"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="e : ${entry.value}">
-                                        <td th:each="func : *{datafunctions()}" th:text="${func.apply(e)}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Help-->
-                    <p class="text-info" style="white-space: pre-wrap"
-                       th:if="${requestresult.type().ordinal()==4}"
-                       th:text="${requestresult.string()}"></p>
-                </div>
-            </div>
-        </div>
+        <div th:replace="fragments/requestresult :: requestresult"></div>
     </div>
 </div>
 </body>

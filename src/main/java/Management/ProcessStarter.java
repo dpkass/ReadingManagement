@@ -3,6 +3,7 @@ package Management;
 import AppRunner.Datastructures.Error;
 import AppRunner.Datastructures.Request;
 import EntryHandling.Entry.EntryList;
+import EntryHandling.Entry.EntryNotFoundException;
 import Processing.Processor;
 import Processing.RequestResult;
 
@@ -39,6 +40,10 @@ public class ProcessStarter {
                 case Help -> doHelp(rq);
                 default -> throw new IllegalArgumentException("1");
             }
+        } catch (EntryNotFoundException e) {
+            int code = Integer.parseInt(e.getMessage());
+            String message = Helper.errorMessage(e.getMessage());
+            rr.setError(new Error(code, message));
         } catch (Exception e) {
             e.printStackTrace();
             int code = Integer.parseInt(e.getMessage());
