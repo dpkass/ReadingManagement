@@ -19,13 +19,13 @@ public final class RequestDummy {
     // addtional add
     private String addvalue = "";
     // addtional new
-    private float newpagevalue = 0;
+    private String newpagevalue = "0";
     private String newlinkvalue = "";
     private String newwsvalue = "";
     @DateTimeFormat (pattern = "dd.MM.yyyy HH:mm")
     private String newlrvalue;
     // additional read
-    private float readvalue = 1;
+    private String readvalue = "1";
 
     // list display
     private boolean displayread = false;
@@ -51,6 +51,8 @@ public final class RequestDummy {
                                                                             .map(Filter::createFilter)
                                                                             .collect(Collectors.toList());
         LocalDateTime parsed = toLD();
+        float newpageval = Float.parseFloat(newpagevalue);
+        float readval = Float.parseFloat(readvalue);
 
         request.setOperator(operator);
         request.setHelpoperator(helpoperator);
@@ -59,11 +61,11 @@ public final class RequestDummy {
         request.setChangeattribute(changeattribute);
         request.setChangevalue(changevalue);
         request.setAddvalue(addvalue);
-        request.setNewpagevalue(newpagevalue);
+        request.setNewpagevalue(newpageval);
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(newwsvalue);
         request.setNewlrvalue(parsed);
-        request.setReadvalue(readvalue);
+        request.setReadvalue(readval);
         request.setDaf(new DisplayAttributesForm(daf));
         request.setFilters(filters);
         request.setSortby(sortby);
@@ -77,7 +79,7 @@ public final class RequestDummy {
     private LocalDateTime toLD() {
         try {
             return LocalDateTime.parse(newlrvalue);
-        } catch (DateTimeParseException dtpe) {
+        } catch (DateTimeParseException | NullPointerException e) {
             return null;
         }
     }
@@ -159,11 +161,11 @@ public final class RequestDummy {
         this.addvalue = addvalue;
     }
 
-    public float getNewpagevalue() {
+    public String getNewpagevalue() {
         return newpagevalue;
     }
 
-    public void setNewpagevalue(float newpagevalue) {
+    public void setNewpagevalue(String newpagevalue) {
         this.newpagevalue = newpagevalue;
     }
 
@@ -191,11 +193,11 @@ public final class RequestDummy {
         this.newlrvalue = newlrvalue;
     }
 
-    public float getReadvalue() {
+    public String getReadvalue() {
         return readvalue;
     }
 
-    public void setReadvalue(float readvalue) {
+    public void setReadvalue(String readvalue) {
         this.readvalue = readvalue;
     }
 

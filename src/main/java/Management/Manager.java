@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 
 @Component
 public class Manager {
-    public static final File standardfile = new File("resources/index.json");
-    public static final File standardsecretfile = new File("resources/secret.json");
+    public static final File standardfile = new File("resources/standard_index");
+    public static final File standardsecretfile = new File("resources/standard_secret");
 
     File file;
     File secretfile;

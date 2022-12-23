@@ -6,13 +6,14 @@ import java.time.format.DateTimeFormatter;
 // rework OR filters
 public record Filter<T>(Attribute attribute, String operator, T value) {
     public static Filter<?> createFilter(String[] filter) {
-        Attribute attribute = Attribute.representation(filter[0]);
+        Attribute att = Attribute.getAttribute(filter[0]);
         String operator = filter[1];
-        return switch (attribute) {
-            case readto, rating -> new Filter<>(attribute, operator, Float.parseFloat(filter[2]));
-            case writingStatus, readingStatus -> new Filter<>(attribute, operator, filter[2]);
+        if (att == null) throw new IllegalArgumentException("1");
+        return switch (att) {
+            case readto, rating -> new Filter<>(att, operator, Float.parseFloat(filter[2]));
+            case writingStatus, readingStatus -> new Filter<>(att, operator, filter[2]);
             case lastread, pauseduntil ->
-                    new Filter<LocalDate>(attribute, operator, LocalDate.parse(filter[2], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                    new Filter<LocalDate>(att, operator, LocalDate.parse(filter[2], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             default -> throw new IllegalArgumentException("1");
         };
     }

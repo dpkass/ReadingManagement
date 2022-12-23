@@ -1,9 +1,10 @@
 package AppRunner.Datastructures;
 
+import AppRunner.Validation.CommandValidator;
 import Management.Helper;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -11,10 +12,9 @@ import java.util.stream.Collectors;
 
 //rework validate
 public class RequestBuilder {
-
     // main
-    private static Operator operator;
-    private static Operator helpoperator;
+    private static String operator;
+    private static String helpoperator;
     private static String booksel;
     private static String booknew;
 
@@ -27,70 +27,94 @@ public class RequestBuilder {
     private static float newpagevalue;
     private static String newlinkvalue;
     private static String newwsvalue;
-    private static LocalDateTime newlrvalue;
+    private static String newlrvalue;
     // additional read
     private static float readvalue;
 
     // list display
     private static DisplayAttributesForm daf;
-    private static List<Filter<?>> filters;
+    private static List<String[]> filters;
 
     // order args
     private static String sortby;
     private static String groupby;
 
     public static Request build(String command) {
-        List<String> parts = Pattern.compile("([^\"]\\S*|\".*\")\\s*").matcher(command).results().map(str -> str.group(1)).toList();
 
-        operator = Operator.getOperator(parts.get(0));
-        parts = parts.size() > 1 ? parts.subList(1, parts.size() - 1) : List.of();
-        switch (operator) {
-            case New -> buildNew(parts);
-            case Read, ReadTo -> buildRead(parts);
-            case Add -> buildAdd(parts);
-            case Change -> buildChange(parts);
-            case Open -> buildOpen(parts);
-            case Show -> buildShow(parts);
-            case List -> buildList(parts);
-            case Help -> buildHelp(parts);
-            case ListAll, Recommend -> {}
+        try {
+            List<String> parts = Pattern.compile("\"([^\"]*)\"|(\\S+)")
+                                        .matcher(command)
+                                        .results()
+                                        .map(str -> str.group(1) != null ? str.group(1) : str.group(2))
+                                        .toList();
+
+            operator = parts.get(0);
+            CommandValidator.validateOperator(operator);
+
+            Operator op = Operator.getOperator(parts.get(0));
+
+            parts = parts.size() > 1 ? parts.subList(1, parts.size()) : List.of();
+            switch (op) {
+                case New -> buildNew(parts);
+                case Read, ReadTo -> buildRead(parts);
+                case Add -> buildAdd(parts);
+                case Change -> buildChange(parts);
+                case Open -> buildOpen(parts);
+                case Show -> buildShow(parts);
+                case List -> buildList(parts);
+                case Help -> buildHelp(parts);
+                case ListAll, Recommend -> {}
+            }
+        } catch (IndexOutOfBoundsException e) {
+            throw new RequestParsingException(Collections.singletonList(new String[] { "command", "missingargs", "Too few arguments provided. Use help for more Info." }), command);
         }
 
         return toRequest();
     }
 
     private static void buildNew(List<String> parts) {
-        booknew = parts.get(0);
-        newpagevalue = Float.parseFloat(parts.get(1));
-        newlinkvalue = parts.get(2);
-        newwsvalue = parts.get(3);
-        newlrvalue = LocalDateTime.parse(parts.get(4), DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+        CommandValidator.validateNew(parts);
+        try {
+            booknew = parts.get(0);
+            newpagevalue = Float.parseFloat(parts.get(1));
+            newlinkvalue = parts.get(2);
+            newwsvalue = parts.get(3);
+            newlrvalue = parts.get(4);
+        } catch (IndexOutOfBoundsException ignored) {}
     }
 
     private static void buildRead(List<String> parts) {
+        CommandValidator.validateRead(parts);
         booksel = parts.get(0);
         readvalue = Float.parseFloat(parts.get(1));
     }
 
     private static void buildAdd(List<String> parts) {
+        CommandValidator.validateAdd(parts);
         booksel = parts.get(0);
         addvalue = parts.get(1);
     }
 
     private static void buildChange(List<String> parts) {
+        CommandValidator.validateChange(parts);
         changeattribute = parts.get(0);
-        changevalue = parts.get(1);
+        booksel = parts.get(1);
+        changevalue = parts.get(2);
     }
 
     private static void buildOpen(List<String> parts) {
+        CommandValidator.validateOpen(parts.get(0));
         booksel = parts.get(0);
     }
 
+    // rework validate DAF (try catch)
     private static void buildShow(List<String> parts) {
+        CommandValidator.validateShow(parts.get(0));
         booksel = parts.get(0);
-        daf = DisplayAttributesUtil.build(parts.size() > 1 ? parts.subList(1, parts.size() - 1) : List.of());
+        daf = DisplayAttributesUtil.build(parts.size() > 1 ? parts.subList(1, parts.size()) : List.of());
     }
 
+    // rework validate
     private static void buildList(List<String> parts) {
         Map<Boolean, List<String>> type0orderfiltermap = parts.stream().collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
         daf = DisplayAttributesUtil.build(type0orderfiltermap.get(false));
@@ -99,7 +123,6 @@ public class RequestBuilder {
                                      .stream()
                                      .map(s -> s.split("((?<=[=<>])|(?=[=<>]))"))
                                      .filter(RequestBuilder::setOrder)
-                                     .map(Filter::createFilter)
                                      .collect(Collectors.toList());
     }
 
@@ -113,11 +136,16 @@ public class RequestBuilder {
     }
 
     private static void buildHelp(List<String> parts) {
-        if (parts != null) helpoperator = Operator.getOperator(parts.get(0));
+        if (parts != null) helpoperator = parts.get(0);
     }
 
     private static Request toRequest() {
         Request request = new Request();
+
+        LocalDateTime parsed = newlrvalue == null ? null : LocalDateTime.parse(newlrvalue);
+        List<Filter<?>> filters = RequestBuilder.filters == null ? null : RequestBuilder.filters.stream()
+                                                                                                .map(Filter::createFilter)
+                                                                                                .collect(Collectors.toList());
 
         request.setOperator(operator);
         request.setHelpoperator(helpoperator);
@@ -129,7 +157,7 @@ public class RequestBuilder {
         request.setNewpagevalue(newpagevalue);
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(newwsvalue);
-        request.setNewlrvalue(newlrvalue);
+        request.setNewlrvalue(parsed);
         request.setReadvalue(readvalue);
         request.setDaf(daf);
         request.setFilters(filters);

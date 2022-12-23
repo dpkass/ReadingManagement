@@ -1,14 +1,13 @@
 Next-up: Do reworks
-			1. Open
-			2. Validation of CommandLine
-			3. Validator look up if abb or book is in db
+			1. Validation of CommandLine
 
 Safe
-1. Navbar everywhere (injection)
-2. change to give number input for rating and select option for ws & rs (+date pauseduntil for paused & waiting) (JavaScript)
-3. grouped requestresult to display status displayvalue not statusname (better in backend)
-4. OR Filters
-5. Sort List-All
+1. Validate if abb or book is in db
+2. Navbar everywhere (injection)
+3. change to give number input for rating and select option for ws & rs (+date pauseduntil for paused & waiting) (JavaScript)
+4. grouped requestresult to display status displayvalue not statusname (better in backend)
+5. OR Filters
+6. Sort List-All
 
 Uncertain
 1. Change to SQL-based database

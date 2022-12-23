@@ -5,9 +5,9 @@
     "link" : "https://toonily.com/webtoon/solo-leveling-005/",
     "rating" : -1.0,
     "writingStatus" : "Ended",
-    "readingStatus" : "Paused",
-    "lastread" : "28.11.2022 14:25",
-    "pauseduntil" : "01.12.2022",
+    "readingStatus" : "Reading",
+    "lastread" : "29.11.2022 15:28",
+    "pauseduntil" : null,
     "abbreviations" : [ "SL", "sl", "solo" ]
   }, {
     "name" : "The Beginning after The End",
@@ -57,7 +57,7 @@
     "writingStatus" : "Default",
     "readingStatus" : "NotStarted",
     "lastread" : null,
-    "pauseduntil" : "28.11.2022",
+    "pauseduntil" : null,
     "abbreviations" : [ ]
   }, {
     "name" : "Zurück in die Zeit 3",
@@ -67,7 +67,7 @@
     "writingStatus" : "ComingUp",
     "readingStatus" : "NotStarted",
     "lastread" : null,
-    "pauseduntil" : "28.11.2022",
+    "pauseduntil" : null,
     "abbreviations" : [ ]
   } ]
 }

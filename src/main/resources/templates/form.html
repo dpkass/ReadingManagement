@@ -39,11 +39,7 @@
                                             th:text="${op.displayvalue()}"
                                             th:value="${op}"></option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    <p th:if="${#fields.hasErrors('operator')}"
-                                       th:errors="${#fields.errors('operator')}">
-                                    </p>
-                                </div>
+                                <div class="invalid-feedback" th:errors="*{operator}"></div>
                             </div>
                             <!--Book text, only if New is selected-->
                             <div class="form-group col-md-6" id="idbooktxtdiv">

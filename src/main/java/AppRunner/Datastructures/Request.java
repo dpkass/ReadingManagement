@@ -52,11 +52,11 @@ public final class Request {
         request.setChangeattribute(String.valueOf(changeattribute));
         request.setChangevalue(changevalue);
         request.setAddvalue(addvalue);
-        request.setNewpagevalue(newpagevalue);
+        request.setNewpagevalue(String.valueOf(newpagevalue));
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(String.valueOf(newwsvalue));
         request.setNewlrvalue(String.valueOf(newlrvalue));
-        request.setReadvalue(readvalue);
+        request.setReadvalue(String.valueOf(readvalue));
         request.setDaf(daf);
         request.setFilters(filters);
         request.setSortby(String.valueOf(sortby));
@@ -67,24 +67,7 @@ public final class Request {
 
     @Override
     public String toString() {
-        return "Request{" +
-                "operator=" + operator +
-                ", helpoperator=" + helpoperator +
-                ", booknew='" + booknew + '\'' +
-                ", booksel='" + booksel + '\'' +
-                ", changeattribute=" + changeattribute +
-                ", changevalue='" + changevalue + '\'' +
-                ", addvalue='" + addvalue + '\'' +
-                ", newpagevalue=" + newpagevalue +
-                ", newlinkvalue='" + newlinkvalue + '\'' +
-                ", newwsvalue=" + newwsvalue +
-                ", newlrvalue=" + newlrvalue +
-                ", readvalue=" + readvalue +
-                ", daf=" + daf +
-                ", filters=" + filters +
-                ", sortby=" + sortby +
-                ", groupby=" + groupby +
-                '}';
+        return "Request{" + "operator=" + operator + ", helpoperator=" + helpoperator + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute=" + changeattribute + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + '}';
     }
 
     // getters and setters

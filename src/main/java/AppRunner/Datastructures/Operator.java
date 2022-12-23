@@ -16,8 +16,31 @@ public enum Operator {
         try {
             return valueOf(s);
         } catch (IllegalArgumentException iae) {
+            try {
+                return representation(s);
+            } catch (IllegalArgumentException iae2) {
+                return null;
+            }
+        } catch (NullPointerException npe) {
             return null;
         }
+    }
+
+    static Operator representation(String s) {
+        return switch (s) {
+            case "n" -> New;
+            case "r" -> Read;
+            case "rt" -> ReadTo;
+            case "a" -> Add;
+            case "c" -> Change;
+            case "o" -> Open;
+            case "rec" -> Recommend;
+            case "sh" -> Show;
+            case "l" -> List;
+            case "la" -> ListAll;
+            case "h" -> Help;
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     Operator(String displayvalue) {this.displayvalue = displayvalue;}

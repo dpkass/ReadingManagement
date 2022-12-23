@@ -40,6 +40,7 @@ public class ProcessStarter {
                 default -> throw new IllegalArgumentException("1");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             int code = Integer.parseInt(e.getMessage());
             String message = Helper.errorMessage(e.getMessage());
             rr.setError(new Error(code, message));

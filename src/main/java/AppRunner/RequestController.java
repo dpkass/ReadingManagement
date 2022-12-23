@@ -61,7 +61,7 @@ public class RequestController {
         }
 
         RequestResult rr = mgr.process(rq.toRequest());
-        
+
         if (rr.hasError()) displayError(m, rr);
         else insertResult(m, rr);
 
@@ -71,8 +71,8 @@ public class RequestController {
     @PostMapping ("/commandline")
     public String processCommandline(String command, Model m) {
         m.addAttribute("command", command);
-
         Request rq = Request.parse(command);
+
         RequestResult rr = mgr.process(rq);
 
         if (rr.hasError()) displayError(m, rr);
