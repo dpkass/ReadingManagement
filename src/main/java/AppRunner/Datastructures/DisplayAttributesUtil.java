@@ -10,12 +10,12 @@ import static AppRunner.Datastructures.Attribute.*;
 
 public class DisplayAttributesUtil {
 
-    public static Set<Attribute> displayattributes = Set.of(readto, link, rating, lastread, pauseduntil, writingStatus, readingStatus);
+    public static Set<Attribute> displayattributes = Set.of(readto, link, rating, lastread, waituntil, writingStatus, readingStatus);
 
     public static Set<Attribute> enabledSet;
 
     public static DisplayAttributesForm build(List<String> subList) {
-        boolean displayread = false, displaylink = false, displayrating = false, displaylastread = false, displaypauseduntil = false, displayreadingstatus = false, displaywritingstatus = false;
+        boolean displayread = false, displaylink = false, displayrating = false, displaylastread = false, displaywaituntil = false, displayreadingstatus = false, displaywritingstatus = false;
         List<String[]> errors = new ArrayList<>();
         for (String s : subList) {
             Attribute att = Attribute.getAttribute(s);
@@ -25,13 +25,13 @@ public class DisplayAttributesUtil {
                 case link -> displaylink = true;
                 case rating -> displayrating = true;
                 case lastread -> displaylastread = true;
-                case pauseduntil -> displaypauseduntil = true;
+                case waituntil -> displaywaituntil = true;
                 case readingStatus -> displayreadingstatus = true;
                 case writingStatus -> displaywritingstatus = true;
             }
         }
         if (!errors.isEmpty()) throw new RequestParsingException(errors);
-        return new DisplayAttributesForm(displayread, displaylink, displayrating, displaylastread, displaypauseduntil, displayreadingstatus, displaywritingstatus);
+        return new DisplayAttributesForm(displayread, displaylink, displayrating, displaylastread, displaywaituntil, displayreadingstatus, displaywritingstatus);
     }
 
     public static Stream<Attribute> stream(DisplayAttributesForm daf) {
@@ -45,7 +45,7 @@ public class DisplayAttributesUtil {
         if (daf.displaylink()) res.add(link);
         if (daf.displayrating()) res.add(rating);
         if (daf.displaylastread()) res.add(lastread);
-        if (daf.displaypauseduntil()) res.add(pauseduntil);
+        if (daf.displaywaituntil()) res.add(waituntil);
         if (daf.displayreadingstatus()) res.add(readingStatus);
         if (daf.displaywritingstatus()) res.add(writingStatus);
         enabledSet = res;

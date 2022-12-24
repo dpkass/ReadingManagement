@@ -17,7 +17,7 @@ public class DisplayUtil {
             case readto -> EntryUtil.tryIntConversion(e.readto());
             case rating -> EntryUtil.tryIntConversion(e.rating());
             case lastread -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
-            case pauseduntil -> EntryUtil.dateString(e.pauseduntil(), df, "Not Set");
+            case waituntil -> EntryUtil.dateString(e.waituntil(), df, "Not Set");
             case writingStatus -> e.writingStatus().displayvalue();
             case readingStatus -> e.readingStatus().displayvalue();
             case abbreviations -> e.abbreviations().toString();

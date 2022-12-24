@@ -18,7 +18,7 @@ public class EntryBuilder {
     ReadingStatus rs;
 
     LocalDateTime lastread = LocalDateTime.now();
-    LocalDate pauseduntil = LocalDate.now();
+    LocalDate waituntil = LocalDate.now();
 
     List<String> abbreviations = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class EntryBuilder {
                 case "rating" -> rating = ((BigDecimal) entry.getValue()).floatValue();
                 case "link" -> link = (String) entry.getValue();
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
-                case "pauseduntil" -> pauseduntil = toLD((String) entry.getValue());
+                case "waituntil" -> waituntil = toLD((String) entry.getValue());
                 case "writingStatus" -> ws = WritingStatus.getStatus((String) entry.getValue());
                 case "readingStatus" -> rs = EntryHandling.Entry.ReadingStatus.getStatus((String) entry.getValue());
                 case "abbreviations" -> abbreviations = (List<String>) entry.getValue();
@@ -54,7 +54,7 @@ public class EntryBuilder {
     }
 
     private void chooseStatus() {
-        if (rs == EntryHandling.Entry.ReadingStatus.Paused && pauseduntil == null)
+        if (rs == EntryHandling.Entry.ReadingStatus.Paused && waituntil == null)
             rs = EntryHandling.Entry.ReadingStatus.Reading;      // autonullify paused when date arrives
         if (rs != EntryHandling.Entry.ReadingStatus.Default) return;
 
@@ -114,6 +114,6 @@ public class EntryBuilder {
     }
 
     public Entry toEntry() {
-        return new Entry(name, readto, link, rating, ws, rs, lastread, pauseduntil, abbreviations);
+        return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil, abbreviations);
     }
 }

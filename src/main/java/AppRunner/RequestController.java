@@ -6,6 +6,7 @@ import AppRunner.Datastructures.Request;
 import AppRunner.Datastructures.RequestDummy;
 import AppRunner.Validation.RequestValidator;
 import EntryHandling.Entry.Entry;
+import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
 import Management.Manager;
 import Processing.RequestResult;

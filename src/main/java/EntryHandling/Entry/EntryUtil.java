@@ -38,7 +38,7 @@ public class EntryUtil {
 
     // representations
     public static String asCSV(Entry e) {
-        return "%s, %s, %s, %s, %s, (%s), (%s), [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"), dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"), String.join(", ", e.abbreviations()));
+        return "%s, %s, %s, %s, %s, (%s), (%s), [%s]".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"), dateString(e.waituntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"), String.join(", ", e.abbreviations()));
     }
 
     public static String asJSON(Entry e) {
@@ -49,8 +49,8 @@ public class EntryUtil {
                "lastread": "%s",
                "readingstatus": "%s",
                "writingstatus": "%s",
-               "pauseduntil": "%s",
-               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"), dateString(e.pauseduntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"), String.join(", ", e.abbreviations()));
+               "waituntil": "%s",
+               "abbreviations": ["%s"]""".formatted(e.name(), e.readto(), e.link(), e.writingStatus(), e.readingStatus(), dateString(e.lastread(), DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm"), "-"), dateString(e.waituntil(), DateTimeFormatter.ofPattern("dd MMM yyyy"), "-"), String.join(", ", e.abbreviations()));
     }
 
     public static String toJSON(Object e) {

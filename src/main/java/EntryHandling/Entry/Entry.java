@@ -21,11 +21,11 @@ public class Entry {
     private LocalDateTime lastread;
 
     @JsonFormat (pattern = "dd.MM.yyyy")
-    private LocalDate pauseduntil;
+    private LocalDate waituntil;
 
     private List<String> abbreviations;
 
-    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate pauseduntil, List<String> abbreviations) {
+    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate waituntil, List<String> abbreviations) {
         this.name = name;
         this.readto = readto;
         this.link = link;
@@ -33,7 +33,7 @@ public class Entry {
         this.writingStatus = writingStatus;
         this.readingStatus = readingStatus;
         this.lastread = lastread;
-        this.pauseduntil = pauseduntil;
+        this.waituntil = waituntil;
         this.abbreviations = abbreviations;
     }
 
@@ -54,8 +54,8 @@ public class Entry {
         return lastread;
     }
 
-    public LocalDate pauseduntil() {
-        return pauseduntil;
+    public LocalDate waituntil() {
+        return waituntil;
     }
 
     public List<String> abbreviations() {
@@ -95,8 +95,8 @@ public class Entry {
         this.lastread = lastread;
     }
 
-    public void setPauseduntil(LocalDate pauseduntil) {
-        this.pauseduntil = pauseduntil;
+    public void setWaituntil(LocalDate waituntil) {
+        this.waituntil = waituntil;
     }
 
     public void setAbbreviations(List<String> abbreviations) {

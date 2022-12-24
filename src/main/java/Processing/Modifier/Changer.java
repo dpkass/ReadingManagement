@@ -17,7 +17,7 @@ class Changer {
                 if (EntryUtil.checkRating(f)) e.setRating(f);
             }
             case link -> e.setLink(changevalue);
-            case pauseduntil -> e.setPauseduntil(toLD(changevalue));
+            case waituntil -> e.setWaituntil(toLD(changevalue));
             case writingStatus -> e.setWritingStatus(changevalue);
             case readingStatus -> changeReadingStatus(e, changevalue);
             default -> throw new IllegalArgumentException("1");
@@ -27,13 +27,13 @@ class Changer {
 
     private static void changeReadingStatus(Entry e, String changevalue) {
         e.setReadingStatus(changevalue);
-        if (changevalue.equals("Paused") || changevalue.equals("Waiting"))
+        if (changevalue.equals("Waiting"))
 //            rework if change rs to be able to change pu
 //            if (parts.size() > 4)
-//                e.setPauseduntil(LocalDate.parse(parts.get(4), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+//                e.setWaituntil(LocalDate.parse(parts.get(4), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 //            else
-            e.setPauseduntil(LocalDate.now().plusWeeks(4));
-        else e.setPauseduntil(null);
+            e.setWaituntil(LocalDate.now().plusWeeks(4));
+        else e.setWaituntil(null);
     }
 
     private static LocalDate toLD(String value) {

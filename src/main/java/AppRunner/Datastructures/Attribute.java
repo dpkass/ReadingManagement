@@ -3,7 +3,8 @@ package AppRunner.Datastructures;
 import java.util.List;
 
 public enum Attribute {
-    name("Name"), readto("Page/Chapter"), link("Link"), rating("Rating"), writingStatus("Writing Status"), readingStatus("Reading Status"), lastread("Last Read"), pauseduntil("Paused Until"), abbreviations("Abbreviations");
+    name("Name"), readto("Page/Chapter"), link("Link"), rating("Rating"), writingStatus("Writing Status"),
+    readingStatus("Reading Status"), lastread("Last Read"), waituntil("Wait Until"), abbreviations("Abbreviations");
 
     final String displayvalue;
 
@@ -12,11 +13,11 @@ public enum Attribute {
     }
 
     public static List<Attribute> changingOptions() {
-        return List.of(name, link, rating, writingStatus, readingStatus);
+        return List.of(name, link, rating, writingStatus);
     }
 
     public static List<Attribute> sortingOptions() {
-        return List.of(name, readto, rating, lastread, pauseduntil, writingStatus, readingStatus);
+        return List.of(name, readto, rating, lastread, waituntil, writingStatus, readingStatus);
     }
 
     public static List<Attribute> groupingOptions() {
@@ -31,7 +32,7 @@ public enum Attribute {
 //            case "secret", "s" -> "s";
             case "rating", "rtg" -> rating;
             case "lastread", "lr" -> lastread;
-            case "pauseduntil", "pu" -> pauseduntil;
+            case "waituntil", "wu" -> waituntil;
             case "abbreviation", "ab" -> abbreviations;
             case "reading-status", "readingstatus", "rs" -> readingStatus;
             case "writing-status", "writingstatus", "ws" -> writingStatus;

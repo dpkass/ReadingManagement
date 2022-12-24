@@ -32,7 +32,7 @@ public final class RequestDummy {
     private boolean displaylink = false;
     private boolean displayrating = false;
     private boolean displaylastread = false;
-    private boolean displaypauseduntil = false;
+    private boolean displaywaituntil = false;
     private boolean displayreadingstatus = false;
     private boolean displaywritingstatus = false;
     private List<String[]> filters;
@@ -46,7 +46,7 @@ public final class RequestDummy {
     public Request toRequest() {
         Request request = new Request();
 
-        List<Boolean> daf = java.util.List.of(displayread, displaylink, displayrating, displaylastread, displaypauseduntil, displayreadingstatus, displaywritingstatus);
+        List<Boolean> daf = java.util.List.of(displayread, displaylink, displayrating, displaylastread, displaywaituntil, displayreadingstatus, displaywritingstatus);
         List<Filter<?>> filters = this.filters == null ? null : this.filters.stream()
                                                                             .map(Filter::createFilter)
                                                                             .collect(Collectors.toList());
@@ -90,7 +90,7 @@ public final class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue=" + readvalue + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaypauseduntil=" + displaypauseduntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", filters=" + filters + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + '}';
+        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue=" + readvalue + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaywaituntil=" + displaywaituntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", filters=" + filters + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + '}';
     }
 
     public void setDaf(List<Boolean> daf) {
@@ -98,7 +98,7 @@ public final class RequestDummy {
         displaylink = daf.get(1);
         displayrating = daf.get(2);
         displaylastread = daf.get(3);
-        displaypauseduntil = daf.get(4);
+        displaywaituntil = daf.get(4);
         displayreadingstatus = daf.get(5);
         displaywritingstatus = daf.get(6);
     }
@@ -233,12 +233,12 @@ public final class RequestDummy {
         this.displaylastread = displaylastread;
     }
 
-    public boolean isDisplaypauseduntil() {
-        return displaypauseduntil;
+    public boolean isDisplaywaituntil() {
+        return displaywaituntil;
     }
 
-    public void setDisplaypauseduntil(boolean displaypauseduntil) {
-        this.displaypauseduntil = displaypauseduntil;
+    public void setDisplaywaituntil(boolean displaywaituntil) {
+        this.displaywaituntil = displaywaituntil;
     }
 
     public boolean isDisplayreadingstatus() {

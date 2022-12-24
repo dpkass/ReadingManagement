@@ -1,6 +1,6 @@
-let idbooktxt, idbooksel, idadditionalread, idadditionaladd, idadditionalchangetype, idadditionalchangenew,
-    idadditionalnewpage, idadditionalnewlink, idadditionalnewws, idadditionalnewlr, iddisplayargs, idordersort,
-    idordergroup, idordersortdirection, idordergroupdirection;
+let idbooktxt, idbooksel, idadditionalread, idadditionaladd, idadditionalchangetype, idadditionalchangetextvalue,
+    idadditionalchangewsvalue, idadditionalnewpage, idadditionalnewlink, idadditionalnewws, idadditionalnewlr,
+    iddisplayargs, idordersort, idordergroup, idordersortdirection, idordergroupdirection;
 
 function getelements() {
     // books
@@ -11,7 +11,8 @@ function getelements() {
     idadditionalread = document.getElementById("idadditionalreaddiv")
     idadditionaladd = document.getElementById("idadditionaladddiv")
     idadditionalchangetype = document.getElementById("idadditionalchangetypediv")
-    idadditionalchangenew = document.getElementById("idadditionalchangenewdiv")
+    idadditionalchangetextvalue = document.getElementById("idadditionalchangetextvaluediv")
+    idadditionalchangewsvalue = document.getElementById("idadditionalchangewsvaluediv")
     idadditionalnewpage = document.getElementById("idadditionalnewpagediv")
     idadditionalnewlink = document.getElementById("idadditionalnewlinkdiv")
     idadditionalnewws = document.getElementById("idadditionalnewwsdiv")
@@ -25,16 +26,12 @@ function getelements() {
     idordergroupdirection = document.getElementById("idordergroupdirectiondiv")
 }
 
-function formupdate() {
+function operatorupdate() {
 
     let selectedOp = document.getElementById("idoperator").value
 
 
     forminvisible()
-
-    function makeVisible(element) {
-        element.style.display = "block"
-    }
 
     switch (selectedOp) {
         case "New":
@@ -59,7 +56,7 @@ function formupdate() {
         case "Change":
             makeVisible(idbooksel);
             makeVisible(idadditionalchangetype);
-            makeVisible(idadditionalchangenew);
+            changeupdate();
             break
 
         case "Open":
@@ -86,11 +83,29 @@ function formupdate() {
     }
 }
 
-function forminvisible() {
+function changeupdate() {
+    let selectedCh = document.getElementById("idadditionalchangeattribute").value
 
-    function makeInvisible(element) {
-        element.style.display = "none"
+    switch (selectedCh) {
+        case "rating":
+            makeVisible(idadditionalchangetextvalue)
+            makeInvisible(idadditionalchangewsvalue)
+            document.getElementById("idadditionalchangetextvalue").type = 'number'
+            break
+
+        case "writingStatus":
+            makeInvisible(idadditionalchangetextvalue)
+            makeVisible(idadditionalchangewsvalue)
+            break
+
+        default:
+            makeVisible(idadditionalchangetextvalue)
+            makeInvisible(idadditionalchangewsvalue)
+            document.getElementById("idadditionalchangetextvalue").type = 'text'
     }
+}
+
+function forminvisible() {
 
     // books
     makeInvisible(idbooktxt)
@@ -100,7 +115,8 @@ function forminvisible() {
     makeInvisible(idadditionaladd)
     makeInvisible(idadditionalread)
     makeInvisible(idadditionalchangetype)
-    makeInvisible(idadditionalchangenew)
+    makeInvisible(idadditionalchangetextvalue)
+    makeInvisible(idadditionalchangewsvalue)
     makeInvisible(idadditionalnewpage)
     makeInvisible(idadditionalnewlink)
     makeInvisible(idadditionalnewws)
@@ -112,4 +128,12 @@ function forminvisible() {
     makeInvisible(idordergroup)
     makeInvisible(idordersortdirection)
     makeInvisible(idordergroupdirection)
+}
+
+function makeVisible(element) {
+    element.style.display = "block"
+}
+
+function makeInvisible(element) {
+    element.style.display = "none"
 }

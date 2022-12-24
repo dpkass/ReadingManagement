@@ -7,7 +7,7 @@
     "writingStatus" : "Ended",
     "readingStatus" : "Done",
     "lastread" : "07.04.2022 01:29",
-    "pauseduntil" : null,
+    "waituntil" : null,
     "abbreviations" : [ "SL", "sl", "solo" ]
   }, {
     "name" : "The Beginning after The End",
@@ -17,7 +17,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Reading",
     "lastread" : "05.09.2022 01:29",
-    "pauseduntil" : null,
+    "waituntil" : null,
     "abbreviations" : [ "TBATE", "tbate" ]
   }, {
     "name" : "Tales Of Demons And Gods",
@@ -27,7 +27,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Reading",
     "lastread" : "05.09.2022 01:29",
-    "pauseduntil" : null,
+    "waituntil" : null,
     "abbreviations" : [ "TODAG", "todag", "tdg" ]
   }, {
     "name" : "Survival Story of a Sword King in a Fantasy World",
@@ -37,7 +37,7 @@
     "writingStatus" : "Paused",
     "readingStatus" : "Paused",
     "lastread" : "17.09.2022 20:34",
-    "pauseduntil" : "14.12.2022",
+    "waituntil" : "14.12.2022",
     "abbreviations" : [ "Latna Saga", "LS", "ls" ]
   }, {
     "name" : "The Great Mage that Returned after 4000 Years",
@@ -47,7 +47,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "13.06.2022 00:29",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "TGMTRA4Y", "4k" ]
   }, {
     "name" : "The Heavenly Demon Destroys the Lich King's Murim",
@@ -57,7 +57,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Started",
     "lastread" : "15.06.2022 19:25",
-    "pauseduntil" : null,
+    "waituntil" : null,
     "abbreviations" : [ "THDDTLKM", "HD", "hd" ]
   }, {
     "name" : "Return of the Mount Hua Sect",
@@ -67,7 +67,7 @@
     "writingStatus" : "Paused",
     "readingStatus" : "Paused",
     "lastread" : "18.07.2022 21:14",
-    "pauseduntil" : "01.01.2023",
+    "waituntil" : "01.01.2023",
     "abbreviations" : [ "mhs" ]
   }, {
     "name" : "Solo Max-Level Newbie",
@@ -77,7 +77,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "24.07.2022 22:56",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "smln", "mln" ]
   }, {
     "name" : "Duke Pendragon",
@@ -87,7 +87,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "06.08.2022 20:23",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "dp" ]
   }, {
     "name" : "The Return of the Crazy Demon",
@@ -97,7 +97,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "10.08.2022 22:13",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "cd", "trocd" ]
   }, {
     "name" : "Return of the Disaster-Class Hero",
@@ -107,7 +107,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "19.08.2022 23:15",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "dch", "rotdch" ]
   }, {
     "name" : "Damn Reincarnation",
@@ -117,7 +117,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "25.08.2022 21:19",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "dr" ]
   }, {
     "name" : "Chronicles Of The Martial God’s Return",
@@ -127,7 +127,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "25.08.2022 22:18",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "mg", "dad", "md" ]
   }, {
     "name" : "Reincarnation of the Suicidal Battle God",
@@ -137,7 +137,7 @@
     "writingStatus" : "Paused",
     "readingStatus" : "Paused",
     "lastread" : "25.09.2022 11:34",
-    "pauseduntil" : "01.01.2023",
+    "waituntil" : "01.01.2023",
     "abbreviations" : [ "sbg" ]
   }, {
     "name" : "Reaper of the Drifting Moon",
@@ -147,7 +147,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Waiting",
     "lastread" : "21.10.2022 20:56",
-    "pauseduntil" : "17.12.2022",
+    "waituntil" : "17.12.2022",
     "abbreviations" : [ "rdm" ]
   }, {
     "name" : "Player Who Can’t Level Up",
@@ -157,7 +157,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "Reading",
     "lastread" : "12.11.2022 00:03",
-    "pauseduntil" : null,
+    "waituntil" : null,
     "abbreviations" : [ "pwclu", "clu" ]
   }, {
     "name" : "Player Who Returned 10,000 Years Later",
@@ -167,7 +167,7 @@
     "writingStatus" : "Rolling",
     "readingStatus" : "NotStarted",
     "lastread" : null,
-    "pauseduntil" : null,
+    "waituntil" : null,
     "abbreviations" : [ "pwr10yl" ]
   } ]
 }

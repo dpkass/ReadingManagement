@@ -12,7 +12,7 @@ public record Filter<T>(Attribute attribute, String operator, T value) {
         return switch (att) {
             case readto, rating -> new Filter<>(att, operator, Float.parseFloat(filter[2]));
             case writingStatus, readingStatus -> new Filter<>(att, operator, filter[2]);
-            case lastread, pauseduntil ->
+            case lastread, waituntil ->
                     new Filter<LocalDate>(att, operator, LocalDate.parse(filter[2], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             default -> throw new IllegalArgumentException("1");
         };

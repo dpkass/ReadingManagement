@@ -124,7 +124,7 @@ class Lister {
                 case readto -> Comparator.comparing(Entry::readto);
                 case rating -> Comparator.comparing(Entry::rating);
                 case lastread -> Comparator.comparing(Entry::lastread, Comparator.nullsFirst(Comparator.naturalOrder()));
-                case pauseduntil -> Comparator.comparing(Entry::pauseduntil, Comparator.nullsFirst(Comparator.naturalOrder()));
+                case waituntil -> Comparator.comparing(Entry::waituntil, Comparator.nullsFirst(Comparator.naturalOrder()));
                 case writingStatus -> Comparator.comparing(Entry::writingStatus);
                 case readingStatus -> Comparator.comparing(Entry::readingStatus);
                 default -> throw new IllegalArgumentException("1");
@@ -195,7 +195,7 @@ class Lister {
             case readto -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.readto());
             case rating -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.rating());
             case lastread -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.lastread());
-            case pauseduntil -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.pauseduntil());
+            case waituntil -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.waituntil());
             default -> throw new IllegalArgumentException("1");
         };
     }

@@ -104,10 +104,9 @@ public class Helper {
                                                                        link = [lk]
                                                                        rating = [rtg]
                                                                        writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
-                                                                       reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
                                                 {book}         name or abbreviation of the book
                                                 {new-value}    value to be set as replacement
-                                                [optional]     When changing reading-status to paused or waiting, pauseduntil can be set manually.
+                                                [optional]     When changing reading-status to waiting, waituntil can be set manually.
                                                                    format: dd.MM.yyyy
                                                                    standard: 4 weeks
                                                 """;
@@ -156,7 +155,7 @@ public class Helper {
                                                        lastread = [lr]
                                                        name = [name, n]
                                                        link = [link, lk]
-                                                       pauseduntil = [pu]
+                                                       waituntil = [wu]
                                                        abbreviation = [abbreviation, ab]
                                                        writing-status = [ws] ∈ {Coming-Up, Rolling, Paused, Ended}
                                                        reading-status = [rs] ∈ {Not-Started, Started, Reading, Waiting, Paused, Done}
@@ -175,7 +174,7 @@ public class Helper {
                                                            read = [r]
                                                            rating = [rtg]
                                                            lastread = [lr] (Format: dd.MM.yyyy)
-                                                           pauseduntil = [pu] (Format: dd.MM.yyyy)
+                                                           waituntil = [wu] (Format: dd.MM.yyyy)
                                               [sortby] = type of data to sort by
                                                    standard: name
                                                    style: sortby={type} [sb, sort, sortBy]
@@ -183,7 +182,7 @@ public class Helper {
                                                        read = [r]
                                                        lastread = [lr]
                                                        name = [name, n]
-                                                       pauseduntil = [pu]
+                                                       waituntil = [wu]
                                                        reading-status = [rs]
                                                        writing-status = [ws]
                                               [groupby] = type of data to group by
@@ -221,7 +220,7 @@ public class Helper {
                                                            read = [r]
                                                            lastread = [lr]
                                                            link = [link, lk]
-                                                           pauseduntil = [pu]
+                                                           waituntil = [wu]
                                                            reading-status = [rs]
                                                            writing-status = [ws]
                                                            abbreviation = [abbreviation, ab]
@@ -252,7 +251,7 @@ public class Helper {
                                                                 read = [r]
                                                                 lastread = [lr]
                                                                 link = [link, lk]
-                                                                pauseduntil = [pu]
+                                                                waituntil = [wu]
                                                                 reading-status = [rs]
                                                                 writing-status = [ws]
                                                                 abbreviation = [abbreviation, ab]
