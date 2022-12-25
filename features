@@ -1,12 +1,10 @@
-Next-up: rs to reading when read op used
+Next-up: Sort List-All
 
 Safe
-1. grouped requestresult to display status displayvalue not statusname (better in backend)
-2. OR Filters
-3. Sort List-All
+1. OR Filters
 
 Uncertain
 1. Change to SQL-based database
 
-Don't know how:
+Don't know how
 1. Activate errors

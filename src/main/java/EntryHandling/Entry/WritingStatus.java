@@ -13,15 +13,15 @@ public enum WritingStatus {
         this.displayvalue = displayvalue;
     }
 
-    public String displayvalue() {
-        return displayvalue;
-    }
-
     public static WritingStatus getStatus(String name) {
         try {
             return valueOf(name);
         } catch (Exception e) {
             return Default;
         }
+    }
+
+    public String displayvalue() {
+        return displayvalue;
     }
 }

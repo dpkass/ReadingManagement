@@ -7,19 +7,8 @@ public enum ReadingStatus {
 
     final String displayvalue;
 
-    @Override
-    public String toString() {
-        return "ReadingStatus{" +
-                "displayvalue='" + displayvalue + '\'' +
-                '}';
-    }
-
     ReadingStatus(String displayvalue) {
         this.displayvalue = displayvalue;
-    }
-
-    public String displayvalue() {
-        return displayvalue;
     }
 
     public static ReadingStatus getStatus(String name) {
@@ -28,5 +17,9 @@ public enum ReadingStatus {
         } catch (Exception e) {
             return Default;
         }
+    }
+
+    public String displayvalue() {
+        return displayvalue;
     }
 }

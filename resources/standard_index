@@ -45,7 +45,7 @@
     "link" : "",
     "rating" : -1.0,
     "writingStatus" : "Default",
-    "readingStatus" : "Paused",
+    "readingStatus" : "Reading",
     "lastread" : "25.11.2022 23:23",
     "waituntil" : null,
     "abbreviations" : [ ]
@@ -55,7 +55,7 @@
     "link" : "https://www.zidz2.com",
     "rating" : -1.0,
     "writingStatus" : "Default",
-    "readingStatus" : "Paused",
+    "readingStatus" : "Reading",
     "lastread" : null,
     "waituntil" : null,
     "abbreviations" : [ ]
