@@ -26,8 +26,8 @@ public class Processor {
         Displayer.list(el.entries(), rq.daf(), rq.filters(), rq.sortby(), rq.groupby(), rq.sortdescending(), rq.groupdescending());
     }
 
-    public static void doListAll() {
-        Displayer.listAll(el.entries());
+    public static void doListAll(Request rq) {
+        Displayer.listAll(el.entries(), rq.sortby(), rq.groupby(), rq.sortdescending(), rq.groupdescending());
     }
 
     public static void doWait(Request rq) {

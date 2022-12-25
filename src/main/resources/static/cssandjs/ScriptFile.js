@@ -31,7 +31,6 @@ function operatorupdate() {
 
     let selectedOp = document.getElementById("idoperator").value
 
-
     forminvisible()
 
     switch (selectedOp) {
@@ -70,11 +69,12 @@ function operatorupdate() {
             break
 
         case "List":
+            makeVisible(iddisplayargs);
+        case "ListAll":
             makeVisible(idordersort);
             makeVisible(idordergroup);
             makeVisible(idordersortdirection);
             makeVisible(idordergroupdirection);
-            makeVisible(iddisplayargs);
             break
 
         case "Wait":
@@ -86,7 +86,6 @@ function operatorupdate() {
             makeVisible(idbooksel);
             break
 
-        case "ListAll":
         case "Recommend":
         case "":
             break

@@ -36,7 +36,7 @@ public class ProcessStarter {
                 case Pause -> Processor.doPause(rq);
                 case List -> Processor.doList(rq);
                 case Show -> Processor.doShow(rq);
-                case ListAll -> Processor.doListAll();
+                case ListAll -> Processor.doListAll(rq);
                 case Recommend -> Processor.doRecommend();
                 case Open -> Processor.doOpen(rq);
                 case Help -> doHelp(rq);

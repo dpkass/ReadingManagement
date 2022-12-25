@@ -13,8 +13,8 @@ public class Displayer {
         Lister.list(entries, daf, filters, sortby, groupby, sortdescending, groupdescending);
     }
 
-    public static void listAll(Stream<Entry> entries) {
-        Lister.list(entries, DisplayAttributesForm.all(), null, null, null, false, false);
+    public static void listAll(Stream<Entry> entries, Attribute sortby, Attribute groupby, boolean sortdescending, boolean groupdescending) {
+        Lister.list(entries, DisplayAttributesForm.all(), null, sortby, groupby, sortdescending, groupdescending);
     }
 
     public static void recommend(Stream<Entry> entries) {
