@@ -102,7 +102,9 @@ public class Validator {
         validateGroup(parts.get(1));
     }
 
-    public static void validateWait(String booksel, String waituntil) {
+    public static void validateWait(List<String> parts) {
+        String booksel = parts.size() == 0 ? null : parts.get(0);
+        String waituntil = parts.size() == 1 ? null : parts.get(1);
         validateBooksel(booksel);
         validateWu(waituntil);
     }

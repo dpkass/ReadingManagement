@@ -82,7 +82,8 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateWait() {
-        Validator.validateWait(rd.getBooksel(), rd.getWaituntil());
+        List<String> param = List.of(rd.getBooksel(), rd.getWaituntil());
+        Validator.validateWait(param);
     }
 
     private void validatePause() {

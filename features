@@ -1,7 +1,7 @@
-Next-up: Sort List-All
+Next-up: Form OR Filters
 
 Safe
-1. OR Filters
+1. Rework List-All, to be just a optionbox in List op
 
 Uncertain
 1. Change to SQL-based database

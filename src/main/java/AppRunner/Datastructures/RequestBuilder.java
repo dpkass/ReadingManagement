@@ -3,6 +3,7 @@ package AppRunner.Datastructures;
 import AppRunner.Validation.CommandValidator;
 import Management.Helper;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,8 @@ public class RequestBuilder {
     private static String newlrvalue;
     // additional read
     private static float readvalue;
+    // additional wait
+    private static String waituntil;
 
     // list display
     private static DisplayAttributesForm daf;
@@ -62,6 +65,8 @@ public class RequestBuilder {
                 case Open -> buildOpen(parts);
                 case Show -> buildShow(parts);
                 case List -> buildList(parts);
+                case Wait -> buildWait(parts);
+                case Pause -> buildPause(parts);
                 case Help -> buildHelp(parts);
                 case ListAll, Recommend -> {}
             }
@@ -135,6 +140,18 @@ public class RequestBuilder {
         return false;
     }
 
+    private static void buildWait(List<String> parts) {
+        System.out.println(parts);
+        CommandValidator.validateWait(parts);
+        booksel = parts.get(0);
+        waituntil = parts.size() == 1 ? null : parts.get(1);
+    }
+
+    private static void buildPause(List<String> parts) {
+        CommandValidator.validatePause(parts.get(0));
+        booksel = parts.get(0);
+    }
+
     private static void buildHelp(List<String> parts) {
         if (parts != null) helpoperator = parts.get(0);
     }
@@ -142,7 +159,8 @@ public class RequestBuilder {
     private static Request toRequest() {
         Request request = new Request();
 
-        LocalDateTime parsed = newlrvalue == null ? null : LocalDateTime.parse(newlrvalue);
+        LocalDateTime lr = newlrvalue == null ? null : LocalDateTime.parse(newlrvalue);
+        LocalDate wu = newlrvalue == null ? null : LocalDate.parse(waituntil);
         List<Filter<?>> filters = RequestBuilder.filters == null ? null : RequestBuilder.filters.stream()
                                                                                                 .map(Filter::createFilter)
                                                                                                 .collect(Collectors.toList());
@@ -157,8 +175,9 @@ public class RequestBuilder {
         request.setNewpagevalue(newpagevalue);
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(newwsvalue);
-        request.setNewlrvalue(parsed);
+        request.setNewlrvalue(lr);
         request.setReadvalue(readvalue);
+        request.setWaituntil(wu);
         request.setDaf(daf);
         request.setFilters(filters);
         request.setSortby(sortby);

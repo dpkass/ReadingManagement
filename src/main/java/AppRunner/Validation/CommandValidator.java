@@ -49,6 +49,16 @@ public class CommandValidator {
         end();
     }
 
+    public static void validateWait(List<String> param) {
+        Validator.validateWait(param);
+        end();
+    }
+
+    public static void validatePause(String param) {
+        Validator.validateBooksel(param);
+        end();
+    }
+
     private static void end() {
         errors.addAll(Validator.errors());
         Validator.errors().clear();
@@ -59,5 +69,4 @@ public class CommandValidator {
     public static List<String[]> errors() {
         return errors;
     }
-
 }
