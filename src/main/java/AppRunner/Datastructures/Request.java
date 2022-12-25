@@ -2,6 +2,7 @@ package AppRunner.Datastructures;
 
 import EntryHandling.Entry.WritingStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,8 @@ public final class Request {
     private LocalDateTime newlrvalue;
     // additional read
     private float readvalue;
+    // additional wait
+    private LocalDate waituntil;
 
     // list display
     private DisplayAttributesForm daf;
@@ -37,32 +40,6 @@ public final class Request {
 
     public static Request parse(String command) {
         return RequestBuilder.build(command);
-    }
-
-    public RequestDummy toRequestDummy() {
-        RequestDummy request = new RequestDummy();
-
-        List<Boolean> daf = this.daf.asList();
-        List<String[]> filters = this.filters.stream().map(Filter::toArray).collect(Collectors.toList());
-
-        request.setOperator(String.valueOf(operator));
-        request.setHelpoperator(String.valueOf(helpoperator));
-        request.setBooknew(booknew);
-        request.setBooksel(booksel);
-        request.setChangeattribute(String.valueOf(changeattribute));
-        request.setChangevalue(changevalue);
-        request.setAddvalue(addvalue);
-        request.setNewpagevalue(String.valueOf(newpagevalue));
-        request.setNewlinkvalue(newlinkvalue);
-        request.setNewwsvalue(String.valueOf(newwsvalue));
-        request.setNewlrvalue(String.valueOf(newlrvalue));
-        request.setReadvalue(String.valueOf(readvalue));
-        request.setDaf(daf);
-        request.setFilters(filters);
-        request.setSortby(String.valueOf(sortby));
-        request.setGroupby(String.valueOf(groupby));
-
-        return request;
     }
 
     @Override
@@ -205,6 +182,14 @@ public final class Request {
 
     public void setReadvalue(float readvalue) {
         this.readvalue = readvalue;
+    }
+
+    public LocalDate waituntil() {
+        return waituntil;
+    }
+
+    public void setWaituntil(LocalDate waituntil) {
+        this.waituntil = waituntil;
     }
 
     public boolean sortdescending() {

@@ -10,6 +10,7 @@ import java.util.List;
 public class RequestValidator implements org.springframework.validation.Validator {
 
     static Errors errors;
+    private RequestDummy rd;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -22,19 +23,21 @@ public class RequestValidator implements org.springframework.validation.Validato
 
     @Override
     public void validate(@NotNull Object target, @NotNull Errors errors) {
-        RequestDummy rd = (RequestDummy) target;
+        rd = (RequestDummy) target;
         RequestValidator.errors = errors;
 
         String opstr = rd.getOperator();
         if (!validateOperator(opstr)) return;
         switch (Operator.getOperator(opstr)) {
-            case New -> validateNew(rd);
-            case Read, ReadTo -> validateRead(rd);
-            case Add -> validateAdd(rd);
-            case Change -> validateChange(rd);
-            case Open -> validateOpen(rd);
-            case Show -> validateShow(rd);
-            case List -> validateList(rd);
+            case New -> validateNew();
+            case Read, ReadTo -> validateRead();
+            case Add -> validateAdd();
+            case Change -> validateChange();
+            case Open -> validateOpen();
+            case Show -> validateShow();
+            case List -> validateList();
+            case Wait -> validateWait();
+            case Pause -> validatePause();
             case Recommend, ListAll, Help -> {}
         }
 
@@ -45,37 +48,45 @@ public class RequestValidator implements org.springframework.validation.Validato
         return Validator.validateOperator(opstr);
     }
 
-    private void validateNew(RequestDummy rd) {
+    private void validateNew() {
         List<String> param = List.of(rd.getBooknew(), rd.getNewpagevalue(), rd.getNewlinkvalue(), rd.getNewwsvalue(), rd.getNewlrvalue());
         Validator.validateNew(param);
     }
 
-    private void validateRead(RequestDummy rd) {
+    private void validateRead() {
         List<String> param = List.of(rd.getBooksel(), rd.getReadvalue());
         Validator.validateRead(param);
     }
 
-    private void validateAdd(RequestDummy rd) {
+    private void validateAdd() {
         List<String> param = List.of(rd.getBooksel(), rd.getAddvalue());
         Validator.validateAdd(param);
     }
 
-    private void validateChange(RequestDummy rd) {
+    private void validateChange() {
         List<String> param = List.of(rd.getChangeattribute(), rd.getBooksel(), rd.getChangevalue());
         Validator.validateChange(param);
     }
 
-    private void validateOpen(RequestDummy rd) {
+    private void validateOpen() {
         Validator.validateBooksel(rd.getBooksel());
     }
 
-    private void validateShow(RequestDummy rd) {
+    private void validateShow() {
         Validator.validateBooksel(rd.getBooksel());
     }
 
-    private void validateList(RequestDummy rd) {
+    private void validateList() {
         List<String> param = List.of(rd.getSortby(), rd.getGroupby());
         Validator.validateList(param);
+    }
+
+    private void validateWait() {
+        Validator.validateWait(rd.getBooksel(), rd.getWaituntil());
+    }
+
+    private void validatePause() {
+        Validator.validateBooksel(rd.getBooksel());
     }
 
     // setter/getter

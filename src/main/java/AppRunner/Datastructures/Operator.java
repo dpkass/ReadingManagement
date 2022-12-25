@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Operator {
-    New("New"), Read("Read"), ReadTo("Read To"), Add("Add"), Change("Change"), Open("Open"), Recommend("Recommend"), Show("Show"), List("List"), ListAll("List All"), Help("Help");
+    New("New"), Read("Read"), ReadTo("Read To"), Add("Add"), Change("Change"), Open("Open"), Recommend("Recommend"), Show("Show"), List(
+            "List"), ListAll("List All"), Help("Help"), Wait("Wait"), Pause("Pause");
 
     private final String displayvalue;
 

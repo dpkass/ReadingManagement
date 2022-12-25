@@ -30,6 +30,16 @@ public class Processor {
         Displayer.listAll(el.entries());
     }
 
+    public static void doWait(Request rq) {
+        Entry e = getEntry(rq.booksel());
+        Modifier.wait(e, rq.waituntil());
+    }
+
+    public static void doPause(Request rq) {
+        Entry e = getEntry(rq.booksel());
+        Modifier.pause(e);
+    }
+
     public static void doRecommend() {
         Displayer.recommend(el.entries());
     }

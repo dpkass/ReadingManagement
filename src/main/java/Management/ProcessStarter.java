@@ -32,6 +32,8 @@ public class ProcessStarter {
                 case ReadTo -> Processor.doReadTo(rq);
                 case Add -> Processor.doAdd(rq);
                 case Change -> Processor.doChange(rq);
+                case Wait -> Processor.doWait(rq);
+                case Pause -> Processor.doPause(rq);
                 case List -> Processor.doList(rq);
                 case Show -> Processor.doShow(rq);
                 case ListAll -> Processor.doListAll();

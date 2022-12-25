@@ -17,23 +17,10 @@ class Changer {
                 if (EntryUtil.checkRating(f)) e.setRating(f);
             }
             case link -> e.setLink(changevalue);
-            case waituntil -> e.setWaituntil(toLD(changevalue));
             case writingStatus -> e.setWritingStatus(changevalue);
-            case readingStatus -> changeReadingStatus(e, changevalue);
             default -> throw new IllegalArgumentException("1");
         }
         return attribute.displayvalue() + " changed.";
-    }
-
-    private static void changeReadingStatus(Entry e, String changevalue) {
-        e.setReadingStatus(changevalue);
-        if (changevalue.equals("Waiting"))
-//            rework if change rs to be able to change pu
-//            if (parts.size() > 4)
-//                e.setWaituntil(LocalDate.parse(parts.get(4), DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-//            else
-            e.setWaituntil(LocalDate.now().plusWeeks(4));
-        else e.setWaituntil(null);
     }
 
     private static LocalDate toLD(String value) {

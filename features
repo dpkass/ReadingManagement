@@ -1,11 +1,10 @@
-Next-up: change to give number input for rating and select option for ws & rs (+date waituntil waiting) (JavaScript)
+Next-up: Pause to be indefinite, but wait to have date (New Ops pause and wait)
 
 Safe
-1. Pause to be indefinite, but wait to have date (New Ops pause and wait)
-2. rs to reading when read op used
-3. grouped requestresult to display status displayvalue not statusname (better in backend)
-4. OR Filters
-5. Sort List-All
+1. rs to reading when read op used
+2. grouped requestresult to display status displayvalue not statusname (better in backend)
+3. OR Filters
+4. Sort List-All
 
 Uncertain
 1. Change to SQL-based database

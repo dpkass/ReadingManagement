@@ -2,6 +2,7 @@ package AppRunner.Datastructures;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -26,6 +27,8 @@ public final class RequestDummy {
     private String newlrvalue;
     // additional read
     private String readvalue = "1";
+    // additional wait
+    private String waituntil;
 
     // list display
     private boolean displayread = false;
@@ -50,7 +53,8 @@ public final class RequestDummy {
         List<Filter<?>> filters = this.filters == null ? null : this.filters.stream()
                                                                             .map(Filter::createFilter)
                                                                             .collect(Collectors.toList());
-        LocalDateTime parsed = toLD();
+        LocalDateTime lr = toLDT(newlrvalue);
+        LocalDate wu = toLD(waituntil);
         float newpageval = Float.parseFloat(newpagevalue);
         float readval = Float.parseFloat(readvalue);
 
@@ -64,8 +68,9 @@ public final class RequestDummy {
         request.setNewpagevalue(newpageval);
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(newwsvalue);
-        request.setNewlrvalue(parsed);
+        request.setNewlrvalue(lr);
         request.setReadvalue(readval);
+        request.setWaituntil(wu);
         request.setDaf(new DisplayAttributesForm(daf));
         request.setFilters(filters);
         request.setSortby(sortby);
@@ -76,9 +81,17 @@ public final class RequestDummy {
         return request;
     }
 
-    private LocalDateTime toLD() {
+    private LocalDateTime toLDT(String ldt) {
         try {
-            return LocalDateTime.parse(newlrvalue);
+            return LocalDateTime.parse(ldt);
+        } catch (DateTimeParseException | NullPointerException e) {
+            return null;
+        }
+    }
+
+    private LocalDate toLD(String ld) {
+        try {
+            return LocalDate.parse(ld);
         } catch (DateTimeParseException | NullPointerException e) {
             return null;
         }
@@ -104,7 +117,6 @@ public final class RequestDummy {
     }
 
     // getters and setters
-
     public String getOperator() {
         return operator;
     }
@@ -199,6 +211,14 @@ public final class RequestDummy {
 
     public void setReadvalue(String readvalue) {
         this.readvalue = readvalue;
+    }
+
+    public String getWaituntil() {
+        return waituntil;
+    }
+
+    public void setWaituntil(String waituntil) {
+        this.waituntil = waituntil;
     }
 
     public boolean isDisplayread() {

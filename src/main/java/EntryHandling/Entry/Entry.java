@@ -103,14 +103,17 @@ public class Entry {
         this.abbreviations = abbreviations;
     }
 
-    public void setReadingStatus(String readingStatus) {
-        this.readingStatus = EntryHandling.Entry.ReadingStatus.getStatus(readingStatus);
-        if (this.readingStatus == EntryHandling.Entry.ReadingStatus.Default) throw new RuntimeException();
+    public void setReadingStatus(ReadingStatus readingStatus) {
+        this.readingStatus = readingStatus;
     }
 
     public void setWritingStatus(String writingStatus) {
         this.writingStatus = WritingStatus.getStatus(writingStatus);
         if (this.writingStatus == WritingStatus.Default) throw new RuntimeException();
+    }
+
+    public void setWritingStatus(WritingStatus writingStatus) {
+        this.writingStatus = writingStatus;
     }
 
     public void setRating(float rating) {

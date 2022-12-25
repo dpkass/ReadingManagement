@@ -1,6 +1,6 @@
 let idbooktxt, idbooksel, idadditionalread, idadditionaladd, idadditionalchangetype, idadditionalchangetextvalue,
     idadditionalchangewsvalue, idadditionalnewpage, idadditionalnewlink, idadditionalnewws, idadditionalnewlr,
-    iddisplayargs, idordersort, idordergroup, idordersortdirection, idordergroupdirection;
+    idadditionalwaitwu, iddisplayargs, idordersort, idordergroup, idordersortdirection, idordergroupdirection;
 
 function getelements() {
     // books
@@ -17,6 +17,7 @@ function getelements() {
     idadditionalnewlink = document.getElementById("idadditionalnewlinkdiv")
     idadditionalnewws = document.getElementById("idadditionalnewwsdiv")
     idadditionalnewlr = document.getElementById("idadditionalnewlrdiv")
+    idadditionalwaitwu = document.getElementById("idadditionalwaitwudiv")
 
     // display
     iddisplayargs = document.getElementById("iddisplayargsdiv")
@@ -76,6 +77,15 @@ function operatorupdate() {
             makeVisible(iddisplayargs);
             break
 
+        case "Wait":
+            makeVisible(idbooksel);
+            makeVisible(idadditionalwaitwu);
+            break
+
+        case "Pause":
+            makeVisible(idbooksel);
+            break
+
         case "ListAll":
         case "Recommend":
         case "":
@@ -121,6 +131,7 @@ function forminvisible() {
     makeInvisible(idadditionalnewlink)
     makeInvisible(idadditionalnewws)
     makeInvisible(idadditionalnewlr)
+    makeInvisible(idadditionalwaitwu)
 
     // display
     makeInvisible(iddisplayargs)

@@ -6,6 +6,7 @@ import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -101,16 +102,26 @@ public class Validator {
         validateGroup(parts.get(1));
     }
 
+    public static void validateWait(String booksel, String waituntil) {
+        validateBooksel(booksel);
+        validateWu(waituntil);
+    }
+
     // single field validators
     static void validateLr(String newlrvalue) {
         if (newlrvalue == null || newlrvalue.isBlank()) return;
 
         LocalDateTime ldt = Validator.toLDT(newlrvalue);
-        if (ldt == null) {
-            addError("newlrvalue", "newlrnotdate", "Lastread is not a date");
-            return;
-        }
-        if (ldt.isAfter(LocalDateTime.now())) addError("newlrvalue", "newlrnotpast", "Lastread must be in the past");
+        if (ldt == null) addError("newlrvalue", "newlrnotdate", "Lastread is not a date");
+        else if (ldt.isAfter(LocalDateTime.now())) addError("newlrvalue", "newlrnotpast", "Lastread must be in the past");
+    }
+
+    private static void validateWu(String waituntil) {
+        if (waituntil == null || waituntil.isBlank()) return;
+
+        LocalDate ld = Validator.toLD(waituntil);
+        if (ld == null) addError("waituntil", "waitwunotdate", "Wait-Until is not a date");
+        else if (ld.isBefore(LocalDate.now())) addError("waituntil", "waitwunotfuture", "Wait-Until must be in the future");
     }
 
     private static void validateReadval(String readvalue) {
@@ -146,6 +157,7 @@ public class Validator {
         if (booksel == null || booksel.isBlank()) addError("booksel", "bookselblank", "A book must be selected");
     }
 
+
     // typecheckers
     static boolean isLink(String newlinkvalue) {
         try {
@@ -168,7 +180,15 @@ public class Validator {
     static LocalDateTime toLDT(String newlrvalue) {
         try {
             return LocalDateTime.parse(newlrvalue);
-        } catch (DateTimeParseException | IllegalArgumentException dpe) {
+        } catch (DateTimeParseException dpe) {
+            return null;
+        }
+    }
+
+    static LocalDate toLD(String newlrvalue) {
+        try {
+            return LocalDate.parse(newlrvalue);
+        } catch (DateTimeParseException dpe) {
             return null;
         }
     }

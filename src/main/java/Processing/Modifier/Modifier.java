@@ -6,6 +6,7 @@ import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.WritingStatus;
 import Processing.RequestResult;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
@@ -23,8 +24,7 @@ public class Modifier {
         finish(res);
     }
 
-    public static void make(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue,
-                            LocalDateTime newlrvalue) {
+    public static void make(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
         String res = Newer.make(el, book, newpagevalue, newlinkvalue, newwsvalue, newlrvalue);
         finish(res);
     }
@@ -36,6 +36,16 @@ public class Modifier {
 
     public static void readto(Entry e, float rt) {
         String res = Reader.readto(e, rt);
+        finish(res);
+    }
+
+    public static void wait(Entry e, LocalDate ldt) {
+        String res = Pauser.wait(e, ldt);
+        finish(res);
+    }
+
+    public static void pause(Entry e) {
+        String res = Pauser.pause(e);
         finish(res);
     }
 
