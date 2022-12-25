@@ -2,10 +2,8 @@ package Processing.Modifier;
 
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.ReadingStatus;
-import EntryHandling.Entry.WritingStatus;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Pauser {
 

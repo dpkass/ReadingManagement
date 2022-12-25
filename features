@@ -1,10 +1,9 @@
-Next-up: Pause to be indefinite, but wait to have date (New Ops pause and wait)
+Next-up: rs to reading when read op used
 
 Safe
-1. rs to reading when read op used
-2. grouped requestresult to display status displayvalue not statusname (better in backend)
-3. OR Filters
-4. Sort List-All
+1. grouped requestresult to display status displayvalue not statusname (better in backend)
+2. OR Filters
+3. Sort List-All
 
 Uncertain
 1. Change to SQL-based database
