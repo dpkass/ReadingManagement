@@ -1,22 +1,20 @@
-$(function togglefilters() {
-    let visible = false
-    let filters = $('#filtersdiv')
-    let filtersbtn = document.getElementById('filtersbtn')
-    let resetfiltersbtn = $('#resetfiltersbtn')
-    $('#filtersbtn').click(function () {
-        if (visible) {
-            filters.hide()
-            resetfiltersbtn.hide()
-            filtersbtn.classList.remove('active')
-        } else {
-            filters.show()
-            resetfiltersbtn.show()
-            filtersbtn.classList.add('active')
-        }
+let visible = false
+let filters = $('#filtersdiv')
+let filtersbtn = $('#filtersbtn')
+let resetfiltersbtn = $('#resetfiltersbtn')
 
-        visible = !visible;
-    })
-})
+function togglefilters() {
+    if (visible) {
+        filters.hide()
+        resetfiltersbtn.hide()
+        filtersbtn.removeClass('active')
+    } else {
+        filters.show()
+        resetfiltersbtn.show()
+        filtersbtn.addClass('active')
+    }
+    visible = !visible
+}
 
 $(function filechange() {
     $('.custom-file-input').on('change', function () {
@@ -83,7 +81,13 @@ function changeupdate() {
     }
 }
 
+// eventlisteners
+$(document).ready(
+    filtersbtn.click(togglefilters),
+)
+
 function forminvisible() {
+    console.log('forminvisible')
     makeInvisible('new')
     makeInvisible('read')
     makeInvisible('add')
@@ -96,6 +100,14 @@ function forminvisible() {
     $('#secret').hide()
     $('#filtersdiv').hide()
     $('#resetfiltersbtn').hide()
+
+    $('.filter').each(function () {
+        console.log($(this).val())
+        var value = $(this).val()
+        if (value !== '' && value !== 0 && value !== []) {
+            togglefilters()
+        }
+    })
 }
 
 function makeVisible(clazz) {

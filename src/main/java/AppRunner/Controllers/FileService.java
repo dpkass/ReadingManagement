@@ -38,9 +38,9 @@ public class FileService {
         return secret ? secretfile : indexfile;
     }
 
-    void makeZip(List<String> files, ServletOutputStream responseOut) {
+    void makeZip(List<File> files, ServletOutputStream responseOut) {
         try (ZipOutputStream zippedOut = new ZipOutputStream(responseOut)) {
-            for (String file : files) {
+            for (File file : files) {
                 InputStream resourceInputStream = getZipEntryAsInputStream(zippedOut, file);
                 // And the content of the resource:
                 StreamUtils.copy(resourceInputStream, zippedOut);
@@ -53,7 +53,7 @@ public class FileService {
     }
 
     @NotNull
-    private InputStream getZipEntryAsInputStream(ZipOutputStream zippedOut, String file) throws IOException {
+    private InputStream getZipEntryAsInputStream(ZipOutputStream zippedOut, File file) throws IOException {
         FileSystemResource resource = new FileSystemResource(file);
 
         ZipEntry e = new ZipEntry(resource.getFilename());

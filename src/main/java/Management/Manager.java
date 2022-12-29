@@ -32,9 +32,13 @@ public class Manager {
 
     public Manager() throws IOException {
         resetFiles();
-        file = standardfile;
-        secretfile = standardsecretfile;
-        init();
+        setFile(standardfile);
+        setSecretfile(standardsecretfile);
+    }
+
+    public void load() {
+        loadFile();
+        loadSecretFile();
     }
 
     private void resetFiles() throws IOException {
@@ -47,27 +51,17 @@ public class Manager {
         file.createNewFile();
     }
 
-    public void init() {
-        initFile();
-        initSecretfile();
-    }
-
     public void initFile() {
         fh = new JSONHandler(file, false);
-    }
-
-    public void initSecretfile() {
-        secretfh = new JSONHandler(secretfile, true);
-    }
-
-    public void load() {
-        loadFile();
-        loadSecretFile();
     }
 
     public void loadFile() {
         el = fh.read();
         ps.setEl(el);
+    }
+
+    public void initSecretfile() {
+        secretfh = new JSONHandler(secretfile, true);
     }
 
     public void loadSecretFile() {
@@ -87,12 +81,25 @@ public class Manager {
         return rr.copy();
     }
 
-    public void changeFile(File file, boolean secret) {
-        if (secret) this.secretfile = file == null ? this.secretfile : file;
-        else this.file = file == null ? this.file : file;
+    public void setFile(File file) {
+        this.file = file == null ? this.file : file;
+        initFile();
+    }
+
+    public void setSecretfile(File file) {
+        this.secretfile = file == null ? this.secretfile : file;
+        initSecretfile();
     }
 
     public Stream<Entry> entries() {
         return el.entries();
+    }
+
+    public File file() {
+        return file;
+    }
+
+    public File secretfile() {
+        return secretfile;
     }
 }

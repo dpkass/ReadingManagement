@@ -7,6 +7,7 @@ import Management.Manager;
 import Processing.RequestResult;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +17,6 @@ public class RequestService {
 
     public RequestService(Manager mgr) {
         this.mgr = mgr;
-
-        mgr.init();
         mgr.load();
     }
 
@@ -33,5 +32,9 @@ public class RequestService {
     RequestResult processForm(RequestDummy rd) {
         Request rq = rd.toRequest();
         return mgr.process(rq);
+    }
+
+    public List<File> files() {
+        return List.of(mgr.file(), mgr.secretfile());
     }
 }

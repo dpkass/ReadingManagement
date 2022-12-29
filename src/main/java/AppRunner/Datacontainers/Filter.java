@@ -8,7 +8,9 @@ import java.util.Set;
 // rework OR filters
 public record Filter<T>(Attribute attribute, String operator, T value) {
     public static Filter<?> createFilter(String[] filter) {
-        return createFilter(Attribute.getAttribute(filter[0]), filter[1], getStatusValue(filter[2]));
+        Attribute att = Attribute.getAttribute(filter[0]);
+        Object value = (att == Attribute.writingStatus || att == Attribute.readingStatus) ? getStatusValue(filter[2]) : filter[2];
+        return createFilter(att, filter[1], value);
     }
 
     public static <T> Filter<?> createFilter(Attribute att, String operator, T value) {
