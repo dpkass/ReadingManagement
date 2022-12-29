@@ -30,8 +30,8 @@
                         <div class="form-row">
                             <!--Operator-->
                             <div class="form-group col-md-6">
-                                <label for="idoperator">Operator</label>
-                                <select class="form-control" name="operator" id="idoperator"
+                                <label for="operator">Operator</label>
+                                <select class="form-control" id="operator"
                                         onchange="operatorupdate();" th:field="*{operator}">
                                     <option disabled selected value="">Select operator</option>
                                     <option th:each="op : ${operators}"
@@ -41,17 +41,15 @@
                                 <div class="invalid-feedback" th:errors="*{operator}"></div>
                             </div>
                             <!--Book text, only if New is selected-->
-                            <div class="form-group col-md-6" id="idbooktxtdiv">
-                                <label for="idbooktxt">Book</label>
-                                <input class="form-control" id="idbooktxt" th:field="*{booknew}">
-                                <div th:if="${#fields.hasErrors('booknew')}">
-                                    <p th:errors="${#fields.errors('booknew')}"></p>
-                                </div>
+                            <div class="form-group col-md-6 new">
+                                <label for="booktxt">Book</label>
+                                <input class="form-control" id="booktxt" th:field="*{booknew}">
+                                <!--                                <div th:errors="${#fields.errors('booknew')}"></div>-->
                             </div>
-                            <!--Book select, only if Add, Change, Read, ReadTo, Open, Show is selected-->
-                            <div class="form-group col-md-6" id="idbookseldiv">
-                                <label for="idbooksel">Book</label>
-                                <select class="form-control" id="idbooksel" th:field="*{booksel}">
+                            <!--Book select, only if Add, Change, Read, ReadTo, Open, Show, Wait, Pause is selected-->
+                            <div class="form-group col-md-6 add change read open show wait pause">
+                                <label for="booksel">Book</label>
+                                <select class="form-control" id="booksel" th:field="*{booksel}">
                                     <option disabled selected value="">Select book</option>
                                     <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                 </select>
@@ -60,173 +58,178 @@
                                 </div>
                             </div>
                         </div>
-                        <!--Additional args: Add, Change, Read, ReadTo, New-->
+                        <!--Additional args: Add, Change, Read/ReadTo, New, Wait-->
                         <div class="form-row">
                             <!--Additional args: Add (ab)-->
-                            <div class="form-group col-md-12" id="idadditionaladddiv">
-                                <label for="idadditionaladd">Abbreviation to add</label>
-                                <input class="form-control" type="text" th:field="*{addvalue}" id="idadditionaladd">
+                            <div class="form-group col-md-12 add">
+                                <label for="additionaladd">Abbreviation to add</label>
+                                <input class="form-control" type="text" th:field="*{addvalue}" id="additionaladd">
                             </div>
                             <!--Additional args: Change (type -> newval)-->
-                            <div class="form-group col-md-6" id="idadditionalchangetypediv">
-                                <label for="idadditionalchangeattribute">Type</label>
+                            <div class="form-group col-md-6 change">
+                                <label for="additionalchangeattribute">Type</label>
                                 <select class="form-control" onchange="changeupdate();" th:field="*{changeattribute}"
-                                        id="idadditionalchangeattribute">
+                                        id="additionalchangeattribute">
                                     <option disabled selected value="">Select Type</option>
                                     <option th:each="co : ${changing_options}" th:text="${co.displayvalue()}"
                                             th:value="${co}"></option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6" id="idadditionalchangetextvaluediv">
-                                <label for="idadditionalchangetextvalue">New Value</label>
+                            <div class="form-group col-md-6 change" id="additionalchangetextvaluediv">
+                                <label for="additionalchangetextvalue">New Value</label>
                                 <input class="form-control" type="text" th:field="*{changevalue}"
-                                       id="idadditionalchangetextvalue">
+                                       id="additionalchangetextvalue">
                             </div>
-                            <div class="form-group col-md-6" id="idadditionalchangewsvaluediv">
-                                <label for="idadditionalchangewsvalue">New Value</label>
+                            <div class="form-group col-md-6 change" id="additionalchangewsvaluediv">
+                                <label for="additionalchangewsvalue">New Value</label>
                                 <select class="form-control" th:field="*{changevalue}"
-                                        id="idadditionalchangewsvalue">
+                                        id="additionalchangewsvalue">
                                     <option disabled selected value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
                                             th:value="${ws}"></option>
                                 </select>
                             </div>
                             <!--Additional args: Read (page)-->
-                            <div class="form-group col-md-22" id="idadditionalreaddiv">
-                                <label for="idadditionalread">Page/Chapter</label>
-                                <input class="form-control" type="number" th:field="*{readvalue}" id="idadditionalread">
+                            <div class="form-group col-md-6 read">
+                                <label for="additionalread">Page/Chapter</label>
+                                <input class="form-control" type="number" th:field="*{readvalue}" id="additionalread">
                             </div>
                             <!--Additional args: New (Page, Link, WS, lastread)-->
-                            <div class="form-group col-md-6" id="idadditionalnewpagediv">
-                                <label for="idadditionalnewpage">Page/Chapter</label>
+                            <div class="form-group col-md-6 new">
+                                <label for="additionalnewpage">Page/Chapter</label>
                                 <input class="form-control" type="number" th:field="*{newpagevalue}"
-                                       id="idadditionalnewpage">
+                                       id="additionalnewpage">
                             </div>
-                            <div class="form-group col-md-6" id="idadditionalnewlinkdiv">
-                                <label for="idadditionalnewlink">Link</label>
+                            <div class="form-group col-md-6 new">
+                                <label for="additionalnewlink">Link</label>
                                 <input class="form-control" type="url" th:field="*{newlinkvalue}"
-                                       id="idadditionalnewlink">
+                                       id="additionalnewlink">
                             </div>
-                            <div class="form-group col-md-6" id="idadditionalnewwsdiv">
-                                <label for="idadditionalnewws">Writing Status</label>
-                                <select class="form-control" th:field="*{newwsvalue}" id="idadditionalnewws">
+                            <div class="form-group col-md-6 new">
+                                <label for="additionalnewws">Writing Status</label>
+                                <select class="form-control" th:field="*{newwsvalue}" id="additionalnewws">
                                     <option selected disabled value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
                                             th:value="${ws}"></option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6" id="idadditionalnewlrdiv">
-                                <label for="idadditionalnewlr">Last Read</label>
+                            <div class="form-group col-md-6 new">
+                                <label for="additionalnewlr">Last Read</label>
                                 <input class="form-control" type="datetime-local" th:field="*{newlrvalue}"
-                                       id="idadditionalnewlr">
+                                       id="additionalnewlr">
                             </div>
                             <!--Additional args: Wait (Waituntil)-->
-                            <div class="form-group col-md-6" id="idadditionalwaitwudiv">
-                                <label for="idadditionalwaitwu">Wait Until</label>
+                            <div class="form-group col-md-6 wait">
+                                <label for="additionalwaitwu">Wait Until</label>
                                 <input class="form-control" type="date" th:field="*{waituntil}"
-                                       id="idadditionalwaitwu">
+                                       id="additionalwaitwu">
                             </div>
                         </div>
                         <!--Display args, only if display op (list, show) is selected-->
-                        <div class="form-row" id="iddisplayargsdiv">
-                            <label for="iddisplayargsdiv">Display</label>
-                            <div class="form-group col-mb">
-                                <div class="form-check" id="iddisplayalldiv">
-                                    <input class="form-check-input" type="checkbox"
-                                           id="iddisplayall">
-                                    <label for="iddisplayall" class="form-check-label">All</label>
+                        <div class="form-row">
+                            <div class="list show" id="displayargsdiv">
+                                <label class="col-form-label" for="displayargsdiv">Display</label>
+                                <div class="form-group col-mb">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="displayall">
+                                        <label for="displayall" class="form-check-label">All</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-mb-12" id="iddisplayargssinglesdiv">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox" th:field="*{displayread}"
-                                           id="iddisplayread">
-                                    <label for="iddisplayread" class="form-check-label">Page/Chapter</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox" th:field="*{displaylink}"
-                                           id="iddisplaylink">
-                                    <label for="iddisplaylink" class="form-check-label">Link</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox" th:field="*{displayrating}"
-                                           id="iddisplayrating">
-                                    <label for="iddisplayrating" class="form-check-label">Rating</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox"
-                                           th:field="*{displaylastread}"
-                                           id="iddisplaylastread">
-                                    <label for="iddisplaylastread" class="form-check-label">Last Read</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox"
-                                           th:field="*{displaywaituntil}"
-                                           id="iddisplaywaituntil">
-                                    <label for="iddisplaywaituntil" class="form-check-label">Wait
-                                        Until</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox"
-                                           th:field="*{displayreadingstatus}" id="iddisplayreadingstatus">
-                                    <label for="iddisplayreadingstatus" class="form-check-label">Reading
-                                        Status</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input display" type="checkbox"
-                                           th:field="*{displaywritingstatus}" id="iddisplaywritingstatus">
-                                    <label for="iddisplaywritingstatus" class="form-check-label">Writing
-                                        Status</label>
+                                <div class="form-group col-mb-12">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displayread}"
+                                               id="displayread">
+                                        <label for="displayread" class="form-check-label">Page/Chapter</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displaylink}"
+                                               id="displaylink">
+                                        <label for="displaylink" class="form-check-label">Link</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displayrating}"
+                                               id="displayrating">
+                                        <label for="displayrating" class="form-check-label">Rating</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displaylastread}"
+                                               id="displaylastread">
+                                        <label for="displaylastread" class="form-check-label">Last Read</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displaywaituntil}"
+                                               id="displaywaituntil">
+                                        <label for="displaywaituntil" class="form-check-label">Wait
+                                            Until</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displayreadingstatus}" id="displayreadingstatus">
+                                        <label for="displayreadingstatus" class="form-check-label">Reading
+                                            Status</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input display" type="checkbox"
+                                               th:field="*{displaywritingstatus}" id="displaywritingstatus">
+                                        <label for="displaywritingstatus" class="form-check-label">Writing
+                                            Status</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!--Order args, only if List is selected-->
-                        <div class="form-row">
-                            <div class="form-group col-md-6" id="idordersortdiv">
-                                <label for="idsort">Sort-by</label>
-                                <select class="form-control" th:field="*{sortby}" id="idsort">
+                        <div class="form-row list">
+                            <div class="form-group col-md-6">
+                                <label for="sort">Sort-by</label>
+                                <select class="form-control" th:field="*{sortby}" id="sort">
                                     <option selected value="">None</option>
                                     <option th:each="s : ${sorting_options}" th:text="${s.displayvalue()}"
                                             th:value="${s}"></option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6" id="idordergroupdiv">
-                                <label for="idgroup">Group-by</label>
-                                <select class="form-control" th:field="*{groupby}" id="idgroup">
+                            <div class="form-group col-md-6">
+                                <label for="group">Group-by</label>
+                                <select class="form-control" th:field="*{groupby}" id="group">
                                     <option selected value="">None</option>
                                     <option th:each="g : ${grouping_options}" th:text="${g.displayvalue()}"
                                             th:value="${g}"></option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6" id="idordersortdirectiondiv">
+                            <div class="form-group col-md-6">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" th:field="*{sortdescending}"
-                                           id="idsortdirection">
-                                    <label for="idsortdirection">Sort descending</label>
+                                           id="sortdirection">
+                                    <label for="sortdirection">Sort descending</label>
                                 </div>
                             </div>
-                            <div class="form-group col-md-6" id="idordergroupdirectiondiv">
+                            <div class="form-group col-md-6">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" th:field="*{groupdescending}"
-                                           id="idgroupdirection">
-                                    <label for="idgroupdirection">Group descending</label>
+                                           id="groupdirection">
+                                    <label for="groupdirection">Group descending</label>
                                 </div>
                             </div>
                         </div>
                         <!--Filter args, only if List is selected-->
                         <div class="form-row">
-                            <div class="form-group col-first">
-                                <button type="button" class="btn btn-outline-info" id="idfiltersbtn">
+                            <div class="form-group col-first list">
+                                <button type="button" class="btn btn-outline-info" id="filtersbtn">
                                     Filters
                                 </button>
                             </div>
                             <div class="form-group col-last">
-                                <button type="button" class="btn btn-danger" id="idresetfiltersbtn">
+                                <button type="button" class="btn btn-danger" id="resetfiltersbtn">
                                     Reset Filters
                                 </button>
                             </div>
                         </div>
-                        <div id="idfiltersdiv">
+                        <div id="filtersdiv">
                             <!--Page/Chapter-->
                             <div class="form-group row">
                                 <label class="col-form-label col-md-5">Chapter</label>
@@ -320,7 +323,6 @@
 </div>
 </body>
 <script>
-    getelements()
     operatorupdate()
 </script>
 </html>

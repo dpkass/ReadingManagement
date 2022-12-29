@@ -15,7 +15,7 @@ public class RequestValidator implements org.springframework.validation.Validato
     @Override
     public boolean supports(Class<?> clazz) {
         if (!RequestDummy.class.isAssignableFrom(clazz)) {
-            System.out.println("Wrong Validator");
+            System.err.println("Wrong Validator: " + clazz);
             return true;
         }
         return RequestDummy.class.isAssignableFrom(clazz);
