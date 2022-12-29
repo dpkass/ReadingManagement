@@ -42,15 +42,13 @@ public class ProcessStarter {
                 case Help -> doHelp(rq);
                 default -> throw new IllegalArgumentException("1");
             }
-        } catch (EntryNotFoundException e) {
+        } catch (EntryNotFoundException | IllegalArgumentException e) {
             int code = Integer.parseInt(e.getMessage());
             String message = Helper.errorMessage(e.getMessage());
             rr.setError(new Error(code, message));
         } catch (Exception e) {
             e.printStackTrace();
-            int code = Integer.parseInt(e.getMessage());
-            String message = Helper.errorMessage(e.getMessage());
-            rr.setError(new Error(code, message));
+            rr.setError(new Error(-1, "BIG ERROR"));
         }
     }
 
@@ -58,10 +56,4 @@ public class ProcessStarter {
         rr.setString(Helper.help(rq.helpoperator()));
         rr.setType(RequestResult.RequestResultType.HELP);
     }
-
-//    void doSecret(List<String> rq) {
-//        rq = rq.subList(1, rq.size());
-//        Processor.setEl(secretel);
-//        process(rq);
-//    }
 }

@@ -2,6 +2,7 @@ package AppRunner.Datastructures;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 // rework OR filters
 public record Filter<T>(Attribute attribute, String operator, T value) {
@@ -12,8 +13,17 @@ public record Filter<T>(Attribute attribute, String operator, T value) {
         return switch (att) {
             case readto, rating -> new Filter<>(att, operator, Float.parseFloat(filter[2]));
             case writingStatus, readingStatus -> new Filter<>(att, operator, filter[2]);
-            case lastread, waituntil ->
-                    new Filter<LocalDate>(att, operator, LocalDate.parse(filter[2], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+            case lastread, waituntil -> new Filter<LocalDate>(att, operator, LocalDate.parse(filter[2], DateTimeFormatter.ISO_DATE));
+            default -> throw new IllegalArgumentException("1");
+        };
+    }
+
+    public static <T> Filter<?> createFilter(Attribute att, String operator, T value) {
+        if (att == null) throw new IllegalArgumentException("1");
+        return switch (att) {
+            case readto, rating -> new Filter<>(att, operator, value);
+            case writingStatus, readingStatus -> new Filter<>(att, operator, String.join("OR", (List<String>) value));
+            case lastread, waituntil -> new Filter<LocalDate>(att, operator, LocalDate.parse((String) value, DateTimeFormatter.ISO_DATE));
             default -> throw new IllegalArgumentException("1");
         };
     }
@@ -25,9 +35,5 @@ public record Filter<T>(Attribute attribute, String operator, T value) {
 
     public String[] splitValue() {
         return ((String) value).split("OR");
-    }
-
-    public String[] toArray() {
-        return new String[] { String.valueOf(attribute), operator, String.valueOf(value) };
     }
 }

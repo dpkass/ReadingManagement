@@ -10,6 +10,7 @@ import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
 import Management.Manager;
 import Processing.RequestResult;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,7 +58,10 @@ public class RequestController {
 
         if (br.hasErrors()) {
             System.out.println("found error");
-            System.out.println(br.getFieldErrors());
+            System.out.println(br.getFieldErrors()
+                                 .stream()
+                                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                 .collect(Collectors.joining("\n")));
             return "form";
         }
 
@@ -94,6 +98,7 @@ public class RequestController {
     private void buildForm(Model m) {
         m.addAttribute("operators", Operator.formoperators());
         m.addAttribute("writing_statuses", WritingStatus.values());
+        m.addAttribute("reading_statuses", ReadingStatus.displayableRS());
         m.addAttribute("books", mgr.entries().map(Entry::name).collect(Collectors.toList()));
         m.addAttribute("changing_options", Attribute.changingOptions());
         m.addAttribute("sorting_options", Attribute.sortingOptions());

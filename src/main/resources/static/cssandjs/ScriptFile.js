@@ -1,6 +1,7 @@
 let idbooktxt, idbooksel, idadditionalread, idadditionaladd, idadditionalchangetype, idadditionalchangetextvalue,
     idadditionalchangewsvalue, idadditionalnewpage, idadditionalnewlink, idadditionalnewws, idadditionalnewlr,
-    idadditionalwaitwu, iddisplayargs, idordersort, idordergroup, idordersortdirection, idordergroupdirection;
+    idadditionalwaitwu, iddisplayargs, idordersort, idordergroup, idordersortdirection, idordergroupdirection,
+    idfilters, idfiltersbtn, idresetfiltersbtn, visible = false;
 
 function getelements() {
     // books
@@ -25,6 +26,11 @@ function getelements() {
     idordergroup = document.getElementById("idordergroupdiv")
     idordersortdirection = document.getElementById("idordersortdirectiondiv")
     idordergroupdirection = document.getElementById("idordergroupdirectiondiv")
+
+    // filters
+    idfilters = document.getElementById("idfiltersdiv")
+    idfiltersbtn = document.getElementById("idfiltersbtn")
+    idresetfiltersbtn = document.getElementById("idresetfiltersbtn")
 }
 
 function operatorupdate() {
@@ -70,6 +76,7 @@ function operatorupdate() {
 
         case "List":
             makeVisible(iddisplayargs);
+            makeVisible(idfiltersbtn);
         case "ListAll":
             makeVisible(idordersort);
             makeVisible(idordergroup);
@@ -115,7 +122,6 @@ function changeupdate() {
 }
 
 function forminvisible() {
-
     // books
     makeInvisible(idbooktxt)
     makeInvisible(idbooksel)
@@ -138,12 +144,36 @@ function forminvisible() {
     makeInvisible(idordergroup)
     makeInvisible(idordersortdirection)
     makeInvisible(idordergroupdirection)
+
+    // filters
+    makeInvisible(idfilters)
+    makeInvisible(idfiltersbtn)
+    makeInvisible(idresetfiltersbtn)
+}
+
+function togglefilters() {
+    if (visible) {
+        makeInvisible(idfilters)
+        makeInvisible(idresetfiltersbtn)
+        idfiltersbtn.classList.remove('active')
+    } else {
+        makeVisible(idfilters)
+        makeVisible(idresetfiltersbtn)
+        idfiltersbtn.classList.add('active')
+    }
+
+    visible = !visible;
+}
+
+function resetfilters() {
+    $('input.filter[type=date],input.filter[type=text],select.filter').val('')
+    $('input.filter[type=number]').val(0.0)
 }
 
 function makeVisible(element) {
-    element.style.display = "block"
+    element.style.display = 'block'
 }
 
 function makeInvisible(element) {
-    element.style.display = "none"
+    element.style.display = 'none'
 }

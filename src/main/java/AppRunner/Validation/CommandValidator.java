@@ -45,7 +45,7 @@ public class CommandValidator {
     }
 
     public static void validateList(List<String> param) {
-        Validator.validateList(param);
+//        Validator.validateList(param);
         end();
     }
 

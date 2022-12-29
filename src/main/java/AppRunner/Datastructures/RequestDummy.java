@@ -5,8 +5,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static AppRunner.Datastructures.Attribute.*;
 
 public final class RequestDummy {
     private String operator = "";
@@ -23,7 +26,6 @@ public final class RequestDummy {
     private String newpagevalue = "0";
     private String newlinkvalue = "";
     private String newwsvalue = "";
-    @DateTimeFormat (pattern = "dd.MM.yyyy HH:mm")
     private String newlrvalue;
     // additional read
     private String readvalue = "1";
@@ -31,14 +33,13 @@ public final class RequestDummy {
     private String waituntil;
 
     // list display
-    private boolean displayread = false;
-    private boolean displaylink = false;
-    private boolean displayrating = false;
-    private boolean displaylastread = false;
-    private boolean displaywaituntil = false;
-    private boolean displayreadingstatus = false;
-    private boolean displaywritingstatus = false;
-    private List<String[]> filters;
+    private boolean displayread;
+    private boolean displaylink;
+    private boolean displayrating;
+    private boolean displaylastread;
+    private boolean displaywaituntil;
+    private boolean displayreadingstatus;
+    private boolean displaywritingstatus;
 
     // order args
     private String sortby;
@@ -46,17 +47,28 @@ public final class RequestDummy {
     private boolean sortdescending;
     private boolean groupdescending;
 
+    // filter args
+    private String filterchapterop;
+    private float filterchapter;
+    private String filterratingop;
+    private float filterrating;
+    private String filterlrop;
+    private String filterlr;
+    private String filterwuop;
+    private String filterwu;
+    private List<String> filterrs;
+    private List<String> filterws;
+
     public Request toRequest() {
         Request request = new Request();
 
         List<Boolean> daf = java.util.List.of(displayread, displaylink, displayrating, displaylastread, displaywaituntil, displayreadingstatus, displaywritingstatus);
-        List<Filter<?>> filters = this.filters == null ? null : this.filters.stream()
-                                                                            .map(Filter::createFilter)
-                                                                            .collect(Collectors.toList());
+
         LocalDateTime lr = toLDT(newlrvalue);
         LocalDate wu = toLD(waituntil);
         float newpageval = Float.parseFloat(newpagevalue);
         float readval = Float.parseFloat(readvalue);
+        List<Filter<?>> filters = createFilters();
 
         request.setOperator(operator);
         request.setHelpoperator(helpoperator);
@@ -72,13 +84,24 @@ public final class RequestDummy {
         request.setReadvalue(readval);
         request.setWaituntil(wu);
         request.setDaf(new DisplayAttributesForm(daf));
-        request.setFilters(filters);
         request.setSortby(sortby);
         request.setGroupby(groupby);
         request.setSortdescending(sortdescending);
         request.setGroupdescending(groupdescending);
+        request.setFilters(filters);
 
         return request;
+    }
+
+    public List<Filter<?>> createFilters() {
+        List<Filter<?>> filters = new ArrayList<>();
+        if (!filterchapterop.isBlank()) filters.add(Filter.createFilter(readto, filterchapterop, filterchapter));
+        if (!filterratingop.isBlank()) filters.add(Filter.createFilter(rating, filterratingop, filterrating));
+        if (!filterlrop.isBlank()) filters.add(Filter.createFilter(lastread, filterlrop, filterlr));
+        if (!filterwuop.isBlank()) filters.add(Filter.createFilter(Attribute.waituntil, filterwuop, filterwu));
+        if (!filterrs.isEmpty()) filters.add(Filter.createFilter(readingStatus, "=", filterrs));
+        if (!filterws.isEmpty()) filters.add(Filter.createFilter(writingStatus, "=", filterws));
+        return filters;
     }
 
     private LocalDateTime toLDT(String ldt) {
@@ -103,7 +126,7 @@ public final class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue=" + readvalue + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaywaituntil=" + displaywaituntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", filters=" + filters + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + '}';
+        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaywaituntil=" + displaywaituntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
     }
 
     public void setDaf(List<Boolean> daf) {
@@ -277,14 +300,6 @@ public final class RequestDummy {
         this.displaywritingstatus = displaywritingstatus;
     }
 
-    public List<String[]> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<String[]> filters) {
-        this.filters = filters;
-    }
-
     public String getSortby() {
         return sortby;
     }
@@ -315,5 +330,85 @@ public final class RequestDummy {
 
     public void setGroupdescending(boolean groupdescending) {
         this.groupdescending = groupdescending;
+    }
+
+    public String getFilterchapterop() {
+        return filterchapterop;
+    }
+
+    public void setFilterchapterop(String filterchapterop) {
+        this.filterchapterop = filterchapterop;
+    }
+
+    public float getFilterchapter() {
+        return filterchapter;
+    }
+
+    public void setFilterchapter(float filterchapter) {
+        this.filterchapter = filterchapter;
+    }
+
+    public String getFilterratingop() {
+        return filterratingop;
+    }
+
+    public void setFilterratingop(String filterratingop) {
+        this.filterratingop = filterratingop;
+    }
+
+    public float getFilterrating() {
+        return filterrating;
+    }
+
+    public void setFilterrating(float filterrating) {
+        this.filterrating = filterrating;
+    }
+
+    public String getFilterlrop() {
+        return filterlrop;
+    }
+
+    public void setFilterlrop(String filterlrop) {
+        this.filterlrop = filterlrop;
+    }
+
+    public String getFilterlr() {
+        return filterlr;
+    }
+
+    public void setFilterlr(String filterlr) {
+        this.filterlr = filterlr;
+    }
+
+    public String getFilterwuop() {
+        return filterwuop;
+    }
+
+    public void setFilterwuop(String filterwuop) {
+        this.filterwuop = filterwuop;
+    }
+
+    public String getFilterwu() {
+        return filterwu;
+    }
+
+    public void setFilterwu(String filterwu) {
+        this.filterwu = filterwu;
+    }
+
+    public List<String> getFilterrs() {
+        return filterrs;
+    }
+
+    public void setFilterrs(List<String> filterrs) {
+        this.filterrs = filterrs;
+    }
+
+    public List<String> getFilterws() {
+        return filterws;
+    }
+
+    public void setFilterws(List<String> filterws) {
+        this.filterws = filterws;
     }
 }

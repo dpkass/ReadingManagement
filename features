@@ -1,7 +1,14 @@
 Next-up: Form OR Filters
+		1. Change form to have a show filters button (https://stackoverflow.com/questions/30190588/html-select-multiple-as-dropdown)
+		2. Implement All Filter-Options to be shown from the start
+		3. Filter options:
+			- ws/rs to have multi-selectable dropdowns
+			- rtg/rt/lr/wu to have < & >
+			- rtg to also have =
 
 Safe
 1. Rework List-All, to be just a optionbox in List op
+3. Get Files over main website
 
 Uncertain
 1. Change to SQL-based database

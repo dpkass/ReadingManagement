@@ -1,7 +1,6 @@
 package AppRunner.Validation;
 
-import AppRunner.Datastructures.Attribute;
-import AppRunner.Datastructures.Operator;
+import AppRunner.Datastructures.*;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
 
@@ -79,8 +78,7 @@ public class Validator {
         switch (chatt) {
             case name -> {}
             case link -> {
-                if (!Validator.isLink(chval))
-                    addError("changevalue", "changevaluenotlink", "Change value must be a changeable attribute");
+                if (!Validator.isLink(chval)) addError("changevalue", "changevaluenotlink", "Change value must be a changeable attribute");
             }
             case rating -> {
                 if (!Validator.isNumber(chval))
@@ -97,9 +95,36 @@ public class Validator {
         }
     }
 
-    static void validateList(List<String> parts) {
-        validateSort(parts.get(0));
-        validateGroup(parts.get(1));
+    static void validateList(RequestDummy rd) {
+        validateSort(rd.getSortby());
+        validateGroup(rd.getGroupby());
+        validateFilters(rd);
+    }
+
+    static void validateFilters(RequestDummy rd) {
+        // chapter filter
+        if (rd.getFilterchapterop().isBlank() && rd.getFilterchapter() != 0.0)
+            addError("filterchapterop", "filterchapteropblank", "An operator for chapter-filter must be selected");
+        // rating filter
+        if (rd.getFilterratingop().isBlank() && rd.getFilterrating() != 0.0)
+            addError("filterratingop", "filterratingopblank", "An operator for rating-filter must be selected");
+        // lr filter
+        if (rd.getFilterlrop().isBlank() && !rd.getFilterlr().isBlank())
+            addError("filterlrop", "filterlropblank", "An operator for last-read-filter must be selected");
+        else if (!rd.getFilterlrop().isBlank() && rd.getFilterlr().isBlank())
+            addError("filterlr", "filterlrblank", "The value for last-read-filter must be set, if operator is selected");
+        if (!rd.getFilterlr().isBlank() && toLD(rd.getFilterlr()) == null)
+            addError("filterlr", "filterlrnotdate", "The value for last-read-filter must be a date");
+        // wu filter
+        if (rd.getFilterwuop().isBlank() && !rd.getFilterwu().isBlank())
+            addError("filterwuop", "filterwuopblank", "An operator for wait-until-filter must be selected");
+        else if (!rd.getFilterwuop().isBlank() && rd.getFilterwu().isBlank())
+            addError("filterwu", "filterwublank", "The value for wait-until-filter must be set, if operator is selected");
+        if (!rd.getFilterwu().isBlank() && toLD(rd.getFilterwu()) == null)
+            addError("filterwu", "filterwunotdate", "The value for wait-until-filter must be a date");
+
+        validateRSFilters(rd.getFilterrs());
+        validateWSFilters(rd.getFilterws());
     }
 
     public static void validateWait(List<String> parts) {
@@ -157,6 +182,18 @@ public class Validator {
 
     static void validateBooksel(String booksel) {
         if (booksel == null || booksel.isBlank()) addError("booksel", "bookselblank", "A book must be selected");
+    }
+
+    private static void validateRSFilters(List<String> filters) {
+        filters.stream()
+               .filter(filter -> ReadingStatus.getStatus(filter) == ReadingStatus.Default)
+               .forEach(filter -> addError("filterrs", "filterrsnotrs", "The values for Reading-Status-filter must be a valid reading-status {%s}".formatted(filter)));
+    }
+
+    private static void validateWSFilters(List<String> filters) {
+        filters.stream()
+               .filter(filter -> WritingStatus.getStatus(filter) == WritingStatus.Default)
+               .forEach(filter -> addError("filterws", "filterwsnotws", "The values for Writing-Status-filter must be a valid writing-status {%s}".formatted(filter)));
     }
 
 

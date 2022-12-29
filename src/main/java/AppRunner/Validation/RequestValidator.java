@@ -77,8 +77,7 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateList() {
-        List<String> param = List.of(rd.getSortby(), rd.getGroupby());
-        Validator.validateList(param);
+        Validator.validateList(rd);
     }
 
     private void validateWait() {
