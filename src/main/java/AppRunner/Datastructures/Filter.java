@@ -11,6 +11,7 @@ public record Filter<T>(Attribute attribute, String operator, T value) {
         String operator = filter[1];
         if (att == null) throw new IllegalArgumentException("1");
         return switch (att) {
+            case name -> new Filter<>(att, operator, filter[2]);
             case readto, rating -> new Filter<>(att, operator, Float.parseFloat(filter[2]));
             case writingStatus, readingStatus -> new Filter<>(att, operator, filter[2]);
             case lastread, waituntil -> new Filter<LocalDate>(att, operator, LocalDate.parse(filter[2], DateTimeFormatter.ISO_DATE));
@@ -21,6 +22,7 @@ public record Filter<T>(Attribute attribute, String operator, T value) {
     public static <T> Filter<?> createFilter(Attribute att, String operator, T value) {
         if (att == null) throw new IllegalArgumentException("1");
         return switch (att) {
+            case name -> new Filter<>(att, operator, (String) value);
             case readto, rating -> new Filter<>(att, operator, value);
             case writingStatus, readingStatus -> new Filter<>(att, operator, String.join("OR", (List<String>) value));
             case lastread, waituntil -> new Filter<LocalDate>(att, operator, LocalDate.parse((String) value, DateTimeFormatter.ISO_DATE));

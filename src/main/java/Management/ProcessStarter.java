@@ -35,10 +35,9 @@ public class ProcessStarter {
                 case Wait -> Processor.doWait(rq);
                 case Pause -> Processor.doPause(rq);
                 case List -> Processor.doList(rq);
-                case Show -> Processor.doShow(rq);
                 case Recommend -> Processor.doRecommend();
                 case Open -> Processor.doOpen(rq);
-                case Help -> doHelp(rq);
+                case Help -> {}
                 default -> throw new IllegalArgumentException("1");
             }
         } catch (EntryNotFoundException | IllegalArgumentException e) {
@@ -49,10 +48,5 @@ public class ProcessStarter {
             e.printStackTrace();
             rr.setError(new Error(-1, "BIG ERROR"));
         }
-    }
-
-    private void doHelp(Request rq) {
-        rr.setString(Helper.help(rq.helpoperator()));
-        rr.setType(RequestResult.RequestResultType.HELP);
     }
 }

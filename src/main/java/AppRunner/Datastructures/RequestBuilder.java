@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class RequestBuilder {
     // main
     private static String operator;
-    private static String helpoperator;
     private static String booksel;
     private static String booknew;
 
@@ -63,12 +62,10 @@ public class RequestBuilder {
                 case Add -> buildAdd(parts);
                 case Change -> buildChange(parts);
                 case Open -> buildOpen(parts);
-                case Show -> buildShow(parts);
                 case List -> buildList(parts);
                 case Wait -> buildWait(parts);
                 case Pause -> buildPause(parts);
-                case Help -> buildHelp(parts);
-                case Recommend -> {}
+                case Help, Recommend -> {}
             }
         } catch (IndexOutOfBoundsException e) {
             throw new RequestParsingException(Collections.singletonList(new String[] { "command", "missingargs", "Too few arguments provided. Use help for more Info." }), command);
@@ -112,13 +109,6 @@ public class RequestBuilder {
         booksel = parts.get(0);
     }
 
-    // rework validate DAF (try catch)
-    private static void buildShow(List<String> parts) {
-        CommandValidator.validateShow(parts.get(0));
-        booksel = parts.get(0);
-        daf = DisplayAttributesUtil.build(parts.size() > 1 ? parts.subList(1, parts.size()) : List.of());
-    }
-
     // rework validate
     private static void buildList(List<String> parts) {
         Map<Boolean, List<String>> type0orderfiltermap = parts.stream().collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
@@ -152,10 +142,6 @@ public class RequestBuilder {
         booksel = parts.get(0);
     }
 
-    private static void buildHelp(List<String> parts) {
-        if (parts != null) helpoperator = parts.get(0);
-    }
-
     private static Request toRequest() {
         Request request = new Request();
 
@@ -166,7 +152,6 @@ public class RequestBuilder {
                                                                                                 .collect(Collectors.toList());
 
         request.setOperator(operator);
-        request.setHelpoperator(helpoperator);
         request.setBooknew(booknew);
         request.setBooksel(booksel);
         request.setChangeattribute(changeattribute);

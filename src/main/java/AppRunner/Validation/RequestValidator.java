@@ -34,7 +34,6 @@ public class RequestValidator implements org.springframework.validation.Validato
             case Add -> validateAdd();
             case Change -> validateChange();
             case Open -> validateOpen();
-            case Show -> validateShow();
             case List -> validateList();
             case Wait -> validateWait();
             case Pause -> validatePause();
@@ -69,10 +68,6 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateOpen() {
-        Validator.validateBooksel(rd.getBooksel());
-    }
-
-    private void validateShow() {
         Validator.validateBooksel(rd.getBooksel());
     }
 

@@ -16,8 +16,4 @@ public class Displayer {
     public static void recommend(Stream<Entry> entries) {
         Recommender.recommend(entries);
     }
-
-    public static void show(Entry e, DisplayAttributesForm daf) {
-        Shower.show(e, daf);
-    }
 }

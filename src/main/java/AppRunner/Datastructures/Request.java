@@ -8,7 +8,6 @@ import java.util.List;
 
 public final class Request {
     private Operator operator;
-    private Operator helpoperator;
     private String booknew;
     private String booksel;
 
@@ -43,7 +42,7 @@ public final class Request {
 
     @Override
     public String toString() {
-        return "Request{" + "operator=" + operator + ", helpoperator=" + helpoperator + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute=" + changeattribute + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + '}';
+        return "Request{" + "operator=" + operator + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute=" + changeattribute + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", waituntil=" + waituntil + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + '}';
     }
 
     // getters and setters
@@ -57,18 +56,6 @@ public final class Request {
 
     public void setOperator(String operator) {
         this.operator = Operator.getOperator(operator);
-    }
-
-    public Operator helpoperator() {
-        return helpoperator;
-    }
-
-    public void setHelpoperator(Operator helpoperator) {
-        this.helpoperator = helpoperator;
-    }
-
-    public void setHelpoperator(String helpoperator) {
-        this.helpoperator = Operator.getOperator(helpoperator);
     }
 
     public String booknew() {

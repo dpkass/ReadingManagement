@@ -44,10 +44,10 @@
                             <div class="form-group col-md-6 new">
                                 <label for="booktxt">Book</label>
                                 <input class="form-control" id="booktxt" th:field="*{booknew}">
-                                <!--                                <div th:errors="${#fields.errors('booknew')}"></div>-->
+                                <!--<div th:errors="${#fields.errors('booknew')}"></div>-->
                             </div>
-                            <!--Book select, only if Add, Change, Read, ReadTo, Open, Show, Wait, Pause is selected-->
-                            <div class="form-group col-md-6 add change read open show wait pause">
+                            <!--Book select, only if Add, Change, Read, ReadTo, Open, Wait, Pause is selected-->
+                            <div class="form-group col-md-6 add change read open wait pause">
                                 <label for="booksel">Book</label>
                                 <select class="form-control" id="booksel" th:field="*{booksel}">
                                     <option disabled selected value="">Select book</option>
@@ -125,9 +125,9 @@
                                        id="additionalwaitwu">
                             </div>
                         </div>
-                        <!--Display args, only if display op (list, show) is selected-->
+                        <!--Display args, only if display op list is selected-->
                         <div class="form-row">
-                            <div class="list show" id="displayargsdiv">
+                            <div class="list" id="displayargsdiv">
                                 <label class="col-form-label" for="displayargsdiv">Display</label>
                                 <div class="form-group col-mb">
                                     <div class="form-check">
@@ -230,6 +230,19 @@
                             </div>
                         </div>
                         <div id="filtersdiv">
+                            <!--Book-->
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-5">Book</label>
+                                <div class="col-md-7">
+                                    <select class="form-control filter" id="filterbook" th:field="*{filterbook}">
+                                        <option disabled selected value="">Select book</option>
+                                        <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('filterbook')}">
+                                        <p th:errors="${#fields.errors('booksel')}"></p>
+                                    </div>
+                                </div>
+                            </div>
                             <!--Page/Chapter-->
                             <div class="form-group row">
                                 <label class="col-form-label col-md-5">Chapter</label>

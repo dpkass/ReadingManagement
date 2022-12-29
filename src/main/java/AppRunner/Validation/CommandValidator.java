@@ -39,11 +39,6 @@ public class CommandValidator {
         end();
     }
 
-    public static void validateShow(String param) {
-        Validator.validateBooksel(param);
-        end();
-    }
-
     public static void validateList(List<String> param) {
 //        Validator.validateList(param);
         end();

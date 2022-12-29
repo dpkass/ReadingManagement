@@ -183,6 +183,7 @@ class Lister {
 
     private static Predicate<Entry> getStringEqFilter(Attribute filterBy, String s) {
         return e -> switch (filterBy) {
+            case name -> Objects.equals(e.name(), s);
             case writingStatus -> Objects.equals(e.writingStatus(), WritingStatus.getStatus(s));
             case readingStatus -> Objects.equals(e.readingStatus(), ReadingStatus.getStatus(s));
             default -> throw new IllegalArgumentException("1");

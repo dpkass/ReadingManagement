@@ -1,19 +1,15 @@
 package AppRunner.Datastructures;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static AppRunner.Datastructures.Attribute.*;
 
 public final class RequestDummy {
     private String operator = "";
-    private String helpoperator = "";
     private String booknew;
     private String booksel = "";
 
@@ -48,6 +44,7 @@ public final class RequestDummy {
     private boolean groupdescending;
 
     // filter args
+    private String filterbook;
     private String filterchapterop;
     private float filterchapter;
     private String filterratingop;
@@ -71,7 +68,6 @@ public final class RequestDummy {
         List<Filter<?>> filters = createFilters();
 
         request.setOperator(operator);
-        request.setHelpoperator(helpoperator);
         request.setBooknew(booknew);
         request.setBooksel(booksel);
         request.setChangeattribute(changeattribute);
@@ -95,6 +91,7 @@ public final class RequestDummy {
 
     public List<Filter<?>> createFilters() {
         List<Filter<?>> filters = new ArrayList<>();
+        if (!filterbook.isBlank()) filters.add(Filter.createFilter(name, "=", filterbook));
         if (!filterchapterop.isBlank()) filters.add(Filter.createFilter(readto, filterchapterop, filterchapter));
         if (!filterratingop.isBlank()) filters.add(Filter.createFilter(rating, filterratingop, filterrating));
         if (!filterlrop.isBlank()) filters.add(Filter.createFilter(lastread, filterlrop, filterlr));
@@ -126,7 +123,7 @@ public final class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "operator='" + operator + '\'' + ", helpoperator='" + helpoperator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaywaituntil=" + displaywaituntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
+        return "RequestDummy{" + "operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaywaituntil=" + displaywaituntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
     }
 
     public void setDaf(List<Boolean> daf) {
@@ -146,14 +143,6 @@ public final class RequestDummy {
 
     public void setOperator(String operator) {
         this.operator = operator;
-    }
-
-    public String getHelpoperator() {
-        return helpoperator;
-    }
-
-    public void setHelpoperator(String helpoperator) {
-        this.helpoperator = helpoperator;
     }
 
     public String getBooknew() {
@@ -330,6 +319,14 @@ public final class RequestDummy {
 
     public void setGroupdescending(boolean groupdescending) {
         this.groupdescending = groupdescending;
+    }
+
+    public String getFilterbook() {
+        return filterbook;
+    }
+
+    public void setFilterbook(String filterbook) {
+        this.filterbook = filterbook;
     }
 
     public String getFilterchapterop() {

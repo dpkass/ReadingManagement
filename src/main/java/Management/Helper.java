@@ -299,7 +299,6 @@ public class Helper {
             case Change -> changecmdhelp;
             case Add -> addcmdhelp;
             case List -> listcmdhelp;
-            case Show -> showcmdhelp;
             case Recommend -> recommendcmdhelp;
             case Open -> opencmdhelp;
 //            case SECRET -> secrethelp;

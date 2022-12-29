@@ -40,11 +40,6 @@ public class Processor {
         Displayer.recommend(el.entries());
     }
 
-    public static void doShow(Request rq) {
-        Entry e = getEntry(rq.booksel());
-        Displayer.show(e, rq.daf());
-    }
-
     public static void doNew(Request rq) {
         Entry e = el.get(rq.booknew());
         if (e != null) throw new IllegalArgumentException("2");
