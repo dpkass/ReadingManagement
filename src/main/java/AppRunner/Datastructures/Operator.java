@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum Operator {
     New("New"), Read("Read"), ReadTo("Read To"), Add("Add"), Change("Change"), Open("Open"), Recommend("Recommend"), Show("Show"), List(
-            "List"), ListAll("List All"), Help("Help"), Wait("Wait"), Pause("Pause");
+            "List"), Help("Help"), Wait("Wait"), Pause("Pause");
 
     private final String displayvalue;
 
@@ -38,7 +38,6 @@ public enum Operator {
             case "rec" -> Recommend;
             case "sh" -> Show;
             case "l" -> List;
-            case "la" -> ListAll;
             case "h" -> Help;
             default -> throw new IllegalArgumentException();
         };

@@ -68,7 +68,7 @@ public class RequestBuilder {
                 case Wait -> buildWait(parts);
                 case Pause -> buildPause(parts);
                 case Help -> buildHelp(parts);
-                case ListAll, Recommend -> {}
+                case Recommend -> {}
             }
         } catch (IndexOutOfBoundsException e) {
             throw new RequestParsingException(Collections.singletonList(new String[] { "command", "missingargs", "Too few arguments provided. Use help for more Info." }), command);

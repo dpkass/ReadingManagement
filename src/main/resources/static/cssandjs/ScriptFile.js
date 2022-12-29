@@ -1,7 +1,45 @@
 let idbooktxt, idbooksel, idadditionalread, idadditionaladd, idadditionalchangetype, idadditionalchangetextvalue,
     idadditionalchangewsvalue, idadditionalnewpage, idadditionalnewlink, idadditionalnewws, idadditionalnewlr,
     idadditionalwaitwu, iddisplayargs, idordersort, idordergroup, idordersortdirection, idordergroupdirection,
-    idfilters, idfiltersbtn, idresetfiltersbtn, visible = false;
+    idfilters, idfiltersbtn, idresetfiltersbtn;
+
+
+$(function togglefilters() {
+    let visible = false
+    $('#idfiltersbtn').click(function () {
+        if (visible) {
+            makeInvisible(idfilters)
+            makeInvisible(idresetfiltersbtn)
+            idfiltersbtn.classList.remove('active')
+        } else {
+            makeVisible(idfilters)
+            makeVisible(idresetfiltersbtn)
+            idfiltersbtn.classList.add('active')
+        }
+
+        visible = !visible;
+    })
+})
+
+$(function resetfilters() {
+    $('#idresetfiltersbtn').click(function () {
+        $('input.filter[type=date],input.filter[type=text],select.filter').val('')
+        $('input.filter[type=number]').val(0.0)
+    })
+
+})
+
+$(function displayall() {
+    $('#iddisplayall').click(function () {
+        $('.display').prop('checked', this.checked)
+    })
+})
+
+$(function notdisplayall() {
+    $('.display').click(function () {
+        if (!this.checked) $('#iddisplayall').prop('checked', this.checked)
+    })
+})
 
 function getelements() {
     // books
@@ -149,25 +187,6 @@ function forminvisible() {
     makeInvisible(idfilters)
     makeInvisible(idfiltersbtn)
     makeInvisible(idresetfiltersbtn)
-}
-
-function togglefilters() {
-    if (visible) {
-        makeInvisible(idfilters)
-        makeInvisible(idresetfiltersbtn)
-        idfiltersbtn.classList.remove('active')
-    } else {
-        makeVisible(idfilters)
-        makeVisible(idresetfiltersbtn)
-        idfiltersbtn.classList.add('active')
-    }
-
-    visible = !visible;
-}
-
-function resetfilters() {
-    $('input.filter[type=date],input.filter[type=text],select.filter').val('')
-    $('input.filter[type=number]').val(0.0)
 }
 
 function makeVisible(element) {

@@ -128,48 +128,55 @@
                             </div>
                         </div>
                         <!--Display args, only if display op (list, show) is selected-->
-                        <div class="form-row">
-                            <div class="form-group col-mb-12" id="iddisplayargsdiv">
-                                <label for="iddisplayargsinnerdiv">Display</label>
-                                <div id="iddisplayargsinnerdiv">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" th:field="*{displayread}"
-                                               id="iddisplayread">
-                                        <label for="iddisplayread" class="form-check-label">Page/Chapter</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" th:field="*{displaylink}"
-                                               id="iddisplaylink">
-                                        <label for="iddisplaylink" class="form-check-label">Link</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" th:field="*{displayrating}"
-                                               id="iddisplayrating">
-                                        <label for="iddisplayrating" class="form-check-label">Rating</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" th:field="*{displaylastread}"
-                                               id="iddisplaylastread">
-                                        <label for="iddisplaylastread" class="form-check-label">Last Read</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" th:field="*{displaywaituntil}"
-                                               id="iddisplaywaituntil">
-                                        <label for="iddisplaywaituntil" class="form-check-label">Wait
-                                            Until</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox"
-                                               th:field="*{displayreadingstatus}" id="iddisplayreadingstatus">
-                                        <label for="iddisplayreadingstatus" class="form-check-label">Reading
-                                            Status</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox"
-                                               th:field="*{displaywritingstatus}" id="iddisplaywritingstatus">
-                                        <label for="iddisplaywritingstatus" class="form-check-label">Writing
-                                            Status</label>
-                                    </div>
+                        <div class="form-row" id="iddisplayargsdiv">
+                            <label for="iddisplayargsdiv">Display</label>
+                            <div class="form-group col-mb">
+                                <div class="form-check" id="iddisplayalldiv">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="iddisplayall">
+                                    <label for="iddisplayall" class="form-check-label">All</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-mb-12" id="iddisplayargssinglesdiv">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox" th:field="*{displayread}"
+                                           id="iddisplayread">
+                                    <label for="iddisplayread" class="form-check-label">Page/Chapter</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox" th:field="*{displaylink}"
+                                           id="iddisplaylink">
+                                    <label for="iddisplaylink" class="form-check-label">Link</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox" th:field="*{displayrating}"
+                                           id="iddisplayrating">
+                                    <label for="iddisplayrating" class="form-check-label">Rating</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox"
+                                           th:field="*{displaylastread}"
+                                           id="iddisplaylastread">
+                                    <label for="iddisplaylastread" class="form-check-label">Last Read</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox"
+                                           th:field="*{displaywaituntil}"
+                                           id="iddisplaywaituntil">
+                                    <label for="iddisplaywaituntil" class="form-check-label">Wait
+                                        Until</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox"
+                                           th:field="*{displayreadingstatus}" id="iddisplayreadingstatus">
+                                    <label for="iddisplayreadingstatus" class="form-check-label">Reading
+                                        Status</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input display" type="checkbox"
+                                           th:field="*{displaywritingstatus}" id="iddisplaywritingstatus">
+                                    <label for="iddisplaywritingstatus" class="form-check-label">Writing
+                                        Status</label>
                                 </div>
                             </div>
                         </div>
@@ -209,14 +216,12 @@
                         <!--Filter args, only if List is selected-->
                         <div class="form-row">
                             <div class="form-group col-first">
-                                <button type="button" class="btn btn-outline-info" onclick="togglefilters();"
-                                        id="idfiltersbtn">
+                                <button type="button" class="btn btn-outline-info" id="idfiltersbtn">
                                     Filters
                                 </button>
                             </div>
                             <div class="form-group col-last">
-                                <button type="button" class="btn btn-danger" onclick="resetfilters();"
-                                        id="idresetfiltersbtn">
+                                <button type="button" class="btn btn-danger" id="idresetfiltersbtn">
                                     Reset Filters
                                 </button>
                             </div>

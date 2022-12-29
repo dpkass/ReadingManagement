@@ -301,7 +301,6 @@ public class Helper {
             case List -> listcmdhelp;
             case Show -> showcmdhelp;
             case Recommend -> recommendcmdhelp;
-            case ListAll -> listallcmdhelp;
             case Open -> opencmdhelp;
 //            case SECRET -> secrethelp;
             default -> errorMessage("1");

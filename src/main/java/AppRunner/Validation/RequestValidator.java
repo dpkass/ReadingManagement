@@ -38,7 +38,7 @@ public class RequestValidator implements org.springframework.validation.Validato
             case List -> validateList();
             case Wait -> validateWait();
             case Pause -> validatePause();
-            case Recommend, ListAll, Help -> {}
+            case Recommend, Help -> {}
         }
 
         addErrors();
