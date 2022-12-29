@@ -1,14 +1,11 @@
-package AppRunner;
+package AppRunner.Controllers;
 
 import AppRunner.Datastructures.Attribute;
 import AppRunner.Datastructures.Operator;
-import AppRunner.Datastructures.Request;
 import AppRunner.Datastructures.RequestDummy;
 import AppRunner.Validation.RequestValidator;
-import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
-import Management.Manager;
 import Processing.RequestResult;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
@@ -24,13 +21,11 @@ import java.util.stream.Collectors;
 
 @Controller
 public class RequestController {
-    Manager mgr;
 
-    public RequestController() {
-        mgr = new Manager();
+    final RequestService rs;
 
-        mgr.init();
-        mgr.start();
+    public RequestController(RequestService rs) {
+        this.rs = rs;
     }
 
     @InitBinder
@@ -52,9 +47,9 @@ public class RequestController {
     }
 
     @PostMapping ("/form")
-    public String processForm(@Valid RequestDummy rq, BindingResult br, Model m) {
+    public String processForm(@Valid RequestDummy rd, BindingResult br, Model m) {
         buildForm(m);
-        m.addAttribute("request", rq);
+        m.addAttribute("request", rd);
 
         if (br.hasErrors()) {
             System.out.println("found error");
@@ -65,7 +60,7 @@ public class RequestController {
             return "form";
         }
 
-        RequestResult rr = mgr.process(rq.toRequest());
+        RequestResult rr = rs.processForm(rd);
 
         if (rr.hasError()) displayError(m, rr);
         else insertResult(m, rr);
@@ -76,9 +71,8 @@ public class RequestController {
     @PostMapping ("/commandline")
     public String processCommandline(String command, Model m) {
         m.addAttribute("command", command);
-        Request rq = Request.parse(command);
 
-        RequestResult rr = mgr.process(rq);
+        RequestResult rr = rs.processCommand(command);
 
         if (rr.hasError()) displayError(m, rr);
         else insertResult(m, rr);
@@ -99,7 +93,7 @@ public class RequestController {
         m.addAttribute("operators", Operator.formoperators());
         m.addAttribute("writing_statuses", WritingStatus.values());
         m.addAttribute("reading_statuses", ReadingStatus.displayableRS());
-        m.addAttribute("books", mgr.entries().map(Entry::name).collect(Collectors.toList()));
+        m.addAttribute("books", rs.books());
         m.addAttribute("changing_options", Attribute.changingOptions());
         m.addAttribute("sorting_options", Attribute.sortingOptions());
         m.addAttribute("grouping_options", Attribute.groupingOptions());

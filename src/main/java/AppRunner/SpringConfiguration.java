@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringConfiguration {
-
     @Bean
     @Qualifier ("requestValidator")
     public RequestValidator validator() {

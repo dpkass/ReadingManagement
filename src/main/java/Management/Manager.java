@@ -6,12 +6,15 @@ import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import EntryHandling.JSONHandler;
 import Processing.RequestResult;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.stream.Stream;
 
 @Component
+@Scope ("singleton")
 public class Manager {
     public static final File standardfile = new File("resources/standard_index");
     public static final File standardsecretfile = new File("resources/standard_secret");
@@ -27,10 +30,26 @@ public class Manager {
 
     ProcessStarter ps;
 
-    public Manager() {
+    public Manager() throws IOException {
+        resetFiles();
         file = standardfile;
         secretfile = standardsecretfile;
         init();
+    }
+
+    private void resetFiles() throws IOException {
+        createFile(standardfile);
+        createFile(standardsecretfile);
+
+    }
+
+    private void createFile(File file) throws IOException {
+        file.getParentFile().mkdirs();
+        file.createNewFile();
+    }
+
+    public String files() {
+        return file.toString() + '\n' + secretfile;
     }
 
     public void init() {
@@ -38,7 +57,7 @@ public class Manager {
         secretfh = new JSONHandler(secretfile, true);
     }
 
-    public void start() {
+    public void load() {
         el = fh.read();
         secretel = secretfh.read();
         ps = new ProcessStarter(el, secretel, rr);
@@ -54,6 +73,11 @@ public class Manager {
         ps.process(r);
         save();
         return rr.copy();
+    }
+
+    public void changeFiles(File file, File secretfile) {
+        this.file = file == null ? this.file : file;
+        this.secretfile = secretfile == null ? this.secretfile : secretfile;
     }
 
     public Stream<Entry> entries() {
