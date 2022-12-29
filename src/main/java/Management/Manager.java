@@ -28,7 +28,7 @@ public class Manager {
     EntryList el;
     EntryList secretel;
 
-    ProcessStarter ps;
+    ProcessStarter ps = new ProcessStarter(rr);
 
     public Manager() throws IOException {
         resetFiles();
@@ -40,7 +40,6 @@ public class Manager {
     private void resetFiles() throws IOException {
         createFile(standardfile);
         createFile(standardsecretfile);
-
     }
 
     private void createFile(File file) throws IOException {
@@ -48,19 +47,32 @@ public class Manager {
         file.createNewFile();
     }
 
-    public String files() {
-        return file.toString() + '\n' + secretfile;
+    public void init() {
+        initFile();
+        initSecretfile();
     }
 
-    public void init() {
+    public void initFile() {
         fh = new JSONHandler(file, false);
+    }
+
+    public void initSecretfile() {
         secretfh = new JSONHandler(secretfile, true);
     }
 
     public void load() {
+        loadFile();
+        loadSecretFile();
+    }
+
+    public void loadFile() {
         el = fh.read();
+        ps.setEl(el);
+    }
+
+    public void loadSecretFile() {
         secretel = secretfh.read();
-        ps = new ProcessStarter(el, secretel, rr);
+        ps.setSecretel(secretel);
     }
 
     private void save() {
@@ -75,9 +87,9 @@ public class Manager {
         return rr.copy();
     }
 
-    public void changeFiles(File file, File secretfile) {
-        this.file = file == null ? this.file : file;
-        this.secretfile = secretfile == null ? this.secretfile : secretfile;
+    public void changeFile(File file, boolean secret) {
+        if (secret) this.secretfile = file == null ? this.secretfile : file;
+        else this.file = file == null ? this.file : file;
     }
 
     public Stream<Entry> entries() {

@@ -1,5 +1,6 @@
 package EntryHandling;
 
+import AppRunner.Datacontainers.FileNotValidException;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryUtil;
 import Management.Manager;
@@ -43,8 +44,12 @@ public class JSONHandler implements FileHandler {
             // secret files to be decoded
             if (secret) chars = decode(chars);
 
-            String revert = chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-            json = new JSONObject(revert);
+            try {
+                String revert = chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                json = new JSONObject(revert);
+            } catch (IllegalArgumentException e) {
+                throw new FileNotValidException(f.getName(), secret);
+            }
 
             list.addAll(json.getJSONArray("books").toList());
         } catch (IOException | JSONException ignored) {}
@@ -80,9 +85,7 @@ public class JSONHandler implements FileHandler {
         String cr = String.format("\\x%02X", crint);
         String lf = String.format("\\x%02X", lfint);
         String regex = "[%s%s%s]+(?=([^%s]*%s[^%s]*%s)*[^%s]*$)".formatted(white, cr, lf, quotes, quotes, quotes, quotes, quotes);
-        return chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                    .toString()
-                    .replaceAll(regex, "");
+        return chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString().replaceAll(regex, "");
     }
 
     private IntStream encode(IntStream chars) {

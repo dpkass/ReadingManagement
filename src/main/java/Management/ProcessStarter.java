@@ -9,13 +9,11 @@ import Processing.RequestResult;
 
 public class ProcessStarter {
 
-    final EntryList el;
-    final EntryList secretel;
+    EntryList el;
+    EntryList secretel;
     RequestResult rr;
 
-    public ProcessStarter(EntryList el, EntryList secretel, RequestResult rr) {
-        this.el = el;
-        this.secretel = secretel;
+    public ProcessStarter(RequestResult rr) {
         this.rr = rr;
         Processor.setRr(rr);
     }
@@ -49,5 +47,13 @@ public class ProcessStarter {
             e.printStackTrace();
             rr.setError(new Error(-1, "BIG ERROR"));
         }
+    }
+
+    public void setEl(EntryList el) {
+        this.el = el;
+    }
+
+    public void setSecretel(EntryList secretel) {
+        this.secretel = secretel;
     }
 }

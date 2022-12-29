@@ -2,6 +2,7 @@
 build/*
 !build/libs
 resources
+!src/main/resources
 *.class
 
 ### Util ###

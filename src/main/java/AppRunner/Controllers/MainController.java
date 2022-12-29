@@ -1,7 +1,9 @@
 package AppRunner.Controllers;
 
+import AppRunner.Datacontainers.FileNotValidException;
 import Management.Manager;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.WebApplicationContext;
@@ -35,15 +37,38 @@ public class MainController {
     }
 
     @PostMapping ("/")
-    public String fileupload(MultipartFile file, MultipartFile secretfile) {
+    public String fileupload(MultipartFile file, MultipartFile secretfile, Model m) {
         Manager mgr = ctx.getBean(Manager.class);
-
         File newfile, newsecretfile = newfile = null;
-        if (!file.isEmpty()) newfile = fs.store(file, false);
-        if (!secretfile.isEmpty()) newsecretfile = fs.store(secretfile, true);
-        mgr.changeFiles(newfile, newsecretfile);
-        mgr.init();
-        mgr.load();
+
+
+        try {
+            if (!file.isEmpty()) newfile = fs.store(file, false);
+            mgr.changeFile(newfile, false);
+            mgr.initFile();
+            mgr.loadFile();
+            m.addAttribute("fileupload", "File successfully uploaded.");
+            m.addAttribute("fileuploadtype", "valid-feedback");
+        } catch (FileNotValidException e) {
+            handleException(m, "fileupload");
+        }
+        try {
+            if (!secretfile.isEmpty()) newsecretfile = fs.store(secretfile, true);
+            mgr.changeFile(newsecretfile, true);
+            mgr.initSecretfile();
+            mgr.loadSecretFile();
+            m.addAttribute("secretfileupload", "File successfully uploaded.");
+            m.addAttribute("secretfileuploadtype", "valid-feedback");
+        } catch (FileNotValidException e) {
+            handleException(m, "secretfileupload");
+        }
+
+
         return "main";
+    }
+
+    private void handleException(Model m, String fileupload) {
+        m.addAttribute(fileupload, "File is not valid.");
+        m.addAttribute(fileupload + "type", "invalid-feedback");
     }
 }
