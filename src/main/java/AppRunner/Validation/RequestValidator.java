@@ -27,8 +27,7 @@ public class RequestValidator implements org.springframework.validation.Validato
         RequestValidator.errors = errors;
 
         String opstr = rd.getOperator();
-        if (!validateOperator(opstr)) return;
-        switch (Operator.getOperator(opstr)) {
+        if (validateOperator(opstr)) switch (Operator.getOperator(opstr)) {
             case New -> validateNew();
             case Read, ReadTo -> validateRead();
             case Add -> validateAdd();

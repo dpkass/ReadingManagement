@@ -1,15 +1,14 @@
 package AppRunner.Datacontainers;
 
-import java.util.Arrays;
 import java.util.List;
 
 public enum Operator {
-    New("New"), Read("Read"), ReadTo("Read To"), Add("Add"), Change("Change"), Open("Open"), Recommend("Recommend"), List("List"), Help("Help"), Wait("Wait"), Pause("Pause");
+    Secret("Secret"), New("New"), Read("Read"), ReadTo("Read To"), Add("Add"), Change("Change"), Open("Open"), Recommend("Recommend"), List("List"), Wait("Wait"), Pause("Pause"), Help("Help");
 
     private final String displayvalue;
 
     public static List<Operator> formoperators() {
-        return Arrays.stream(values()).filter(f -> f != Help).toList();
+        return java.util.List.of(New, Read, ReadTo, Add, Change, Open, Recommend, List, Wait, Pause);
     }
 
     public static Operator getOperator(String s) {
@@ -37,6 +36,7 @@ public enum Operator {
             case "rec" -> Recommend;
             case "l" -> List;
             case "h" -> Help;
+            case "s", "secret" -> null;
             default -> throw new IllegalArgumentException();
         };
     }

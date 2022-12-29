@@ -23,7 +23,8 @@ public class ProcessStarter {
     void process(Request rq) {
         if (rq == null) return;
 
-        Processor.setEl(el);
+        if (rq.secret()) Processor.setEl(secretel);
+        else Processor.setEl(el);
 
         try {
             switch (rq.operator()) {

@@ -9,6 +9,7 @@ import java.util.List;
 import static AppRunner.Datacontainers.Attribute.*;
 
 public final class RequestDummy {
+    private boolean secret;
     private String operator = "";
     private String booknew;
     private String booksel = "";
@@ -67,6 +68,7 @@ public final class RequestDummy {
         float readval = Float.parseFloat(readvalue);
         List<Filter<?>> filters = createFilters();
 
+        request.setSecret(secret);
         request.setOperator(operator);
         request.setBooknew(booknew);
         request.setBooksel(booksel);
@@ -137,6 +139,14 @@ public final class RequestDummy {
     }
 
     // getters and setters
+    public boolean isSecret() {
+        return secret;
+    }
+
+    public void setSecret(boolean secret) {
+        this.secret = secret;
+    }
+
     public String getOperator() {
         return operator;
     }

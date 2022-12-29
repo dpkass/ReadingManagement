@@ -11,9 +11,12 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static AppRunner.Datacontainers.Operator.Secret;
+
 //rework validate
 public class RequestBuilder {
     // main
+    private static boolean secret;
     private static String operator;
     private static String booksel;
     private static String booknew;
@@ -49,6 +52,11 @@ public class RequestBuilder {
                                         .results()
                                         .map(str -> str.group(1) != null ? str.group(1) : str.group(2))
                                         .toList();
+
+            if (Operator.getOperator(parts.get(0)) == Secret) {
+                parts = parts.subList(1, parts.size());
+                secret = true;
+            }
 
             operator = parts.get(0);
             CommandValidator.validateOperator(operator);
@@ -151,6 +159,7 @@ public class RequestBuilder {
                                                                                                 .map(Filter::createFilter)
                                                                                                 .collect(Collectors.toList());
 
+        request.setSecret(secret);
         request.setOperator(operator);
         request.setBooknew(booknew);
         request.setBooksel(booksel);

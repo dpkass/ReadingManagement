@@ -25,13 +25,13 @@ public class MainController {
 
     @GetMapping ("/")
     public String index() {
-        return "index";
+        return "main";
     }
 
     @GetMapping ("/download")
     public String download(HttpServletResponse response) throws IOException {
         fs.makeZip(List.of("resources/tmp/index", "resources/tmp/secret"), response.getOutputStream());
-        return "index";
+        return "main";
     }
 
     @PostMapping ("/")
@@ -44,6 +44,6 @@ public class MainController {
         mgr.changeFiles(newfile, newsecretfile);
         mgr.init();
         mgr.load();
-        return "index";
+        return "main";
     }
 }

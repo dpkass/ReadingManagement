@@ -4,7 +4,6 @@ $(function togglefilters() {
     let filtersbtn = document.getElementById('filtersbtn')
     let resetfiltersbtn = $('#resetfiltersbtn')
     $('#filtersbtn').click(function () {
-        console.log(1)
         if (visible) {
             filters.hide()
             resetfiltersbtn.hide()
@@ -19,12 +18,30 @@ $(function togglefilters() {
     })
 })
 
+$(function filechange() {
+    $('.custom-file-input').on('change', function () {
+        var fileName = $(this).val().split('\\').pop()
+        $(this).next('.custom-file-label').html(fileName)
+    })
+})
+
 $(function resetfilters() {
     $('#resetfiltersbtn').click(function () {
         $('input.filter[type=date],input.filter[type=text],select.filter').val('')
         $('input.filter[type=number]').val(0.0)
     })
+})
 
+$(function submit() {
+    $('#submitbtn').click(function () {
+        $('#secret').prop('checked', false)
+    })
+})
+
+$(function secret() {
+    $('#submitsecretbtn').click(function () {
+        $('#secret').prop('checked', true)
+    })
 })
 
 $(function displayall() {
@@ -76,6 +93,7 @@ function forminvisible() {
     makeInvisible('list')
     makeInvisible('wait')
     makeInvisible('pause')
+    $('#secret').hide()
     $('#filtersdiv').hide()
     $('#resetfiltersbtn').hide()
 }
