@@ -1,4 +1,4 @@
-package AppRunner.Datastructures;
+package AppRunner.Datacontainers;
 
 import java.util.List;
 

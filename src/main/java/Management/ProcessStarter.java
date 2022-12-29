@@ -1,7 +1,7 @@
 package Management;
 
-import AppRunner.Datastructures.Error;
-import AppRunner.Datastructures.Request;
+import AppRunner.Datacontainers.Error;
+import AppRunner.Datacontainers.Request;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryNotFoundException;
 import Processing.Processor;

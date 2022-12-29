@@ -235,7 +235,7 @@
                                 <label class="col-form-label col-md-5">Book</label>
                                 <div class="col-md-7">
                                     <select class="form-control filter" id="filterbook" th:field="*{filterbook}">
-                                        <option disabled selected value="">Select book</option>
+                                        <option selected value="">Select book</option>
                                         <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                     </select>
                                     <div th:if="${#fields.hasErrors('filterbook')}">
@@ -330,7 +330,8 @@
                 </div>
             </div>
         </div>
-
+        
+        <!--Requestresult-->
         <div th:replace="fragments/requestresult :: requestresult"></div>
     </div>
 </div>

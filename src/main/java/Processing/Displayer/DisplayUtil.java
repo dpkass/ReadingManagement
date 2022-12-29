@@ -1,6 +1,6 @@
 package Processing.Displayer;
 
-import AppRunner.Datastructures.Attribute;
+import AppRunner.Datacontainers.Attribute;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
 

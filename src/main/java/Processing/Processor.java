@@ -1,6 +1,6 @@
 package Processing;
 
-import AppRunner.Datastructures.Request;
+import AppRunner.Datacontainers.Request;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryNotFoundException;

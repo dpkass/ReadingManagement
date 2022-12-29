@@ -1,6 +1,6 @@
 package AppRunner.Validation;
 
-import AppRunner.Datastructures.RequestParsingException;
+import AppRunner.Datacontainers.RequestParsingException;
 
 import java.util.ArrayList;
 import java.util.List;

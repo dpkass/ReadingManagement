@@ -1,4 +1,3 @@
-<!--Requestresult-->
 <div th:fragment="requestresult" class="col">
     <div class="card" th:if="${requestresult!=null && !requestresult.hasError()}"
          th:object="${requestresult}">
@@ -8,15 +7,11 @@
         <div class="card-body">
             <!--Success-->
             <p class="text-success"
-               th:if="*{type().ordinal()==0}" th:text="*{string()}">
+               th:if="*{type()==T(Processing.RequestResult.RequestResultType).SUCCESS}" th:text="*{string()}">
             </p>
-            <!--Show-->
-            <ul class="list-group" th:if="*{type().ordinal()==1}">
-                <li class="list-group-item" th:each="func : *{datafunctions()}"
-                    th:text="${func.apply(requestresult.list().get(0))}"></li>
-            </ul>
             <!--List-->
-            <div class="table-responsive" th:if="${requestresult.type().ordinal()==2}">
+            <div class="table-responsive"
+                 th:if="*{type()==T(Processing.RequestResult.RequestResultType).LIST}">
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -31,7 +26,8 @@
                 </table>
             </div>
             <!--Grouped List-->
-            <div th:if="${requestresult.type().ordinal()==3}" th:each="entry : *{groupedmap()}">
+            <div th:if="*{type()==T(Processing.RequestResult.RequestResultType).GROUPEDLIST}"
+                 th:each="entry : *{groupedmap()}">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title" th:text="${entry.key}"></h3>
@@ -56,11 +52,11 @@
                 <br>
             </div>
             <!--Open-->
-            <a th:if="${requestresult.type().ordinal()==4}" th:href="*{string}"
+            <a th:if="*{type()==T(Processing.RequestResult.RequestResultType).OPEN}" th:href="*{string}"
                rel="noopener noreferrer">Open</a>
             <!--Help-->
             <p class="text-info" style="white-space: pre-wrap"
-               th:if="${requestresult.type().ordinal()==5}"
+               th:if="*{type()==T(Processing.RequestResult.RequestResultType).HELP}"
                th:text="${requestresult.string()}"></p>
         </div>
     </div>

@@ -1,6 +1,6 @@
 package Processing;
 
-import AppRunner.Datastructures.Error;
+import AppRunner.Datacontainers.Error;
 import EntryHandling.Entry.Entry;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class RequestResult {
 
     public enum RequestResultType {
-        SUCCESS, SHOW, LIST, GROUPEDLIST, OPEN, HELP
+        SUCCESS, LIST, GROUPEDLIST, OPEN, HELP
     }
 
     public RequestResult() {}

@@ -1,14 +1,13 @@
 package Processing.Displayer;
 
-import AppRunner.Datastructures.Attribute;
-import AppRunner.Datastructures.DisplayAttributesForm;
-import AppRunner.Datastructures.DisplayAttributesUtil;
-import AppRunner.Datastructures.Filter;
+import AppRunner.Datacontainers.Attribute;
+import AppRunner.Datacontainers.DisplayAttributesForm;
+import AppRunner.Datacontainers.DisplayAttributesUtil;
+import AppRunner.Datacontainers.Filter;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
-import Management.Helper;
 import Processing.RequestResult;
 import Processing.TableDataSupplier;
 import org.jetbrains.annotations.NotNull;
@@ -37,13 +36,12 @@ class Lister {
     }
 
     private static void makeHeaderList(DisplayAttributesForm daf) {
-        List<String> rrtableheader = new ArrayList<>();
-        rrtableheader.add("Name");
-        DisplayAttributesUtil.stream(daf).map(Attribute::displayvalue).forEach(rrtableheader::add);
-        rr.setHeaderlist(rrtableheader);
+        List<String> tableheader = new ArrayList<>();
+        tableheader.add("Name");
+        DisplayAttributesUtil.stream(daf).map(Attribute::displayvalue).forEach(tableheader::add);
+        rr.setHeaderlist(tableheader);
     }
 
-    @NotNull
     private static void putResult(Stream<Entry> entrystream, Comparator<Entry> sorter, Attribute groupby, boolean groupdescending) {
         if (groupby == null) {
             rr.setList(entrystream.sorted(sorter).toList());
@@ -94,28 +92,6 @@ class Lister {
         return entrystream.collect(Collectors.groupingBy(f, () -> new TreeMap<>(comp), toList()));
     }
 
-    private static Map<String, String[]> getOrderStrings(List<String> filterList) {
-        String[] orderStrings = filterList.stream().filter(isOrderString()).toArray(String[]::new);
-
-        Map<String, String[]> result = new HashMap<>();
-        for (String s : orderStrings) {
-            String[] parts = s.split("=");
-            boolean duplicate = false;
-            switch (Helper.representation(parts[0])) {
-                case "sb" -> duplicate = result.putIfAbsent("sb", parts) != null;
-                case "gb" -> duplicate = result.putIfAbsent("gb", parts) != null;
-            }
-            if (duplicate) throw new IllegalArgumentException("1");
-            filterList.remove(s);
-        }
-        return result;
-    }
-
-    @NotNull
-    private static Predicate<String> isOrderString() {
-        return s -> s.startsWith("sb") || s.startsWith("sortBy") || s.startsWith("sortby") || s.startsWith("sort") || s.startsWith("gb") || s.startsWith("groupBy") || s.startsWith("groupby") || s.startsWith("group");
-    }
-
     private static Comparator<Entry> getSorter(Attribute sortby, boolean sortdescending) {
         if (sortby == null) return Comparator.comparing(Entry::name);
         else {
@@ -146,14 +122,14 @@ class Lister {
 
     @NotNull
     private static Predicate<Entry> getFilter(Filter<?> filter) {
-        if (filter.isOrFilter()) return complexFilter(filter);
+        if (filter.isComplexFilter()) return complexFilter(filter);
         return simpleFilter(filter);
     }
 
     private static Predicate<Entry> complexFilter(Filter<?> filter) {
         if (!filter.operator().equals("=")) throw new IllegalArgumentException("1");
         return e -> {
-            for (String f : filter.splitValue())
+            for (String f : (Collection<String>) filter.value())
                 if (getStringEqFilter(filter.attribute(), f).test(e)) return true;
             return false;
         };
@@ -170,7 +146,7 @@ class Lister {
 
     private static Predicate<Entry> getEqFilter(Attribute attribute, Object value) {
         if (value instanceof String) return getStringEqFilter(attribute, (String) value);
-        if (value instanceof Float) return getFloatEqFilter(attribute, ((Float) value).floatValue());
+        if (value instanceof Float) return getFloatEqFilter(attribute, (float) value);
         throw new IllegalStateException();
     }
 

@@ -1,6 +1,6 @@
 package AppRunner.Validation;
 
-import AppRunner.Datastructures.*;
+import AppRunner.Datacontainers.*;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
 

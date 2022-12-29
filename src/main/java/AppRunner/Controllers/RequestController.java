@@ -1,8 +1,8 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datastructures.Attribute;
-import AppRunner.Datastructures.Operator;
-import AppRunner.Datastructures.RequestDummy;
+import AppRunner.Datacontainers.Attribute;
+import AppRunner.Datacontainers.Operator;
+import AppRunner.Datacontainers.RequestDummy;
 import AppRunner.Validation.RequestValidator;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;

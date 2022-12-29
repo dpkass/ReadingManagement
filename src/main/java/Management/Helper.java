@@ -1,6 +1,6 @@
 package Management;
 
-import AppRunner.Datastructures.Operator;
+import AppRunner.Datacontainers.Operator;
 
 import java.time.format.DateTimeFormatter;
 

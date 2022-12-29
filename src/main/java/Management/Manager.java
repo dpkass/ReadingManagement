@@ -1,6 +1,6 @@
 package Management;
 
-import AppRunner.Datastructures.Request;
+import AppRunner.Datacontainers.Request;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;

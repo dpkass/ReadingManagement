@@ -1,7 +1,7 @@
 package Processing.Displayer;
 
-import AppRunner.Datastructures.DisplayAttributesForm;
-import AppRunner.Datastructures.Request;
+import AppRunner.Datacontainers.DisplayAttributesForm;
+import AppRunner.Datacontainers.Request;
 import EntryHandling.Entry.Entry;
 
 import java.time.LocalDate;

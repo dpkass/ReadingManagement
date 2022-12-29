@@ -1,8 +1,8 @@
 package Processing.Displayer;
 
-import AppRunner.Datastructures.Attribute;
-import AppRunner.Datastructures.DisplayAttributesForm;
-import AppRunner.Datastructures.Filter;
+import AppRunner.Datacontainers.Attribute;
+import AppRunner.Datacontainers.DisplayAttributesForm;
+import AppRunner.Datacontainers.Filter;
 import EntryHandling.Entry.Entry;
 
 import java.util.List;

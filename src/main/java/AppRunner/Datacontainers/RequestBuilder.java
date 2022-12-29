@@ -1,4 +1,4 @@
-package AppRunner.Datastructures;
+package AppRunner.Datacontainers;
 
 import AppRunner.Validation.CommandValidator;
 import Management.Helper;

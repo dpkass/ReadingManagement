@@ -1,6 +1,6 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datastructures.FileNotValidException;
+import AppRunner.Datacontainers.FileNotValidException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;

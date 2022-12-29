@@ -1,4 +1,4 @@
-package AppRunner.Datastructures;
+package AppRunner.Datacontainers;
 
 public class FileNotValidException extends RuntimeException {
     String filename;

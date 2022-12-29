@@ -1,7 +1,7 @@
 package AppRunner.Validation;
 
-import AppRunner.Datastructures.Operator;
-import AppRunner.Datastructures.RequestDummy;
+import AppRunner.Datacontainers.Operator;
+import AppRunner.Datacontainers.RequestDummy;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 

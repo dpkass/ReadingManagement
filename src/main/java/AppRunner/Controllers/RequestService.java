@@ -1,7 +1,7 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datastructures.Request;
-import AppRunner.Datastructures.RequestDummy;
+import AppRunner.Datacontainers.Request;
+import AppRunner.Datacontainers.RequestDummy;
 import EntryHandling.Entry.Entry;
 import Management.Manager;
 import Processing.RequestResult;

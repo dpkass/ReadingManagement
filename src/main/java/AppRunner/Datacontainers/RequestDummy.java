@@ -1,4 +1,4 @@
-package AppRunner.Datastructures;
+package AppRunner.Datacontainers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static AppRunner.Datastructures.Attribute.*;
+import static AppRunner.Datacontainers.Attribute.*;
 
 public final class RequestDummy {
     private String operator = "";
