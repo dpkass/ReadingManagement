@@ -1,7 +1,7 @@
 ### Bonus ###
 build/*
 !build/libs
-TestInputs/
+resources
 *.class
 
 ### Util ###

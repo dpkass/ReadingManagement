@@ -24,8 +24,8 @@ public class Modifier {
         finish(res);
     }
 
-    public static void make(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
-        String res = Newer.make(el, book, newpagevalue, newlinkvalue, newwsvalue, newlrvalue);
+    public static void new_(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
+        String res = Newer.new_(el, book, newpagevalue, newlinkvalue, newwsvalue, newlrvalue);
         finish(res);
     }
 

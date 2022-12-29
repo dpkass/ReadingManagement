@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -22,7 +25,13 @@ public class MainController {
 
     @GetMapping ("/")
     public String index() {
-        return "/index";
+        return "index";
+    }
+
+    @GetMapping ("/download")
+    public String download(HttpServletResponse response) throws IOException {
+        fs.makeZip(List.of("resources/tmp/index", "resources/tmp/secret"), response.getOutputStream());
+        return "index";
     }
 
     @PostMapping ("/")
@@ -35,6 +44,6 @@ public class MainController {
         mgr.changeFiles(newfile, newsecretfile);
         mgr.init();
         mgr.load();
-        return "/index";
+        return "index";
     }
 }

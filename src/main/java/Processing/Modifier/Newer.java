@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 class Newer {
 
-    public static String make(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue,
+    public static String new_(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue,
                               LocalDateTime newlrvalue) {
         try {
             el.add(book, newpagevalue, newlinkvalue, newwsvalue, newlrvalue);

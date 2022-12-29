@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static EntryHandling.Entry.ReadingStatus.*;
+
 public class EntryBuilder {
     String name;
     float readto = 0f;
@@ -29,7 +31,6 @@ public class EntryBuilder {
         if (values.size() > 3) ws = WritingStatus.getStatus(values.get(3));
         if (values.size() > 4) lastread = toLDT(values.get(4));
         if (values.size() > 5) abbreviations.addAll(values.subList(5, values.size()));
-        chooseStatus();
     }
 
     public EntryBuilder(Map<String, Object> JSONmap) {
@@ -46,7 +47,6 @@ public class EntryBuilder {
                 case "abbreviations" -> abbreviations = (List<String>) entry.getValue();
             }
         }
-        chooseStatus();
     }
 
     public EntryBuilder() {
@@ -54,16 +54,17 @@ public class EntryBuilder {
     }
 
     private void chooseStatus() {
-        if (rs == EntryHandling.Entry.ReadingStatus.Paused && waituntil == null)
-            rs = EntryHandling.Entry.ReadingStatus.Reading;      // autonullify paused when date arrives
-        if (rs != EntryHandling.Entry.ReadingStatus.Default) return;
+        if (rs == Waiting && waituntil == null)
+            rs = Reading;      // autonullify paused when date arrives
+        if (rs != Default && rs != null) return;
 
         double rt = readto;
         if (rt == 0) {
-            rs = EntryHandling.Entry.ReadingStatus.NotStarted;
+            rs = NotStarted;
             lastread = null;
-        } else if (rt <= 5) rs = EntryHandling.Entry.ReadingStatus.Started;
-        else rs = EntryHandling.Entry.ReadingStatus.Paused;
+        } else if (rt <= 5) {
+            rs = Started;
+        } else rs = Reading;
     }
 
     private LocalDateTime toLDT(String value) {
@@ -114,6 +115,7 @@ public class EntryBuilder {
     }
 
     public Entry toEntry() {
+        chooseStatus();
         return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil, abbreviations);
     }
 }
