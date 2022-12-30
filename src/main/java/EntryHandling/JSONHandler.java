@@ -47,7 +47,7 @@ public class JSONHandler implements FileHandler {
             try {
                 String revert = chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
                 json = new JSONObject(revert);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | JSONException e) {
                 throw new FileNotValidException(f.getName(), secret);
             }
 
