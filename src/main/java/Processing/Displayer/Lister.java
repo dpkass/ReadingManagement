@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
 
 class Lister {
 
-    static void list(Stream<Entry> entries, DisplayAttributesForm daf, List<Filter<?>> filters, Attribute sortby, Attribute groupby, boolean sortdescending, boolean groupdescending) {
+    static void list(Stream<Entry> entries, DisplayAttributesForm daf, Set<Filter<?>> filters, Attribute sortby, Attribute groupby, boolean sortdescending, boolean groupdescending) {
         listfunctions(daf);
         Comparator<Entry> sorter = getSorter(sortby, sortdescending);
         entries = filterStream(entries, filters);
@@ -111,7 +111,7 @@ class Lister {
         }
     }
 
-    private static Stream<Entry> filterStream(Stream<Entry> stream, List<Filter<?>> filters) {
+    private static Stream<Entry> filterStream(Stream<Entry> stream, Set<Filter<?>> filters) {
         if (filters == null) return stream;
         for (Filter<?> filter : filters) {
             Predicate<Entry> p = getFilter(filter);
@@ -128,11 +128,7 @@ class Lister {
 
     private static Predicate<Entry> complexFilter(Filter<?> filter) {
         if (!filter.operator().equals("=")) throw new IllegalArgumentException("1");
-        return e -> {
-            for (String f : (Collection<String>) filter.value())
-                if (getStringEqFilter(filter.attribute(), f).test(e)) return true;
-            return false;
-        };
+        return e -> ((Collection<String>) filter.value()).stream().anyMatch(f -> getStringEqFilter(filter.attribute(), f).test(e));
     }
 
     @NotNull

@@ -3,8 +3,9 @@ package AppRunner.Datacontainers;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static AppRunner.Datacontainers.Attribute.*;
 
@@ -66,7 +67,7 @@ public final class RequestDummy {
         LocalDate wu = toLD(waituntil);
         float newpageval = Float.parseFloat(newpagevalue);
         float readval = Float.parseFloat(readvalue);
-        List<Filter<?>> filters = createFilters();
+        Set<Filter<?>> filters = createFilters();
 
         request.setSecret(secret);
         request.setOperator(operator);
@@ -91,8 +92,8 @@ public final class RequestDummy {
         return request;
     }
 
-    public List<Filter<?>> createFilters() {
-        List<Filter<?>> filters = new ArrayList<>();
+    public Set<Filter<?>> createFilters() {
+        Set<Filter<?>> filters = new HashSet<>();
         if (!filterbook.isBlank()) filters.add(Filter.createFilter(name, "=", filterbook));
         if (!filterchapterop.isBlank()) filters.add(Filter.createFilter(readto, filterchapterop, filterchapter));
         if (!filterratingop.isBlank()) filters.add(Filter.createFilter(rating, filterratingop, filterrating));

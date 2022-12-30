@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -155,9 +156,9 @@ public class RequestBuilder {
 
         LocalDateTime lr = newlrvalue == null ? null : LocalDateTime.parse(newlrvalue);
         LocalDate wu = newlrvalue == null ? null : LocalDate.parse(waituntil);
-        List<Filter<?>> filters = RequestBuilder.filters == null ? null : RequestBuilder.filters.stream()
-                                                                                                .map(Filter::createFilter)
-                                                                                                .collect(Collectors.toList());
+        Set<Filter<?>> filters = RequestBuilder.filters == null ? null : RequestBuilder.filters.stream()
+                                                                                               .map(Filter::createFilter)
+                                                                                               .collect(Collectors.toSet());
 
         request.setSecret(secret);
         request.setOperator(operator);

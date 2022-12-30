@@ -4,7 +4,7 @@ import EntryHandling.Entry.WritingStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 public final class Request {
     private boolean secret;
@@ -29,7 +29,7 @@ public final class Request {
 
     // list display
     private DisplayAttributesForm daf;
-    private List<Filter<?>> filters;
+    private Set<Filter<?>> filters;
 
     // order args
     private Attribute sortby;
@@ -91,11 +91,11 @@ public final class Request {
         this.daf = daf;
     }
 
-    public List<Filter<?>> filters() {
+    public Set<Filter<?>> filters() {
         return filters;
     }
 
-    public void setFilters(List<Filter<?>> filters) {
+    public void setFilters(Set<Filter<?>> filters) {
         this.filters = filters;
     }
 

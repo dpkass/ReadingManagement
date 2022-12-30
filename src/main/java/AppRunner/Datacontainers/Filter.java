@@ -29,6 +29,6 @@ public record Filter<T>(Attribute attribute, String operator, T value) {
     }
 
     public boolean isComplexFilter() {
-        return value instanceof Collection<?> col && col.size() > 1;
+        return value instanceof Collection<?>;
     }
 }
