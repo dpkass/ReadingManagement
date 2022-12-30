@@ -14,7 +14,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
-<script th:src="@{/cssandjs/ScriptFile.js}"></script>
 
 <div th:replace="fragments/topnav :: navbar"></div>
 <div class="container">
@@ -32,8 +31,7 @@
                             <!--Operator-->
                             <div class="form-group col-md-6">
                                 <label for="operator">Operator</label>
-                                <select class="form-control" id="operator"
-                                        onchange="operatorupdate();" th:field="*{operator}">
+                                <select class="form-control" id="operator" th:field="*{operator}">
                                     <option disabled selected value="">Select operator</option>
                                     <option th:each="op : ${operators}"
                                             th:text="${op.displayvalue()}"
@@ -69,7 +67,7 @@
                             <!--Additional args: Change (type -> newval)-->
                             <div class="form-group col-md-6 change">
                                 <label for="additionalchangeattribute">Type</label>
-                                <select class="form-control" onchange="changeupdate();" th:field="*{changeattribute}"
+                                <select class="form-control" th:field="*{changeattribute}"
                                         id="additionalchangeattribute">
                                     <option disabled selected value="">Select Type</option>
                                     <option th:each="co : ${changing_options}" th:text="${co.displayvalue()}"
@@ -338,8 +336,6 @@
         <div th:replace="fragments/requestresult :: requestresult"></div>
     </div>
 </div>
+<script th:src="@{/cssandjs/FormScripts.js}"></script>
 </body>
-<script>
-    operatorupdate()
-</script>
 </html>

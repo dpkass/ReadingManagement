@@ -1,68 +1,61 @@
 let visible = false
-let filters = $('#filtersdiv')
-let filtersbtn = $('#filtersbtn')
-let resetfiltersbtn = $('#resetfiltersbtn')
+
+
+// eventlisteners
+operatorupdate()
+$('#operator').change(operatorupdate)
+$('#additionalchangeattribute').change(changeupdate)
+$('#filtersbtn').click(togglefilters)
+$('#resetfiltersbtn').click(resetfilters)
+$('#submitbtn').click(submit)
+$('#submitsecretbtn').click(secret)
+$('#displayall').click(displayall)
+$('.display').click(notdisplayall)
+
 
 function togglefilters() {
     if (visible) {
-        filters.hide()
-        resetfiltersbtn.hide()
-        filtersbtn.removeClass('active')
+        $('#filtersdiv').hide()
+        $('#resetfiltersbtn').hide()
+        $('#filtersbtn').removeClass('active')
     } else {
-        filters.show()
-        resetfiltersbtn.show()
-        filtersbtn.addClass('active')
+        $('#filtersdiv').show()
+        $('#resetfiltersbtn').show()
+        $('#filtersbtn').addClass('active')
     }
     visible = !visible
 }
 
-$(function filechange() {
-    $('.custom-file-input').on('change', function () {
-        var fileName = $(this).val().split('\\').pop()
-        $(this).next('.custom-file-label').html(fileName)
-    })
-})
+function resetfilters() {
+    $('input.filter[type=date],input.filter[type=text],select.filter').val('')
+    $('input.filter[type=number]').val(0.0)
+}
 
-$(function resetfilters() {
-    $('#resetfiltersbtn').click(function () {
-        $('input.filter[type=date],input.filter[type=text],select.filter').val('')
-        $('input.filter[type=number]').val(0.0)
-    })
-})
+function submit() {
+    $('#secret').prop('checked', false)
+}
 
-$(function submit() {
-    $('#submitbtn').click(function () {
-        $('#secret').prop('checked', false)
-    })
-})
+function secret() {
+    $('#secret').prop('checked', true)
+}
 
-$(function secret() {
-    $('#submitsecretbtn').click(function () {
-        $('#secret').prop('checked', true)
-    })
-})
+function displayall() {
+    $('.display').prop('checked', this.checked)
+}
 
-$(function displayall() {
-    $('#displayall').click(function () {
-        $('.display').prop('checked', this.checked)
-    })
-})
-
-$(function notdisplayall() {
-    $('.display').click(function () {
-        if (!this.checked) $('#displayall').prop('checked', this.checked)
-    })
-})
+function notdisplayall() {
+    if (!$(this).checked) {
+        $('#displayall').prop('checked', this.checked)
+    }
+}
 
 function operatorupdate() {
-    let selectedOp = document.getElementById('operator').value
+    let selectedOp = $('#operator').val()
 
     forminvisible()
 
-    console.log(selectedOp.toLowerCase())
-
     if (selectedOp === 'ReadTo') makeVisible('read')
-    else if (selectedOp !== '') makeVisible(selectedOp.toLowerCase())
+    else if (selectedOp !== null && selectedOp !== '') makeVisible(selectedOp.toLowerCase())
 
     if (selectedOp === 'Change') changeupdate()
 }
@@ -81,13 +74,7 @@ function changeupdate() {
     }
 }
 
-// eventlisteners
-$(document).ready(
-    filtersbtn.click(togglefilters),
-)
-
 function forminvisible() {
-    console.log('forminvisible')
     makeInvisible('new')
     makeInvisible('read')
     makeInvisible('add')
@@ -102,10 +89,9 @@ function forminvisible() {
     $('#resetfiltersbtn').hide()
 
     $('.filter').each(function () {
-        console.log($(this).val())
         var value = $(this).val()
-        if (value !== '' && value !== 0 && value !== []) {
-            togglefilters()
+        if (value !== '' && value != 0 && value != []) {
+            if (!visible) togglefilters()
         }
     })
 }
