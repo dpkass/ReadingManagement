@@ -25,14 +25,18 @@
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <input class="custom-file-input" type="file" name="file" id="file">
-                        <label class="custom-file-label" for="file">File</label>
+                    <div class="form-group col">
+                        <div class="custom-file">
+                            <input class="custom-file-input" type="file" name="file" id="file">
+                            <label class="custom-file-label" for="file">File</label>
+                        </div>
                         <div th:class="${fileuploadtype}" th:text="${fileupload}"></div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <input class="custom-file-input" type="file" name="secretfile" id="secretfile">
-                        <label class="custom-file-label" for="secretfile">Secretfile</label>
+                    <div class="form-group col">
+                        <div class="custom-file">
+                            <input class="custom-file-input" type="file" name="secretfile" id="secretfile">
+                            <label class="custom-file-label" for="secretfile">Secretfile</label>
+                        </div>
                         <div th:class="${secretfileuploadtype}" th:text="${secretfileupload}"></div>
                     </div>
                 </div>

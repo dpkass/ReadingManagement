@@ -31,7 +31,7 @@
                             <!--Operator-->
                             <div class="form-group col-md-6">
                                 <label for="operator">Operator</label>
-                                <select class="form-control" id="operator" th:field="*{operator}">
+                                <select class="custom-select" id="operator" th:field="*{operator}">
                                     <option disabled selected value="">Select operator</option>
                                     <option th:each="op : ${operators}"
                                             th:text="${op.displayvalue()}"
@@ -48,7 +48,7 @@
                             <!--Book select, only if Add, Change, Read, ReadTo, Open, Wait, Pause is selected-->
                             <div class="form-group col-md-6 add change read open wait pause">
                                 <label for="booksel">Book</label>
-                                <select class="form-control" id="booksel" th:field="*{booksel}">
+                                <select class="custom-select" id="booksel" th:field="*{booksel}">
                                     <option disabled selected value="">Select book</option>
                                     <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                 </select>
@@ -67,7 +67,7 @@
                             <!--Additional args: Change (type -> newval)-->
                             <div class="form-group col-md-6 change">
                                 <label for="additionalchangeattribute">Type</label>
-                                <select class="form-control" th:field="*{changeattribute}"
+                                <select class="custom-select" th:field="*{changeattribute}"
                                         id="additionalchangeattribute">
                                     <option disabled selected value="">Select Type</option>
                                     <option th:each="co : ${changing_options}" th:text="${co.displayvalue()}"
@@ -81,7 +81,7 @@
                             </div>
                             <div class="form-group col-md-6 change" id="additionalchangewsvaluediv">
                                 <label for="additionalchangewsvalue">New Value</label>
-                                <select class="form-control" th:field="*{changevalue}"
+                                <select class="custom-select" th:field="*{changevalue}"
                                         id="additionalchangewsvalue">
                                     <option disabled selected value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
@@ -106,7 +106,7 @@
                             </div>
                             <div class="form-group col-md-6 new">
                                 <label for="additionalnewws">Writing Status</label>
-                                <select class="form-control" th:field="*{newwsvalue}" id="additionalnewws">
+                                <select class="custom-select" th:field="*{newwsvalue}" id="additionalnewws">
                                     <option selected disabled value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
                                             th:value="${ws}"></option>
@@ -186,7 +186,7 @@
                         <div class="form-row list">
                             <div class="form-group col-md-6">
                                 <label for="sort">Sort-by</label>
-                                <select class="form-control" th:field="*{sortby}" id="sort">
+                                <select class="custom-select" th:field="*{sortby}" id="sort">
                                     <option selected value="">None</option>
                                     <option th:each="s : ${sorting_options}" th:text="${s.displayvalue()}"
                                             th:value="${s}"></option>
@@ -194,7 +194,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="group">Group-by</label>
-                                <select class="form-control" th:field="*{groupby}" id="group">
+                                <select class="custom-select" th:field="*{groupby}" id="group">
                                     <option selected value="">None</option>
                                     <option th:each="g : ${grouping_options}" th:text="${g.displayvalue()}"
                                             th:value="${g}"></option>
@@ -233,7 +233,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-5">Book</label>
                                 <div class="col-md-7">
-                                    <select class="form-control filter" id="filterbook" th:field="*{filterbook}">
+                                    <select class="custom-select filter" id="filterbook" th:field="*{filterbook}">
                                         <option selected value="">Select book</option>
                                         <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
                                     </select>
@@ -246,7 +246,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-5">Chapter</label>
                                 <div class="col-md-2">
-                                    <select class="form-control filter" th:field="*{filterchapterop}">
+                                    <select class="custom-select filter" th:field="*{filterchapterop}">
                                         <option selected value=""></option>
                                         <option value="<"><</option>
                                         <option value=">">></option>
@@ -261,7 +261,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-5">Rating</label>
                                 <div class="col-md-2">
-                                    <select class="form-control filter" th:field="*{filterratingop}">
+                                    <select class="custom-select filter" th:field="*{filterratingop}">
                                         <option selected value=""></option>
                                         <option value="=">=</option>
                                         <option value="<"><</option>
@@ -277,7 +277,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-4">Last Read</label>
                                 <div class="col-md-3">
-                                    <select class="form-control filter" th:field="*{filterlrop}">
+                                    <select class="custom-select filter" th:field="*{filterlrop}">
                                         <option selected value=""></option>
                                         <option value="<">before</option>
                                         <option value=">">after</option>
@@ -292,7 +292,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-4">Wait Until</label>
                                 <div class="col-md-3">
-                                    <select class="form-control filter" th:field="*{filterwuop}">
+                                    <select class="custom-select filter" th:field="*{filterwuop}">
                                         <option selected value=""></option>
                                         <option value="<">before</option>
                                         <option value=">">after</option>
@@ -307,7 +307,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-4">Reading Status</label>
                                 <div class="col-md-8">
-                                    <select class="form-control filter" multiple th:field="*{filterrs}">
+                                    <select class="custom-select filter" multiple th:field="*{filterrs}">
                                         <option th:each="ws : ${reading_statuses}" th:text="${ws.displayvalue()}"
                                                 th:value="${ws}"></option>
                                     </select>
@@ -317,7 +317,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-md-4">Writing Status</label>
                                 <div class="col-md-8">
-                                    <select class="form-control filter" multiple th:field="*{filterws}">
+                                    <select class="custom-select filter" multiple th:field="*{filterws}">
                                         <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
                                                 th:value="${ws}"></option>
                                     </select>
