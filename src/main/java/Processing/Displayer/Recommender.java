@@ -1,20 +1,28 @@
 package Processing.Displayer;
 
-import AppRunner.Datacontainers.DisplayAttributesForm;
+import AppRunner.Datacontainers.Attribute;
+import AppRunner.Datacontainers.Filter;
+import AppRunner.Datacontainers.Operator;
 import AppRunner.Datacontainers.Request;
-import EntryHandling.Entry.Entry;
+import Processing.Processor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.stream.Stream;
+import java.util.Set;
 
 class Recommender {
-    static void recommend(Stream<Entry> entries) {
+    static void recommend() {
         LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
-        String twoWeeksAgoString = twoWeeksAgo.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String twoWeeksAgoString = twoWeeksAgo.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-        String command = "List gb=rs rs=ReadingORStartedORNot-Started ws=Rolling lr<" + twoWeeksAgoString;
-        Request rq = Request.parse(command);
-        Lister.list(entries, DisplayAttributesForm.none(), rq.filters(), null, rq.groupby(), false, false);
+        Request rq = new Request();
+        rq.setOperator(Operator.List);
+        rq.setGroupby("rs");
+        Filter<?> filter = Filter.createFilter(Attribute.readingStatus, "=", Set.of("Reading", "Started", "Not-Started"));
+        Filter<?> filter2 = Filter.createFilter(Attribute.writingStatus, "=", Set.of("Rolling"));
+        Filter<?> filter3 = Filter.createFilter(Attribute.lastread, "<", twoWeeksAgoString);
+        rq.setFilters(Set.of(filter, filter2, filter3));
+
+        Processor.doList(rq);
     }
 }

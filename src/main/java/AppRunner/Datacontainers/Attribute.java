@@ -29,7 +29,6 @@ public enum Attribute {
             case "name", "n" -> name;
             case "read", "r" -> readto;
             case "link", "lk" -> link;
-//            case "secret", "s" -> "s";
             case "rating", "rtg" -> rating;
             case "lastread", "lr" -> lastread;
             case "waituntil", "wu" -> waituntil;

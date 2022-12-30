@@ -37,7 +37,7 @@ public class Processor {
     }
 
     public static void doRecommend() {
-        Displayer.recommend(el.entries());
+        Displayer.recommend();
     }
 
     public static void doNew(Request rq) {

@@ -12,7 +12,7 @@ public class DisplayAttributesUtil {
 
     public static Set<Attribute> displayattributes = Set.of(readto, link, rating, lastread, waituntil, writingStatus, readingStatus);
 
-    public static Set<Attribute> enabledSet;
+    public static Set<Attribute> enabledSet = Set.of();
 
     public static DisplayAttributesForm build(List<String> subList) {
         boolean displayread = false, displaylink = false, displayrating = false, displaylastread = false, displaywaituntil = false, displayreadingstatus = false, displaywritingstatus = false;
@@ -40,6 +40,8 @@ public class DisplayAttributesUtil {
     }
 
     private static void buildEnabledSet(DisplayAttributesForm daf) {
+        if (daf == null) return;
+
         Set<Attribute> res = new HashSet<>();
         if (daf.displayread()) res.add(readto);
         if (daf.displaylink()) res.add(link);
