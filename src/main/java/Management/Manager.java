@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.stream.Stream;
 
@@ -42,13 +43,13 @@ public class Manager {
     }
 
     private void resetFiles() throws IOException {
-        createFile(standardfile);
-        createFile(standardsecretfile);
+        createEmptyFile(standardfile);
+        createEmptyFile(standardsecretfile);
     }
 
-    private void createFile(File file) throws IOException {
+    private void createEmptyFile(File file) throws IOException {
         file.getParentFile().mkdirs();
-        file.createNewFile();
+        new FileWriter(file, false).close();
     }
 
     public void initFile() {
