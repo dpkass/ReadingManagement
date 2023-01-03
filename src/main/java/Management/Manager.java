@@ -49,7 +49,7 @@ public class Manager {
 
     private void createEmptyFile(File file) throws IOException {
         file.getParentFile().mkdirs();
-        new FileWriter(file, false).close();
+        new FileWriter(file).close();
     }
 
     public void initFile() {

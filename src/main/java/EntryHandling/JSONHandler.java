@@ -3,56 +3,44 @@ package EntryHandling;
 import AppRunner.Datacontainers.FileNotValidException;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryUtil;
-import Management.Manager;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.stream.IntStream;
 
 public class JSONHandler implements FileHandler {
 
-    boolean fileCreated = false;
     final boolean secret;
     final int codingOffset = 1;
-    JSONObject json;
-    File f;
+    File file;
 
-    public JSONHandler(File f, boolean secret) {
+    public JSONHandler(File file, boolean secret) {
         this.secret = secret;
-        this.f = f;
+        this.file = file;
     }
 
     @Override
     public EntryList read() {
         EntryList list = new EntryList();
 
-        if (!fileCreated && !createFile()) return list;
+        if (file.length() == 0) write(list);
+        else try {
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            IntStream chars = IntStream.generate(bais::read).limit(bais.available());
 
-        try {
-            FileReader fr = new FileReader(f);
-
-            IntStream.Builder builder = IntStream.builder();
-            while (fr.ready()) builder.add(fr.read());
-            IntStream chars = builder.build();
-
-            fr.close();
-            // secret files to be decoded
             if (secret) chars = decode(chars);
 
-            try {
-                String revert = chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-                json = new JSONObject(revert);
-            } catch (IllegalArgumentException | JSONException e) {
-                throw new FileNotValidException(f.getName(), secret);
-            }
-
+            String revert = chars.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+            JSONObject json = new JSONObject(revert);
             list.addAll(json.getJSONArray("books").toList());
-        } catch (IOException | JSONException ignored) {}
+        } catch (IllegalArgumentException | IOException | JSONException e) {
+            throw new FileNotValidException(file.getName(), secret);
+        }
+
         return list;
     }
 
@@ -62,18 +50,15 @@ public class JSONHandler implements FileHandler {
 
     @Override
     public void write(EntryList el) {
-        if (!fileCreated && !createFile()) return;
+        try (PrintWriter pw = new PrintWriter(file)) {
 
-        try {
-            PrintWriter pw = new PrintWriter(f);
-
-            // encode secret
             IntStream chars = EntryUtil.toJSON(el).chars();
             if (secret) chars = encode(chars);
 
             pw.println(buildWriteString(chars));
-            pw.close();
-        } catch (IOException ignored) {}
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @NotNull
@@ -94,17 +79,6 @@ public class JSONHandler implements FileHandler {
 
     @Override
     public void setFile(File f) {
-        this.f = f;
-    }
-
-    private boolean createFile() {
-        try {
-            f.createNewFile();
-            fileCreated = true;
-            return true;
-        } catch (IOException e) {
-            if (f != Manager.standardfile) System.out.println("File doesn't exist");
-        }
-        return false;
+        this.file = f;
     }
 }
