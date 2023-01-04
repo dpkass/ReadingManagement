@@ -24,6 +24,10 @@ public class RequestService {
         return mgr.entries().map(Entry::name).collect(Collectors.toList());
     }
 
+    public Object secretbooks() {
+        return mgr.secretentries().map(Entry::name).collect(Collectors.toList());
+    }
+
     public RequestResult processCommand(String command) {
         Request rq = Request.parse(command);
         return mgr.process(rq);

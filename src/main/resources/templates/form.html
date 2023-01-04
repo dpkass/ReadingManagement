@@ -50,7 +50,11 @@
                                 <label for="booksel">Book</label>
                                 <select class="custom-select" id="booksel" th:field="*{booksel}">
                                     <option disabled selected value="">Select book</option>
+                                    <option disabled value="b">Books</option>
                                     <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
+                                    <option disabled value="sb">Secret books</option>
+                                    <option th:each="book : ${secret_books}" th:text="${book}"
+                                            th:value="${book}"></option>
                                 </select>
                                 <div th:if="${#fields.hasErrors('booksel')}">
                                     <p th:errors="${#fields.errors('booksel')}"></p>
@@ -234,8 +238,12 @@
                                 <label class="col-form-label col-md-5">Book</label>
                                 <div class="col-md-7">
                                     <select class="custom-select filter" id="filterbook" th:field="*{filterbook}">
-                                        <option selected value="">Select book</option>
+                                        <option selected value="">None</option>
+                                        <option disabled value="b">Books</option>
                                         <option th:each="book : ${books}" th:text="${book}" th:value="${book}"></option>
+                                        <option disabled value="sb">Secret books</option>
+                                        <option th:each="book : ${secret_books}" th:text="${book}"
+                                                th:value="${book}"></option>
                                     </select>
                                     <div th:if="${#fields.hasErrors('filterbook')}">
                                         <p th:errors="${#fields.errors('booksel')}"></p>

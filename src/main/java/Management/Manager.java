@@ -96,6 +96,10 @@ public class Manager {
         return el.entries();
     }
 
+    public Stream<Entry> secretentries() {
+        return secretel.entries();
+    }
+
     public File file() {
         return file;
     }
