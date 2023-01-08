@@ -121,7 +121,7 @@ public class RequestBuilder {
     // rework validate
     private static void buildList(List<String> parts) {
         Map<Boolean, List<String>> type0orderfiltermap = parts.stream().collect(Collectors.partitioningBy(s -> s.matches(".*[=<>].*")));
-        daf = DisplayAttributesUtil.build(type0orderfiltermap.get(false));
+        daf = DisplayAttributesForm.build(type0orderfiltermap.get(false));
 
         filters = type0orderfiltermap.get(true)
                                      .stream()

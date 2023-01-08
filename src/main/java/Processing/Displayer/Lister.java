@@ -2,7 +2,6 @@ package Processing.Displayer;
 
 import AppRunner.Datacontainers.Attribute;
 import AppRunner.Datacontainers.DisplayAttributesForm;
-import AppRunner.Datacontainers.DisplayAttributesUtil;
 import AppRunner.Datacontainers.Filter;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
@@ -38,7 +37,7 @@ class Lister {
     private static void makeHeaderList(DisplayAttributesForm daf) {
         List<String> tableheader = new ArrayList<>();
         tableheader.add("Name");
-        DisplayAttributesUtil.stream(daf).map(Attribute::displayvalue).forEach(tableheader::add);
+        daf.stream().map(Attribute::displayvalue).forEach(tableheader::add);
         rr.setHeaderlist(tableheader);
     }
 
@@ -197,7 +196,7 @@ class Lister {
 
     private static void listfunctions(DisplayAttributesForm daf) {
         TableDataSupplier tds = new TableDataSupplier();
-        DisplayAttributesUtil.stream(daf).map(DisplayUtil::getFunction).forEach(tds::add);
+        daf.stream().map(Attribute::getFunction).forEach(tds::add);
         rr.setDatasupplier(tds);
     }
 }
