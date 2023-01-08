@@ -40,10 +40,6 @@ public final class Request {
     private boolean sortdescending;
     private boolean groupdescending;
 
-    public static Request parse(String command) {
-        return RequestBuilder.build(command);
-    }
-
     @Override
     public String toString() {
         return "Request{" + "secret=" + secret + ", operator=" + operator + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute=" + changeattribute + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", waituntil=" + waituntil + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + '}';

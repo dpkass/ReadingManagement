@@ -38,12 +38,6 @@ public class RequestController {
         return "form";
     }
 
-    @GetMapping ("/commandline")
-    public String showCommandline(Model m) {
-        m.addAttribute("command", "List");
-        return "commandline";
-    }
-
     @PostMapping ("/form")
     public String processForm(@Valid RequestDummy rd, BindingResult br, Model m) {
         buildForm(m);
@@ -64,19 +58,6 @@ public class RequestController {
         else insertResult(m, rr);
 
         return "form";
-    }
-
-    @PostMapping ("/commandline")
-    public String processCommandline(String command, Model m) {
-        m.addAttribute("command", command);
-
-        RequestResult rr = rs.processCommand(command);
-
-        if (rr.hasError()) displayError(m, rr);
-        else insertResult(m, rr);
-        rr.clear();
-
-        return "commandline";
     }
 
     private void insertResult(Model m, RequestResult rr) {

@@ -28,11 +28,6 @@ public class RequestService {
         return mgr.secretentries().map(Entry::name).collect(Collectors.toList());
     }
 
-    public RequestResult processCommand(String command) {
-        Request rq = Request.parse(command);
-        return mgr.process(rq);
-    }
-
     RequestResult processForm(RequestDummy rd) {
         Request rq = rd.toRequest();
         return mgr.process(rq);
