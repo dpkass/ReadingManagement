@@ -3,6 +3,7 @@ let visible = false
 
 // eventlisteners
 operatorupdate()
+setdisplayall()
 $('#operator').change(operatorupdate)
 $('#additionalchangeattribute').change(changeupdate)
 $('#filtersbtn').click(togglefilters)
@@ -10,7 +11,7 @@ $('#resetfiltersbtn').click(resetfilters)
 $('#submitbtn').click(submit)
 $('#submitsecretbtn').click(secret)
 $('#displayall').click(displayall)
-$('.display').click(notdisplayall)
+$('.display').click(setdisplayall)
 
 
 function togglefilters() {
@@ -43,9 +44,11 @@ function displayall() {
     $('.display').prop('checked', this.checked)
 }
 
-function notdisplayall() {
-    if (!$(this).checked) {
-        $('#displayall').prop('checked', this.checked)
+function setdisplayall() {
+    if ($(".display:checked").length === $(".display").length) {
+        $('#displayall').prop('checked', true)
+    } else {
+        $('#displayall').prop('checked', false)
     }
 }
 
