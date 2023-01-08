@@ -1,7 +1,31 @@
-Next-up: Change to SQL-based database
-         	-> Login and saved data
+Next-up: Genre (multi) and Booktype (Manga, Cartoon, Novel etc.)
 
 Safe
+1. Different Ratingoptions (Story, Characters, Drawingstyle etc.)
+
+Version 3
+Change to ER database
+	--> Login and saved data
+1. Profile
+	1. My Library
+	2. Currently reading
+	3. Wait ending soon
+2. Page for each Book
+	1. Pictures
+	-> either from internet search
+	-> or from library
+	-> users can submit pictures
+3. Form --> Rework parts to go in book websites
+	--> Read/ReadTo
+	--> Change
+	--> Open
+	--> Wait/Pause
+	<-- Remove Add
+	<-> Recommend as:
+		1. Long time no see
+		2. New Chapters/Releases (from personal library)
+		3. Not read (watchlist/not-started)
+4. Remove Commandline
 
 Uncertain
 

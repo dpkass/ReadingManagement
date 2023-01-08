@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,15 +21,12 @@ public class EntryBuilder {
     LocalDateTime lastread = LocalDateTime.now();
     LocalDate waituntil = LocalDate.now();
 
-    List<String> abbreviations = new ArrayList<>();
-
     public EntryBuilder(List<String> values) {
         name = values.get(0);
         if (values.size() > 1) readto = parseReadTo(values.get(1));
         if (values.size() > 2) link = values.get(2);
         if (values.size() > 3) ws = WritingStatus.getStatus(values.get(3));
         if (values.size() > 4) lastread = toLDT(values.get(4));
-        if (values.size() > 5) abbreviations.addAll(values.subList(5, values.size()));
     }
 
     public EntryBuilder(Map<String, Object> JSONmap) {
@@ -44,14 +40,11 @@ public class EntryBuilder {
                 case "waituntil" -> waituntil = toLD((String) entry.getValue());
                 case "writingStatus" -> ws = WritingStatus.getStatus((String) entry.getValue());
                 case "readingStatus" -> rs = EntryHandling.Entry.ReadingStatus.getStatus((String) entry.getValue());
-                case "abbreviations" -> abbreviations = (List<String>) entry.getValue();
             }
         }
     }
 
-    public EntryBuilder() {
-
-    }
+    public EntryBuilder() {}
 
     private void chooseStatus() {
         if (rs == Waiting && waituntil == null)
@@ -94,28 +87,33 @@ public class EntryBuilder {
         }
     }
 
-    public void setName(String name) {
+    public EntryBuilder setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setReadto(float readto) {
+    public EntryBuilder setReadto(float readto) {
         this.readto = readto;
+        return this;
     }
 
-    public void setLink(String link) {
+    public EntryBuilder setLink(String link) {
         this.link = link;
+        return this;
     }
 
-    public void setWs(WritingStatus ws) {
+    public EntryBuilder setWs(WritingStatus ws) {
         this.ws = ws;
+        return this;
     }
 
-    public void setLastread(LocalDateTime lastread) {
+    public EntryBuilder setLastread(LocalDateTime lastread) {
         this.lastread = lastread;
+        return this;
     }
 
     public Entry toEntry() {
         chooseStatus();
-        return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil, abbreviations);
+        return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil);
     }
 }

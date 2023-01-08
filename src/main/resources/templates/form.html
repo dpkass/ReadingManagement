@@ -37,13 +37,11 @@
                                             th:text="${op.displayvalue()}"
                                             th:value="${op}"></option>
                                 </select>
-                                <div class="invalid-feedback" th:errors="*{operator}"></div>
                             </div>
                             <!--Book text, only if New is selected-->
                             <div class="form-group col-md-6 new">
                                 <label for="booktxt">Book</label>
                                 <input class="form-control" id="booktxt" th:field="*{booknew}">
-                                <!--<div th:errors="${#fields.errors('booknew')}"></div>-->
                             </div>
                             <!--Book select, only if Add, Change, Read, ReadTo, Open, Wait, Pause is selected-->
                             <div class="form-group col-md-6 add change read open wait pause">
@@ -56,18 +54,10 @@
                                     <option th:each="book : ${secret_books}" th:text="${book}"
                                             th:value="${book}"></option>
                                 </select>
-                                <div th:if="${#fields.hasErrors('booksel')}">
-                                    <p th:errors="${#fields.errors('booksel')}"></p>
-                                </div>
                             </div>
                         </div>
                         <!--Additional args: Add, Change, Read/ReadTo, New, Wait-->
                         <div class="form-row">
-                            <!--Additional args: Add (ab)-->
-                            <div class="form-group col-md-12 add">
-                                <label for="additionaladd">Abbreviation to add</label>
-                                <input class="form-control" type="text" th:field="*{addvalue}" id="additionaladd">
-                            </div>
                             <!--Additional args: Change (type -> newval)-->
                             <div class="form-group col-md-6 change">
                                 <label for="additionalchangeattribute">Type</label>

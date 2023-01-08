@@ -12,11 +12,6 @@ public class Processor {
     static EntryList el;
     public static RequestResult rr;
 
-    public static void doAdd(Request rq) {
-        Entry e = getEntry(rq.booksel());
-        Modifier.add(e, rq.addvalue(), el.entries());
-    }
-
     public static void doChange(Request rq) {
         Entry e = getEntry(rq.booksel());
         Modifier.change(e, rq.changeattribute(), rq.changevalue());

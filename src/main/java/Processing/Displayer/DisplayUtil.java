@@ -20,7 +20,6 @@ public class DisplayUtil {
             case waituntil -> EntryUtil.dateString(e.waituntil(), df, "Not Set");
             case writingStatus -> e.writingStatus().displayvalue();
             case readingStatus -> e.readingStatus().displayvalue();
-            case abbreviations -> e.abbreviations().toString();
             default -> throw new IllegalArgumentException("1");
         };
     }

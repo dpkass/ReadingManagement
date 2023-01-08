@@ -3,8 +3,13 @@ package AppRunner.Datacontainers;
 import java.util.List;
 
 public enum Attribute {
-    name("Name"), readto("Page/Chapter"), link("Link"), rating("Rating"), writingStatus("Writing Status"),
-    readingStatus("Reading Status"), lastread("Last Read"), waituntil("Wait Until"), abbreviations("Abbreviations");
+    name("Name"),
+    readto("Page/Chapter"),
+    link("Link"), rating("Rating"),
+    writingStatus("Writing Status"),
+    readingStatus("Reading Status"),
+    lastread("Last Read"),
+    waituntil("Wait Until");
 
     final String displayvalue;
 
@@ -32,7 +37,6 @@ public enum Attribute {
             case "rating", "rtg" -> rating;
             case "lastread", "lr" -> lastread;
             case "waituntil", "wu" -> waituntil;
-            case "abbreviation", "ab" -> abbreviations;
             case "reading-status", "readingstatus", "rs" -> readingStatus;
             case "writing-status", "writingstatus", "ws" -> writingStatus;
             default -> throw new IllegalArgumentException("1");

@@ -10,22 +10,16 @@ public class EntryList {
     final List<Entry> books = new ArrayList<>();
 
     public void add(List<String> values) {
-        EntryBuilder eb = new EntryBuilder(values);
-        Entry e = eb.toEntry();
-        checkAbbreviations(e);
-        books.add(e);
+        books.add(new EntryBuilder(values).toEntry());
     }
 
     public void add(String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
-        EntryBuilder eb = new EntryBuilder();
-        eb.setName(book);
-        eb.setReadto(newpagevalue);
-        eb.setLink(newlinkvalue);
-        eb.setWs(newwsvalue);
-        eb.setLastread(newlrvalue);
-        Entry e = eb.toEntry();
-        checkAbbreviations(e);
-        books.add(e);
+        EntryBuilder eb = new EntryBuilder().setName(book)
+                                            .setReadto(newpagevalue)
+                                            .setLink(newlinkvalue)
+                                            .setWs(newwsvalue)
+                                            .setLastread(newlrvalue);
+        books.add(eb.toEntry());
     }
 
     public void addAll(List<Object> books) {
@@ -36,7 +30,7 @@ public class EntryList {
     }
 
     public Entry get(String s) {
-        return books.stream().filter(a -> a.name().equals(s) || EntryUtil.hasAbbreviation(a, s)).findAny().orElse(null);
+        return books.stream().filter(a -> a.name().equals(s)).findAny().orElse(null);
     }
 
     public Stream<Entry> entries() {
@@ -45,9 +39,5 @@ public class EntryList {
 
     public List<Entry> list() {
         return books;
-    }
-
-    private void checkAbbreviations(Entry e) {
-        EntryUtil.checkAbbreviations(entries(), e.abbreviations().toArray(String[]::new));
     }
 }

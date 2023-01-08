@@ -8,16 +8,10 @@ import Processing.RequestResult;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.stream.Stream;
 
 import static Processing.Processor.rr;
 
 public class Modifier {
-
-    public static void add(Entry e, String newVal, Stream<Entry> el) {
-        String res = Adder.add(e, newVal, el);
-        finish(res);
-    }
 
     public static void change(Entry e, Attribute attribute, String changevalue) {
         String res = Changer.change(e, attribute, changevalue);

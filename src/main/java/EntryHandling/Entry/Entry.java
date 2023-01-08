@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 public class Entry {
@@ -23,9 +22,7 @@ public class Entry {
     @JsonFormat (pattern = "dd.MM.yyyy")
     private LocalDate waituntil;
 
-    private List<String> abbreviations;
-
-    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate waituntil, List<String> abbreviations) {
+    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate waituntil) {
         this.name = name;
         this.readto = readto;
         this.link = link;
@@ -34,7 +31,6 @@ public class Entry {
         this.readingStatus = readingStatus;
         this.lastread = lastread;
         this.waituntil = waituntil;
-        this.abbreviations = abbreviations;
     }
 
     // getter
@@ -56,10 +52,6 @@ public class Entry {
 
     public LocalDate waituntil() {
         return waituntil;
-    }
-
-    public List<String> abbreviations() {
-        return abbreviations;
     }
 
     public ReadingStatus readingStatus() {
@@ -99,10 +91,6 @@ public class Entry {
         this.waituntil = waituntil;
     }
 
-    public void setAbbreviations(List<String> abbreviations) {
-        this.abbreviations = abbreviations;
-    }
-
     public void setReadingStatus(ReadingStatus readingStatus) {
         this.readingStatus = readingStatus;
     }
@@ -118,14 +106,6 @@ public class Entry {
 
     public void setRating(float rating) {
         this.rating = rating;
-    }
-
-    public void addAbbreviation(String abbreviation) {
-        if (!abbreviations.contains(abbreviation)) abbreviations.add(abbreviation);
-    }
-
-    public void removeAbbreviation(String abbreviation) {
-        abbreviations.remove(abbreviation);
     }
 
     @Override
