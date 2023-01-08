@@ -24,7 +24,7 @@ public class EntryBuilder {
     ReadingStatus rs = ReadingStatus.Default;
 
     LocalDateTime lastread = LocalDateTime.now();
-    LocalDate waituntil = LocalDate.now();
+    LocalDate waituntil;
 
     private List<Genre> genres = List.of();
     private Booktype booktype = Booktype.Default;

@@ -45,8 +45,8 @@ public enum Attribute {
             case Link -> e.link();
             case ReadTo -> EntryUtil.tryIntConversion(e.readto());
             case Rating -> EntryUtil.tryIntConversion(e.rating());
-            case LastRead -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
-            case WaitUntil -> EntryUtil.dateString(e.waituntil(), df, "Not Set");
+            case LastRead -> EntryUtil.dateString(e.lastread(), dtf, "-");
+            case WaitUntil -> EntryUtil.dateString(e.waituntil(), df, "-");
             case WritingStatus -> e.writingStatus().displayvalue();
             case ReadingStatus -> e.readingStatus().displayvalue();
             case Genres -> e.genres().stream().map(Genre::displayvalue).collect(Collectors.joining("\n"));

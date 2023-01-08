@@ -1,7 +1,7 @@
 package EntryHandling.Entry;
 
 public enum WritingStatus {
-    Default("Not Set"),
+    Default("-"),
     ComingUp("Coming-up"),
     Rolling("Rolling"),
     Paused("Paused"),
