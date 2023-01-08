@@ -8,7 +8,7 @@ public enum Operator {
     private final String displayvalue;
 
     public static List<Operator> formoperators() {
-        return java.util.List.of(New, Read, ReadTo, Change, Open, Recommend, List, Wait, Pause);
+        return java.util.List.of(New, Read, ReadTo, Change, Open, Recommend, List, Add, Wait, Pause);
     }
 
     public static Operator getOperator(String s) {

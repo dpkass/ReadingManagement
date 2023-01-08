@@ -1,5 +1,9 @@
 package EntryHandling.Entry;
 
+import AppRunner.Datacontainers.Booktype;
+import AppRunner.Datacontainers.Genre;
+import org.json.JSONArray;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static EntryHandling.Entry.ReadingStatus.*;
 
@@ -20,6 +25,9 @@ public class EntryBuilder {
 
     LocalDateTime lastread = LocalDateTime.now();
     LocalDate waituntil = LocalDate.now();
+
+    private List<Genre> genres;
+    private Booktype booktype;
 
     public EntryBuilder(List<String> values) {
         name = values.get(0);
@@ -39,7 +47,13 @@ public class EntryBuilder {
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
                 case "waituntil" -> waituntil = toLD((String) entry.getValue());
                 case "writingStatus" -> ws = WritingStatus.getStatus((String) entry.getValue());
-                case "readingStatus" -> rs = EntryHandling.Entry.ReadingStatus.getStatus((String) entry.getValue());
+                case "readingStatus" -> rs = ReadingStatus.getStatus((String) entry.getValue());
+                case "genres" -> genres = ((JSONArray) entry.getValue()).toList()
+                                                                        .stream()
+                                                                        .map(String.class::cast)
+                                                                        .map(Genre::getGenre)
+                                                                        .collect(Collectors.toList());
+                case "booktype" -> booktype = Booktype.getBooktype((String) entry.getValue());
             }
         }
     }
@@ -47,8 +61,7 @@ public class EntryBuilder {
     public EntryBuilder() {}
 
     private void chooseStatus() {
-        if (rs == Waiting && waituntil == null)
-            rs = Reading;      // autonullify paused when date arrives
+        if (rs == Waiting && waituntil == null) rs = Reading;      // autonullify paused when date arrives
         if (rs != Default && rs != null) return;
 
         double rt = readto;
@@ -112,8 +125,18 @@ public class EntryBuilder {
         return this;
     }
 
+    public EntryBuilder setGenres(List<Genre> genres) {
+        this.genres = genres;
+        return this;
+    }
+
+    public EntryBuilder setBooktype(Booktype booktype) {
+        this.booktype = booktype;
+        return this;
+    }
+
     public Entry toEntry() {
         chooseStatus();
-        return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil);
+        return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil, genres, booktype);
     }
 }

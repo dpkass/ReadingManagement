@@ -38,7 +38,7 @@ public class Processor {
     public static void doNew(Request rq) {
         Entry e = el.get(rq.booknew());
         if (e != null) throw new IllegalArgumentException("2");
-        Modifier.new_(el, rq.booknew(), rq.newpagevalue(), rq.newlinkvalue(), rq.newwsvalue(), rq.newlrvalue());
+        Modifier.new_(el, rq.booknew(), rq.newpagevalue(), rq.newlinkvalue(), rq.newwsvalue(), rq.newlrvalue(), rq.newbooktypevalue(), rq.newgenresvalue());
     }
 
     public static void doOpen(Request rq) {

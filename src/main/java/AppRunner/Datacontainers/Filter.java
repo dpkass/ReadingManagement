@@ -9,17 +9,17 @@ import java.util.Set;
 public record Filter<T>(Attribute attribute, String operator, T value) {
     public static Filter<?> createFilter(String[] filter) {
         Attribute att = Attribute.getAttribute(filter[0]);
-        Object value = (att == Attribute.writingStatus || att == Attribute.readingStatus) ? getStatusValue(filter[2]) : filter[2];
+        Object value = (att == Attribute.WritingStatus || att == Attribute.ReadingStatus) ? getStatusValue(filter[2]) : filter[2];
         return createFilter(att, filter[1], value);
     }
 
     public static <T> Filter<?> createFilter(Attribute att, String operator, T value) {
         if (att == null) throw new IllegalArgumentException("1");
         return switch (att) {
-            case name -> new Filter<>(att, operator, (String) value);
-            case readto, rating -> new Filter<>(att, operator, value);
-            case writingStatus, readingStatus -> new Filter<>(att, operator, ((Collection<String>) value));
-            case lastread, waituntil -> new Filter<LocalDate>(att, operator, LocalDate.parse((String) value, DateTimeFormatter.ISO_DATE));
+            case Name -> new Filter<>(att, operator, (String) value);
+            case ReadTo, Rating -> new Filter<>(att, operator, value);
+            case WritingStatus, ReadingStatus -> new Filter<>(att, operator, ((Collection<String>) value));
+            case LastRead, WaitUntil -> new Filter<LocalDate>(att, operator, LocalDate.parse((String) value, DateTimeFormatter.ISO_DATE));
             default -> throw new IllegalArgumentException("1");
         };
     }

@@ -1,8 +1,6 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datacontainers.Attribute;
-import AppRunner.Datacontainers.Operator;
-import AppRunner.Datacontainers.RequestDummy;
+import AppRunner.Datacontainers.*;
 import AppRunner.Validation.RequestValidator;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
@@ -93,6 +91,8 @@ public class RequestController {
         m.addAttribute("operators", Operator.formoperators());
         m.addAttribute("writing_statuses", WritingStatus.values());
         m.addAttribute("reading_statuses", ReadingStatus.displayableRS());
+        m.addAttribute("genres", Genre.values());
+        m.addAttribute("booktypes", Booktype.values());
         m.addAttribute("books", rs.books());
         m.addAttribute("secret_books", rs.secretbooks());
         m.addAttribute("displaying_options", Attribute.displayingOptions());

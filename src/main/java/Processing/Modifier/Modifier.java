@@ -1,6 +1,8 @@
 package Processing.Modifier;
 
 import AppRunner.Datacontainers.Attribute;
+import AppRunner.Datacontainers.Booktype;
+import AppRunner.Datacontainers.Genre;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.WritingStatus;
@@ -8,6 +10,7 @@ import Processing.RequestResult;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static Processing.Processor.rr;
 
@@ -18,8 +21,9 @@ public class Modifier {
         finish(res);
     }
 
-    public static void new_(EntryList el, String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
-        String res = Newer.new_(el, book, newpagevalue, newlinkvalue, newwsvalue, newlrvalue);
+    public static void new_(EntryList el, String book, float readto, String link, WritingStatus ws, LocalDateTime lastread, Booktype booktype,
+                            List<Genre> genres) {
+        String res = Newer.new_(el, book, readto, link, ws, lastread, booktype, genres);
         finish(res);
     }
 

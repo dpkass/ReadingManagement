@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static AppRunner.Datacontainers.Attribute.*;
 
@@ -26,6 +27,8 @@ public final class RequestDummy {
     private String newlinkvalue = "";
     private String newwsvalue = "";
     private String newlrvalue;
+    private String newbooktypevalue = "";
+    private List<String> newgenresvalue;
     // additional read
     private String readvalue = "1";
     // additional wait
@@ -61,6 +64,7 @@ public final class RequestDummy {
         float newpageval = Float.parseFloat(newpagevalue);
         float readval = Float.parseFloat(readvalue);
         Set<Filter<?>> filters = createFilters();
+        List<Genre> genres = newgenresvalue.stream().map(Genre::getGenre).collect(Collectors.toList());
 
         request.setSecret(secret);
         request.setOperator(operator);
@@ -73,6 +77,8 @@ public final class RequestDummy {
         request.setNewlinkvalue(newlinkvalue);
         request.setNewwsvalue(newwsvalue);
         request.setNewlrvalue(lr);
+        request.setNewgenresvalue(genres);
+        request.setNewbooktypevalue(newbooktypevalue);
         request.setReadvalue(readval);
         request.setWaituntil(wu);
         request.setDaf(DisplayAttributesForm.build(daf));
@@ -87,13 +93,13 @@ public final class RequestDummy {
 
     public Set<Filter<?>> createFilters() {
         Set<Filter<?>> filters = new HashSet<>();
-        if (!filterbook.isBlank()) filters.add(Filter.createFilter(name, "=", filterbook));
-        if (!filterchapterop.isBlank()) filters.add(Filter.createFilter(readto, filterchapterop, filterchapter));
-        if (!filterratingop.isBlank()) filters.add(Filter.createFilter(rating, filterratingop, filterrating));
-        if (!filterlrop.isBlank()) filters.add(Filter.createFilter(lastread, filterlrop, filterlr));
-        if (!filterwuop.isBlank()) filters.add(Filter.createFilter(Attribute.waituntil, filterwuop, filterwu));
-        if (!filterrs.isEmpty()) filters.add(Filter.createFilter(readingStatus, "=", filterrs));
-        if (!filterws.isEmpty()) filters.add(Filter.createFilter(writingStatus, "=", filterws));
+        if (!filterbook.isBlank()) filters.add(Filter.createFilter(Name, "=", filterbook));
+        if (!filterchapterop.isBlank()) filters.add(Filter.createFilter(ReadTo, filterchapterop, filterchapter));
+        if (!filterratingop.isBlank()) filters.add(Filter.createFilter(Rating, filterratingop, filterrating));
+        if (!filterlrop.isBlank()) filters.add(Filter.createFilter(LastRead, filterlrop, filterlr));
+        if (!filterwuop.isBlank()) filters.add(Filter.createFilter(Attribute.WaitUntil, filterwuop, filterwu));
+        if (!filterrs.isEmpty()) filters.add(Filter.createFilter(ReadingStatus, "=", filterrs));
+        if (!filterws.isEmpty()) filters.add(Filter.createFilter(WritingStatus, "=", filterws));
         return filters;
     }
 
@@ -119,7 +125,7 @@ public final class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "secret=" + secret + ", operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", daf=" + daf + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
+        return "RequestDummy{" + "secret=" + secret + ", operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", newbooktypevalue='" + newbooktypevalue + '\'' + ", newgenresvalue=" + newgenresvalue + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", daf=" + daf + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
     }
 
     // getters and setters
@@ -209,6 +215,22 @@ public final class RequestDummy {
 
     public void setNewlrvalue(String newlrvalue) {
         this.newlrvalue = newlrvalue;
+    }
+
+    public String getNewbooktypevalue() {
+        return newbooktypevalue;
+    }
+
+    public void setNewbooktypevalue(String newbooktypevalue) {
+        this.newbooktypevalue = newbooktypevalue;
+    }
+
+    public List<String> getNewgenresvalue() {
+        return newgenresvalue;
+    }
+
+    public void setNewgenresvalue(List<String> newgenresvalue) {
+        this.newgenresvalue = newgenresvalue;
     }
 
     public String getReadvalue() {

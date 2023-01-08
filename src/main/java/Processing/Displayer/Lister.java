@@ -59,11 +59,11 @@ class Lister {
 
     private static SortedMap<?, List<Entry>> groupToMap(Stream<Entry> entrystream, Attribute groupby, boolean groupdescending) {
         return switch (groupby) {
-            case writingStatus -> makeWSMap(entrystream, groupdescending);
-            case readingStatus -> makeRSMap(entrystream, groupdescending);
-            case readto -> makeIntMap(entrystream, e -> (int) (e.readto()) / 50 * 50, groupdescending);
-            case rating -> makeIntMap(entrystream, e -> (int) (e.rating()), groupdescending);
-            case lastread -> makeLDMap(entrystream, groupdescending);
+            case WritingStatus -> makeWSMap(entrystream, groupdescending);
+            case ReadingStatus -> makeRSMap(entrystream, groupdescending);
+            case ReadTo -> makeIntMap(entrystream, e -> (int) (e.readto()) / 50 * 50, groupdescending);
+            case Rating -> makeIntMap(entrystream, e -> (int) (e.rating()), groupdescending);
+            case LastRead -> makeLDMap(entrystream, groupdescending);
             default -> throw new IllegalArgumentException("1");
         };
     }
@@ -95,13 +95,13 @@ class Lister {
         if (sortby == null) return Comparator.comparing(Entry::name);
         else {
             Comparator<Entry> comp = switch (sortby) {
-                case name -> Comparator.comparing(Entry::name);
-                case readto -> Comparator.comparing(Entry::readto);
-                case rating -> Comparator.comparing(Entry::rating);
-                case lastread -> Comparator.comparing(Entry::lastread, Comparator.nullsFirst(Comparator.naturalOrder()));
-                case waituntil -> Comparator.comparing(Entry::waituntil, Comparator.nullsFirst(Comparator.naturalOrder()));
-                case writingStatus -> Comparator.comparing(Entry::writingStatus);
-                case readingStatus -> Comparator.comparing(Entry::readingStatus);
+                case Name -> Comparator.comparing(Entry::name);
+                case ReadTo -> Comparator.comparing(Entry::readto);
+                case Rating -> Comparator.comparing(Entry::rating);
+                case LastRead -> Comparator.comparing(Entry::lastread, Comparator.nullsFirst(Comparator.naturalOrder()));
+                case WaitUntil -> Comparator.comparing(Entry::waituntil, Comparator.nullsFirst(Comparator.naturalOrder()));
+                case WritingStatus -> Comparator.comparing(Entry::writingStatus);
+                case ReadingStatus -> Comparator.comparing(Entry::readingStatus);
                 default -> throw new IllegalArgumentException("1");
             };
 
@@ -147,16 +147,16 @@ class Lister {
 
     private static Predicate<Entry> getFloatEqFilter(Attribute attribute, float value) {
         return e -> switch (attribute) {
-            case rating -> e.rating() == value;
+            case Rating -> e.rating() == value;
             default -> throw new IllegalArgumentException("1");
         };
     }
 
     private static Predicate<Entry> getStringEqFilter(Attribute filterBy, String s) {
         return e -> switch (filterBy) {
-            case name -> Objects.equals(e.name(), s);
-            case writingStatus -> Objects.equals(e.writingStatus(), WritingStatus.getStatus(s));
-            case readingStatus -> Objects.equals(e.readingStatus(), ReadingStatus.getStatus(s));
+            case Name -> Objects.equals(e.name(), s);
+            case WritingStatus -> Objects.equals(e.writingStatus(), WritingStatus.getStatus(s));
+            case ReadingStatus -> Objects.equals(e.readingStatus(), ReadingStatus.getStatus(s));
             default -> throw new IllegalArgumentException("1");
         };
     }
@@ -164,10 +164,10 @@ class Lister {
     @NotNull
     private static Predicate<Entry> getUneqFilter(Filter<?> filter) {
         return e -> switch (filter.attribute()) {
-            case readto -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.readto());
-            case rating -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.rating());
-            case lastread -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.lastread());
-            case waituntil -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.waituntil());
+            case ReadTo -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.readto());
+            case Rating -> getFloatUneqFilter(filter.operator(), (Float) filter.value(), e.rating());
+            case LastRead -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.lastread());
+            case WaitUntil -> getDateUneqFilter(filter.operator(), (LocalDate) filter.value(), e.waituntil());
             default -> throw new IllegalArgumentException("1");
         };
     }

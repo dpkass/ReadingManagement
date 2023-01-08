@@ -18,13 +18,13 @@ public record DisplayAttributesForm(boolean displayread, boolean displaylink, bo
             Attribute att = Attribute.getAttribute(s);
             if (att == null) errors.add(new String[] { "displayattribute", "displayattnotatt", s + " is not a displayattribute" });
             else switch (att) {
-                case readto -> displayread = true;
-                case link -> displaylink = true;
-                case rating -> displayrating = true;
-                case lastread -> displaylastread = true;
-                case waituntil -> displaywaituntil = true;
-                case readingStatus -> displayreadingstatus = true;
-                case writingStatus -> displaywritingstatus = true;
+                case ReadTo -> displayread = true;
+                case Link -> displaylink = true;
+                case Rating -> displayrating = true;
+                case LastRead -> displaylastread = true;
+                case WaitUntil -> displaywaituntil = true;
+                case ReadingStatus -> displayreadingstatus = true;
+                case WritingStatus -> displaywritingstatus = true;
             }
         }
         if (!errors.isEmpty()) throw new RequestParsingException(errors);
@@ -35,13 +35,13 @@ public record DisplayAttributesForm(boolean displayread, boolean displaylink, bo
     public Stream<Attribute> stream() {
         List<Attribute> enabledList = new ArrayList<>();
 
-        if (displayread) enabledList.add(readto);
-        if (displaylastread) enabledList.add(lastread);
-        if (displayreadingstatus) enabledList.add(readingStatus);
-        if (displaywaituntil) enabledList.add(waituntil);
-        if (displaywritingstatus) enabledList.add(writingStatus);
-        if (displayrating) enabledList.add(rating);
-        if (displaylink) enabledList.add(link);
+        if (displayread) enabledList.add(ReadTo);
+        if (displaylastread) enabledList.add(LastRead);
+        if (displayreadingstatus) enabledList.add(ReadingStatus);
+        if (displaywaituntil) enabledList.add(WaitUntil);
+        if (displaywritingstatus) enabledList.add(WritingStatus);
+        if (displayrating) enabledList.add(Rating);
+        if (displaylink) enabledList.add(Link);
 
         return enabledList.stream();
     }

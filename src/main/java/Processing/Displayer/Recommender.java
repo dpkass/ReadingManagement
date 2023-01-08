@@ -18,9 +18,9 @@ class Recommender {
         Request rq = new Request();
         rq.setOperator(Operator.List);
         rq.setGroupby("rs");
-        Filter<?> filter = Filter.createFilter(Attribute.readingStatus, "=", Set.of("Reading", "Started", "Not-Started"));
-        Filter<?> filter2 = Filter.createFilter(Attribute.writingStatus, "=", Set.of("Rolling"));
-        Filter<?> filter3 = Filter.createFilter(Attribute.lastread, "<", twoWeeksAgoString);
+        Filter<?> filter = Filter.createFilter(Attribute.ReadingStatus, "=", Set.of("Reading", "Started", "Not-Started"));
+        Filter<?> filter2 = Filter.createFilter(Attribute.WritingStatus, "=", Set.of("Rolling"));
+        Filter<?> filter3 = Filter.createFilter(Attribute.LastRead, "<", twoWeeksAgoString);
         rq.setFilters(Set.of(filter, filter2, filter3));
 
         Processor.doList(rq);

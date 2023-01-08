@@ -47,8 +47,9 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateNew() {
-        List<String> param = List.of(rd.getBooknew(), rd.getNewpagevalue(), rd.getNewlinkvalue(), rd.getNewwsvalue(), rd.getNewlrvalue());
-        Validator.validateNew(param);
+        List<String> param = List.of(rd.getBooknew(), rd.getNewpagevalue(), rd.getNewlinkvalue(), rd.getNewwsvalue(), rd.getNewlrvalue(),
+                rd.getNewbooktypevalue());
+        Validator.validateNew(param, rd.getNewgenresvalue());
     }
 
     private void validateRead() {

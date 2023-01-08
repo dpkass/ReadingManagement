@@ -10,59 +10,57 @@ import static Management.Helper.df;
 import static Management.Helper.dtf;
 
 public enum Attribute {
-    name("Name"),
-    readto("Page/Chapter"),
-    link("Link"), rating("Rating"),
-    writingStatus("Writing Status"),
-    readingStatus("Reading Status"),
-    lastread("Last Read"),
-    waituntil("Wait Until");
+    Name, ReadTo("Page/Chapter"), Link, Rating, WritingStatus("Writing Status"), ReadingStatus("Reading Status"), LastRead("Last Read"), WaitUntil("Wait Until"), Genres, Booktype;
 
     final String displayvalue;
+
+    Attribute() {
+        this.displayvalue = this.toString();
+    }
 
     Attribute(String displayvalue) {
         this.displayvalue = displayvalue;
     }
 
     public static List<Attribute> changingOptions() {
-        return List.of(name, link, rating, writingStatus);
+        return List.of(Name, Booktype, Rating, WritingStatus, Link);
     }
 
     public static List<Attribute> displayingOptions() {
-        return List.of(readto, lastread, readingStatus, waituntil, writingStatus, rating, link);
+        return List.of(Genres, Booktype, ReadTo, LastRead, ReadingStatus, WaitUntil, WritingStatus, Rating, Link);
     }
 
     public static Function<Entry, String> getFunction(Attribute att) {
         return e -> switch (att) {
-            case link -> e.link();
-            case readto -> EntryUtil.tryIntConversion(e.readto());
-            case rating -> EntryUtil.tryIntConversion(e.rating());
-            case lastread -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
-            case waituntil -> EntryUtil.dateString(e.waituntil(), df, "Not Set");
-            case writingStatus -> e.writingStatus().displayvalue();
-            case readingStatus -> e.readingStatus().displayvalue();
+            case Link -> e.link();
+            case ReadTo -> EntryUtil.tryIntConversion(e.readto());
+            case Rating -> EntryUtil.tryIntConversion(e.rating());
+            case LastRead -> EntryUtil.dateString(e.lastread(), dtf, "Not Set");
+            case WaitUntil -> EntryUtil.dateString(e.waituntil(), df, "Not Set");
+            case WritingStatus -> e.writingStatus().displayvalue();
+            case ReadingStatus -> e.readingStatus().displayvalue();
             default -> throw new IllegalArgumentException("1");
         };
     }
 
     public static List<Attribute> sortingOptions() {
-        return List.of(name, readto, rating, lastread, waituntil, writingStatus, readingStatus);
+        return List.of(Name, ReadTo, Rating, Booktype, LastRead, WaitUntil, WritingStatus, ReadingStatus);
     }
 
     public static List<Attribute> groupingOptions() {
-        return List.of(readto, rating, lastread, writingStatus, readingStatus);
+        return List.of(ReadTo, Rating, Booktype, LastRead, WritingStatus, ReadingStatus);
     }
 
     public static Attribute representation(String s) {
         return switch (s) {
-            case "name", "n" -> name;
-            case "read", "r" -> readto;
-            case "link", "lk" -> link;
-            case "rating", "rtg" -> rating;
-            case "lastread", "lr" -> lastread;
-            case "waituntil", "wu" -> waituntil;
-            case "reading-status", "readingstatus", "rs" -> readingStatus;
-            case "writing-status", "writingstatus", "ws" -> writingStatus;
+            case "name", "n" -> Name;
+            case "read", "r" -> ReadTo;
+            case "link", "lk" -> Link;
+            case "rating", "rtg" -> Rating;
+            case "lastread", "lr" -> LastRead;
+            case "waituntil", "wu" -> WaitUntil;
+            case "reading-status", "readingstatus", "rs" -> ReadingStatus;
+            case "writing-status", "writingstatus", "ws" -> WritingStatus;
             default -> throw new IllegalArgumentException("1");
         };
     }

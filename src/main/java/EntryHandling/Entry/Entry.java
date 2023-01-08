@@ -1,9 +1,12 @@
 package EntryHandling.Entry;
 
+import AppRunner.Datacontainers.Booktype;
+import AppRunner.Datacontainers.Genre;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 public class Entry {
@@ -22,7 +25,10 @@ public class Entry {
     @JsonFormat (pattern = "dd.MM.yyyy")
     private LocalDate waituntil;
 
-    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate waituntil) {
+    private final List<Genre> genres;
+    private Booktype booktype;
+
+    public Entry(String name, float readto, String link, float rating, WritingStatus writingStatus, ReadingStatus readingStatus, LocalDateTime lastread, LocalDate waituntil, List<Genre> genres, Booktype booktype) {
         this.name = name;
         this.readto = readto;
         this.link = link;
@@ -31,6 +37,8 @@ public class Entry {
         this.readingStatus = readingStatus;
         this.lastread = lastread;
         this.waituntil = waituntil;
+        this.genres = genres;
+        this.booktype = booktype;
     }
 
     // getter
@@ -38,79 +46,93 @@ public class Entry {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public float readto() {
         return readto;
+    }
+
+    public void setReadto(float readto) {
+        this.readto = readto;
     }
 
     public String link() {
         return link;
     }
 
-    public LocalDateTime lastread() {
-        return lastread;
-    }
-
-    public LocalDate waituntil() {
-        return waituntil;
-    }
-
-    public ReadingStatus readingStatus() {
-        return readingStatus;
-    }
-
-    public WritingStatus writingStatus() {
-        return writingStatus;
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public float rating() {
         return rating;
     }
 
-    // setter
-    public void setName(String name) {
-        this.name = name;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
-    public void setReadto(float rt) {
-        this.readto = rt;
-    }
-
-    public void addRead(double read) {
-        this.readto += read;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public void setLastread(LocalDateTime lastread) {
-        this.lastread = lastread;
-    }
-
-    public void setWaituntil(LocalDate waituntil) {
-        this.waituntil = waituntil;
-    }
-
-    public void setReadingStatus(ReadingStatus readingStatus) {
-        this.readingStatus = readingStatus;
-    }
-
-    public void setWritingStatus(String writingStatus) {
-        this.writingStatus = WritingStatus.getStatus(writingStatus);
-        if (this.writingStatus == WritingStatus.Default) throw new RuntimeException();
+    public WritingStatus writingStatus() {
+        return writingStatus;
     }
 
     public void setWritingStatus(WritingStatus writingStatus) {
         this.writingStatus = writingStatus;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public ReadingStatus readingStatus() {
+        return readingStatus;
     }
 
-    @Override
-    public String toString() {
-        return EntryUtil.asCSV(this);
+    public void setReadingStatus(ReadingStatus readingStatus) {
+        this.readingStatus = readingStatus;
+    }
+
+    public LocalDateTime lastread() {
+        return lastread;
+    }
+
+    public void setLastread(LocalDateTime lastread) {
+        this.lastread = lastread;
+    }
+
+    public LocalDate waituntil() {
+        return waituntil;
+    }
+
+    public void setWaituntil(LocalDate waituntil) {
+        this.waituntil = waituntil;
+    }
+
+    public List<Genre> genres() {
+        return genres;
+    }
+
+    public Booktype booktype() {
+        return booktype;
+    }
+
+    public void setBooktype(Booktype booktype) {
+        this.booktype = booktype;
+    }
+
+    // special setters
+    public void setWritingStatus(String writingStatus) {
+        WritingStatus temp = WritingStatus.getStatus(writingStatus);
+        if (temp == WritingStatus.Default) throw new RuntimeException();
+        this.writingStatus = temp;
+    }
+
+    public void setBooktype(String booktype) {
+        Booktype temp = Booktype.getBooktype(booktype);
+        if (temp == null) throw new RuntimeException();
+        this.booktype = temp;
+    }
+
+    public void addRead(double read) {
+        this.readto += read;
     }
 
     @Override

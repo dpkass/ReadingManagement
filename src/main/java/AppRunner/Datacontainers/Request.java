@@ -4,6 +4,7 @@ import EntryHandling.Entry.WritingStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public final class Request {
@@ -22,6 +23,8 @@ public final class Request {
     private String newlinkvalue;
     private WritingStatus newwsvalue;
     private LocalDateTime newlrvalue;
+    private Booktype newbooktypevalue;
+    private List<Genre> newgenresvalue;
     // additional read
     private float readvalue;
     // additional wait
@@ -63,10 +66,6 @@ public final class Request {
         this.operator = operator;
     }
 
-    public void setOperator(String operator) {
-        this.operator = Operator.getOperator(operator);
-    }
-
     public String booknew() {
         return booknew;
     }
@@ -83,44 +82,12 @@ public final class Request {
         this.booksel = booksel;
     }
 
-    public DisplayAttributesForm daf() {
-        return daf;
-    }
-
-    public void setDaf(DisplayAttributesForm daf) {
-        this.daf = daf;
-    }
-
-    public Set<Filter<?>> filters() {
-        return filters;
-    }
-
-    public void setFilters(Set<Filter<?>> filters) {
-        this.filters = filters;
-    }
-
-    public Attribute sortby() {
-        return sortby;
-    }
-
-    public void setSortby(String sortby) {
-        this.sortby = Attribute.getAttribute(sortby);
-    }
-
-    public Attribute groupby() {
-        return groupby;
-    }
-
-    public void setGroupby(String groupby) {
-        this.groupby = Attribute.getAttribute(groupby);
-    }
-
     public Attribute changeattribute() {
         return changeattribute;
     }
 
-    public void setChangeattribute(String changeattribute) {
-        this.changeattribute = Attribute.getAttribute(changeattribute);
+    public void setChangeattribute(Attribute changeattribute) {
+        this.changeattribute = changeattribute;
     }
 
     public String changevalue() {
@@ -159,8 +126,8 @@ public final class Request {
         return newwsvalue;
     }
 
-    public void setNewwsvalue(String newwsvalue) {
-        this.newwsvalue = WritingStatus.getStatus(newwsvalue);
+    public void setNewwsvalue(WritingStatus newwsvalue) {
+        this.newwsvalue = newwsvalue;
     }
 
     public LocalDateTime newlrvalue() {
@@ -169,6 +136,18 @@ public final class Request {
 
     public void setNewlrvalue(LocalDateTime newlrvalue) {
         this.newlrvalue = newlrvalue;
+    }
+
+    public Booktype newbooktypevalue() {
+        return newbooktypevalue;
+    }
+
+    public List<Genre> newgenresvalue() {
+        return newgenresvalue;
+    }
+
+    public void setNewgenresvalue(List<Genre> newgenresvalue) {
+        this.newgenresvalue = newgenresvalue;
     }
 
     public float readvalue() {
@@ -187,6 +166,38 @@ public final class Request {
         this.waituntil = waituntil;
     }
 
+    public DisplayAttributesForm daf() {
+        return daf;
+    }
+
+    public void setDaf(DisplayAttributesForm daf) {
+        this.daf = daf;
+    }
+
+    public Set<Filter<?>> filters() {
+        return filters;
+    }
+
+    public void setFilters(Set<Filter<?>> filters) {
+        this.filters = filters;
+    }
+
+    public Attribute sortby() {
+        return sortby;
+    }
+
+    public void setSortby(Attribute sortby) {
+        this.sortby = sortby;
+    }
+
+    public Attribute groupby() {
+        return groupby;
+    }
+
+    public void setGroupby(Attribute groupby) {
+        this.groupby = groupby;
+    }
+
     public boolean sortdescending() {
         return sortdescending;
     }
@@ -201,5 +212,30 @@ public final class Request {
 
     public void setGroupdescending(boolean groupdescending) {
         this.groupdescending = groupdescending;
+    }
+
+    // special setters
+    public void setOperator(String operator) {
+        this.operator = Operator.getOperator(operator);
+    }
+
+    public void setSortby(String sortby) {
+        this.sortby = Attribute.getAttribute(sortby);
+    }
+
+    public void setGroupby(String groupby) {
+        this.groupby = Attribute.getAttribute(groupby);
+    }
+
+    public void setChangeattribute(String changeattribute) {
+        this.changeattribute = Attribute.getAttribute(changeattribute);
+    }
+
+    public void setNewwsvalue(String newwsvalue) {
+        this.newwsvalue = WritingStatus.getStatus(newwsvalue);
+    }
+
+    public void setNewbooktypevalue(String newbooktypevalue) {
+        this.newbooktypevalue = Booktype.getBooktype(newbooktypevalue);
     }
 }

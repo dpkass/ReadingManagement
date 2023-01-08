@@ -68,18 +68,27 @@
                                             th:value="${co}"></option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6 change" id="additionalchangetextvaluediv">
+                            <div class="form-group col-md-6 change changeval" id="additionalchangetextvaluediv">
                                 <label for="additionalchangetextvalue">New Value</label>
                                 <input class="form-control" type="text" th:field="*{changevalue}"
                                        id="additionalchangetextvalue">
                             </div>
-                            <div class="form-group col-md-6 change" id="additionalchangewsvaluediv">
+                            <div class="form-group col-md-6 change changeval" id="additionalchangewsvaluediv">
                                 <label for="additionalchangewsvalue">New Value</label>
                                 <select class="custom-select" th:field="*{changevalue}"
                                         id="additionalchangewsvalue">
                                     <option disabled selected value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
                                             th:value="${ws}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 change changeval" id="additionalchangebtvaluediv">
+                                <label for="additionalchangebtvalue">New Value</label>
+                                <select class="custom-select" th:field="*{changevalue}"
+                                        id="additionalchangebtvalue">
+                                    <option disabled selected value="">Select Booktype</option>
+                                    <option th:each="bt : ${booktypes}" th:text="${bt}"
+                                            th:value="${bt}"></option>
                                 </select>
                             </div>
                             <!--Additional args: Read (page)-->
@@ -89,14 +98,12 @@
                             </div>
                             <!--Additional args: New (Page, Link, WS, lastread)-->
                             <div class="form-group col-md-6 new">
-                                <label for="additionalnewpage">Page/Chapter</label>
-                                <input class="form-control" type="number" th:field="*{newpagevalue}"
-                                       id="additionalnewpage">
-                            </div>
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewlink">Link</label>
-                                <input class="form-control" type="url" th:field="*{newlinkvalue}"
-                                       id="additionalnewlink">
+                                <label for="additionalnewbooktype">Booktype</label>
+                                <select class="custom-select" th:field="*{newbooktypevalue}" id="additionalnewbooktype">
+                                    <option selected disabled value="">Select Booktype</option>
+                                    <option th:each="bt : ${booktypes}" th:text="${bt}"
+                                            th:value="${bt}"></option>
+                                </select>
                             </div>
                             <div class="form-group col-md-6 new">
                                 <label for="additionalnewws">Writing Status</label>
@@ -107,9 +114,28 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-6 new">
+                                <label for="additionalnewpage">Page/Chapter</label>
+                                <input class="form-control" type="number" th:field="*{newpagevalue}"
+                                       id="additionalnewpage">
+                            </div>
+                            <div class="form-group col-md-6 new">
                                 <label for="additionalnewlr">Last Read</label>
                                 <input class="form-control" type="datetime-local" th:field="*{newlrvalue}"
                                        id="additionalnewlr">
+                            </div>
+                            <div class="form-group col-md-6 new">
+                                <label for="additionalnewgenres">Genres</label>
+                                <select class="custom-select" th:field="*{newgenresvalue}" id="additionalnewgenres"
+                                        multiple>
+                                    <option selected disabled value="">Select Genres</option>
+                                    <option th:each="gr : ${genres}" th:text="${gr.displayvalue()}"
+                                            th:value="${gr}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 new">
+                                <label for="additionalnewlink">Link</label>
+                                <input class="form-control" type="url" th:field="*{newlinkvalue}"
+                                       id="additionalnewlink">
                             </div>
                             <!--Additional args: Wait (Waituntil)-->
                             <div class="form-group col-md-6 wait">
@@ -119,8 +145,8 @@
                             </div>
                         </div>
                         <!--Display args, only if display op list is selected-->
-                        <div class="form-row">
-                            <div class="list" id="displayargsdiv">
+                        <div class="form-row list">
+                            <div id="displayargsdiv">
                                 <label class="col-form-label" for="displayargsdiv">Display</label>
                                 <div class="form-group col-mb">
                                     <div class="form-check">

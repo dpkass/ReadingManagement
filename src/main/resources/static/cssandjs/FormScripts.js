@@ -66,13 +66,15 @@ function operatorupdate() {
 function changeupdate() {
     let selectedCh = $('#additionalchangeattribute').val()
 
-    if (selectedCh === 'writingStatus') {
-        $('#additionalchangetextvaluediv').hide()
+    $('.changeval').hide()
+
+    if (selectedCh === 'WritingStatus') {
         $('#additionalchangewsvaluediv').show()
+    } else if (selectedCh === 'Booktype') {
+        $('#additionalchangebtvaluediv').show()
     } else {
         $('#additionalchangetextvaluediv').show()
-        $('#additionalchangewsvaluediv').hide()
-        if (selectedCh === 'rating') document.getElementById('additionalchangetextvalue').type = 'number'
+        if (selectedCh === 'Rating') document.getElementById('additionalchangetextvalue').type = 'number'
         else document.getElementById('additionalchangetextvalue').type = 'text'
     }
 }

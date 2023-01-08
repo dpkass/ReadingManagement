@@ -27,7 +27,7 @@ public class Validator {
         return true;
     }
 
-    public static void validateNew(List<String> parts) {
+    public static void validateNew(List<String> parts, List<String> genres) {
         String booknew = parts.get(0);
         if (booknew == null || booknew.isBlank()) addError("booknew", "booknewblank", "Bookname must not be blank");
         if (parts.size() < 2) return;
@@ -46,6 +46,10 @@ public class Validator {
         if (parts.size() < 5) return;
 
         validateLr(parts.get(4));
+        if (parts.size() < 6) return;
+
+        validateBooktype(parts.get(5));
+        validateGenres(genres);
     }
 
     static void validateRead(List<String> parts) {
@@ -76,19 +80,19 @@ public class Validator {
             return;
         }
         switch (chatt) {
-            case name -> {}
-            case link -> {
+            case Name -> {}
+            case Link -> {
                 if (!Validator.isLink(chval)) addError("changevalue", "changevaluenotlink", "Change value must be a changeable attribute");
             }
-            case rating -> {
+            case Rating -> {
                 if (!Validator.isNumber(chval))
                     addError("changevalue", "changevaluenotnumber", "Change value must be a number for rating changes");
             }
-            case writingStatus -> {
+            case WritingStatus -> {
                 if (WritingStatus.getStatus(chval) == WritingStatus.Default)
                     addError("changevalue", "changevaluenotws", "Change value must be a writing status");
             }
-            case readingStatus -> {
+            case ReadingStatus -> {
                 if (ReadingStatus.getStatus(chval) == ReadingStatus.Default)
                     addError("changevalue", "changevaluenotrs", "Change value must be a reading status");
             }
@@ -196,6 +200,17 @@ public class Validator {
                .forEach(filter -> addError("filterws", "filterwsnotws", "The values for Writing-Status-filter must be a valid writing-status {%s}".formatted(filter)));
     }
 
+    private static void validateBooktype(String s) {
+        Booktype bt = Booktype.getBooktype(s);
+        if (bt == null) addError("newbooktypevalue", "booktypenotbooktype", "The booktype must be a valid booktype");
+    }
+
+    private static void validateGenres(List<String> genres) {
+        for (String genre : genres) {
+            Genre g = Genre.getGenre(genre);
+            if (g == null) addError("newgenresvalue", "genrenotgenre", "The genre " + genre + " must be a valid genre");
+        }
+    }
 
     // typecheckers
     static boolean isLink(String newlinkvalue) {

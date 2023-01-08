@@ -11,13 +11,14 @@ import java.time.format.DateTimeParseException;
 class Changer {
     public static String change(Entry e, Attribute attribute, String changevalue) {
         switch (attribute) {
-            case name -> e.setName(changevalue);
-            case rating -> {
+            case Name -> e.setName(changevalue);
+            case Rating -> {
                 float f = Float.parseFloat(changevalue);
                 if (EntryUtil.checkRating(f)) e.setRating(f);
             }
-            case link -> e.setLink(changevalue);
-            case writingStatus -> e.setWritingStatus(changevalue);
+            case Link -> e.setLink(changevalue);
+            case WritingStatus -> e.setWritingStatus(changevalue);
+            case Booktype -> e.setBooktype(changevalue);
             default -> throw new IllegalArgumentException("1");
         }
         return attribute.displayvalue() + " changed.";

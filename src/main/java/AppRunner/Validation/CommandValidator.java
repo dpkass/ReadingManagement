@@ -15,7 +15,7 @@ public class CommandValidator {
     }
 
     public static void validateNew(List<String> param) {
-        Validator.validateNew(param);
+        Validator.validateNew(param, null);
         end();
     }
 

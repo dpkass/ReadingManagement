@@ -1,5 +1,8 @@
 package EntryHandling.Entry;
 
+import AppRunner.Datacontainers.Booktype;
+import AppRunner.Datacontainers.Genre;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +16,12 @@ public class EntryList {
         books.add(new EntryBuilder(values).toEntry());
     }
 
-    public void add(String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue) {
+    public void add(String book, float newpagevalue, String newlinkvalue, WritingStatus newwsvalue, LocalDateTime newlrvalue, Booktype booktype, List<Genre> genres) {
         EntryBuilder eb = new EntryBuilder().setName(book)
                                             .setReadto(newpagevalue)
                                             .setLink(newlinkvalue)
                                             .setWs(newwsvalue)
-                                            .setLastread(newlrvalue);
+                                            .setLastread(newlrvalue).setBooktype(booktype).setGenres(genres);
         books.add(eb.toEntry());
     }
 
