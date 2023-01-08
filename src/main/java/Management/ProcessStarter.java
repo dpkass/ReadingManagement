@@ -38,7 +38,10 @@ public class ProcessStarter {
                 case Help -> {}
                 default -> throw new IllegalArgumentException("1");
             }
-        } catch (EntryNotFoundException | IllegalArgumentException e) {
+        } catch (EntryNotFoundException e) {
+            String message = Helper.errorMessage(e.getMessage());
+            rr.setError(new Error(e.getCode(), message));
+        } catch (IllegalArgumentException e) {
             int code = Integer.parseInt(e.getMessage());
             String message = Helper.errorMessage(e.getMessage());
             rr.setError(new Error(code, message));

@@ -1,11 +1,21 @@
-Next-up: Genre (multi) and Booktype (Manga, Comic, Novel etc.)
+Next-up: Different Rating-options (Story, Characters, Drawing style etc.)
 
 Safe
-1. Different Ratingoptions (Story, Characters, Drawingstyle etc.)
+
+Uncertain
+1. Additional rating options: Enjoyment/Entertainment, Humor
+
+Don't know how
+1. Activate errors
+
+*********************************
+PLANED VERSIONS
 
 Version 3
 Change to ER database
 	--> Login and saved data
+
+Version 4
 1. Profile
 	1. My Library
 	2. Currently reading
@@ -26,8 +36,3 @@ Change to ER database
 		2. New Chapters/Releases (from personal library)
 		3. Not read (watchlist/not-started)
 4. Remove Commandline
-
-Uncertain
-
-Don't know how
-1. Activate errors

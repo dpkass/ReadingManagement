@@ -72,10 +72,10 @@ function changeupdate() {
         $('#additionalchangewsvaluediv').show()
     } else if (selectedCh === 'Booktype') {
         $('#additionalchangebtvaluediv').show()
+    } else if (selectedCh === 'StoryRating' || selectedCh === 'CharactersRating' || selectedCh === 'DrawingRating' || selectedCh === 'Rating') {
+        $('#additionalchangenumbervaluediv').show()
     } else {
         $('#additionalchangetextvaluediv').show()
-        if (selectedCh === 'Rating') document.getElementById('additionalchangetextvalue').type = 'number'
-        else document.getElementById('additionalchangetextvalue').type = 'text'
     }
 }
 

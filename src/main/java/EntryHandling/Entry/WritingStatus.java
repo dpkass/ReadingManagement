@@ -1,11 +1,17 @@
 package EntryHandling.Entry;
 
+import java.util.List;
+
 public enum WritingStatus {
     Default("-"),
     ComingUp("Coming-up"),
     Rolling("Rolling"),
     Paused("Paused"),
     Ended("Ended");
+
+    public static List<WritingStatus> selectableWS() {
+        return List.of(ComingUp, Rolling, Paused, Ended);
+    }
 
     final String displayvalue;
 

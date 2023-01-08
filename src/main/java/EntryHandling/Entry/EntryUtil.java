@@ -12,10 +12,6 @@ import java.time.temporal.Temporal;
 
 public class EntryUtil {
 
-    public static boolean checkRating(float f) {
-        return f >= 0f && f <= 5f;
-    }
-
     public static String dateString(Temporal date, DateTimeFormatter dtf, String alt) {
         return date == null ? alt : dtf.format(date);
     }
@@ -51,7 +47,8 @@ public class EntryUtil {
         return om.writerWithDefaultPrettyPrinter();
     }
 
-    public static String tryIntConversion(float f) {
+    public static String ratingString(float f) {
+        if (f == -1) return "-";
         return f == (int) f ? "%d".formatted((int) f) : "%s".formatted(f);
     }
 }

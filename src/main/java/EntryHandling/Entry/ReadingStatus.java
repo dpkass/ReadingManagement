@@ -1,5 +1,7 @@
 package EntryHandling.Entry;
 
+import java.util.List;
+
 public enum ReadingStatus {
 
     Default("-"), NotStarted("Not Started"), Started("Started"), Reading("Reading"), Waiting("Waiting"), Paused("Paused"), Done("Done");
@@ -10,8 +12,8 @@ public enum ReadingStatus {
         this.displayvalue = displayvalue;
     }
 
-    public static ReadingStatus[] displayableRS() {
-        return new ReadingStatus[] { NotStarted, Started, Reading, Waiting, Paused, Done };
+    public static List<ReadingStatus> displayableRS() {
+        return List.of(NotStarted, Started, Reading, Waiting, Paused, Done);
     }
 
     public static ReadingStatus getStatus(String name) {

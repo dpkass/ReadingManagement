@@ -1,13 +1,13 @@
 package EntryHandling.Entry;
 
 public class EntryNotFoundException extends RuntimeException {
-    String message;
+    int code;
 
-    public EntryNotFoundException(String message) {
-        this.message = message;
+    public EntryNotFoundException(int code) {
+        this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public int getCode() {
+        return code;
     }
 }

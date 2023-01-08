@@ -47,8 +47,7 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateNew() {
-        List<String> param = List.of(rd.getBooknew(), rd.getNewpagevalue(), rd.getNewlinkvalue(), rd.getNewwsvalue(), rd.getNewlrvalue(),
-                rd.getNewbooktypevalue());
+        List<String> param = List.of(rd.getBooknew(), rd.getNewpagevalue(), rd.getNewlinkvalue(), rd.getNewwsvalue(), rd.getNewlrvalue(), rd.getNewbooktypevalue());
         Validator.validateNew(param, rd.getNewgenresvalue());
     }
 
@@ -63,8 +62,9 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateChange() {
-        List<String> param = List.of(rd.getChangeattribute(), rd.getBooksel(), rd.getChangevalue());
-        Validator.validateChange(param);
+        List<String> param = List.of(rd.getChangeattribute(), rd.getBooksel());
+        String[] values = { rd.getChangetextvalue(), rd.getChangenumbervalue(), rd.getChangewsvalue(), rd.getChangebtvalue() };
+        Validator.validateChange(param, values);
     }
 
     private void validateOpen() {

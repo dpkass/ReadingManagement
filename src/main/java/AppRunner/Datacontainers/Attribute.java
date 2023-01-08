@@ -19,6 +19,9 @@ public enum Attribute {
     ReadingStatus("Reading Status"),
     WaitUntil("Wait Until"),
     WritingStatus("Writing Status"),
+    StoryRating("Story Rating"),
+    CharactersRating("Characters Rating"),
+    DrawingRating("Drawing Rating"),
     Rating,
     Link;
 
@@ -33,18 +36,29 @@ public enum Attribute {
     }
 
     public static List<Attribute> changingOptions() {
-        return List.of(Name, Booktype, Rating, WritingStatus, Link);
+        return List.of(Name, Booktype, StoryRating, CharactersRating, DrawingRating, Rating, WritingStatus, Link);
     }
 
     public static List<Attribute> displayingOptions() {
-        return List.of(Genres, Booktype, ReadTo, LastRead, ReadingStatus, WaitUntil, WritingStatus, Rating, Link);
+        return List.of(Genres, Booktype, ReadTo, LastRead, ReadingStatus, WaitUntil, WritingStatus, StoryRating, CharactersRating, DrawingRating, Rating, Link);
+    }
+
+    public static List<Attribute> sortingOptions() {
+        return List.of(Name, ReadTo, StoryRating, CharactersRating, DrawingRating, Rating, Booktype, LastRead, WaitUntil, WritingStatus, ReadingStatus);
+    }
+
+    public static List<Attribute> groupingOptions() {
+        return List.of(ReadTo, StoryRating, CharactersRating, DrawingRating, Rating, Booktype, LastRead, WritingStatus, ReadingStatus);
     }
 
     public static Function<Entry, String> getFunction(Attribute att) {
         return e -> switch (att) {
             case Link -> e.link();
-            case ReadTo -> EntryUtil.tryIntConversion(e.readto());
-            case Rating -> EntryUtil.tryIntConversion(e.rating());
+            case ReadTo -> EntryUtil.ratingString(e.readto());
+            case StoryRating -> EntryUtil.ratingString(e.storyrating());
+            case CharactersRating -> EntryUtil.ratingString(e.charactersrating());
+            case DrawingRating -> EntryUtil.ratingString(e.drawingrating());
+            case Rating -> EntryUtil.ratingString(e.rating());
             case LastRead -> EntryUtil.dateString(e.lastread(), dtf, "-");
             case WaitUntil -> EntryUtil.dateString(e.waituntil(), df, "-");
             case WritingStatus -> e.writingStatus().displayvalue();
@@ -55,38 +69,10 @@ public enum Attribute {
         };
     }
 
-    public static List<Attribute> sortingOptions() {
-        return List.of(Name, ReadTo, Rating, Booktype, LastRead, WaitUntil, WritingStatus, ReadingStatus);
-    }
-
-    public static List<Attribute> groupingOptions() {
-        return List.of(ReadTo, Rating, Booktype, LastRead, WritingStatus, ReadingStatus);
-    }
-
-    public static Attribute representation(String s) {
-        return switch (s) {
-            case "name", "n" -> Name;
-            case "read", "r" -> ReadTo;
-            case "link", "lk" -> Link;
-            case "rating", "rtg" -> Rating;
-            case "lastread", "lr" -> LastRead;
-            case "waituntil", "wu" -> WaitUntil;
-            case "reading-status", "readingstatus", "rs" -> ReadingStatus;
-            case "writing-status", "writingstatus", "ws" -> WritingStatus;
-            default -> throw new IllegalArgumentException("1");
-        };
-    }
-
     public static Attribute getAttribute(String s) {
         try {
             return valueOf(s);
-        } catch (IllegalArgumentException iae) {
-            try {
-                return representation(s);
-            } catch (IllegalArgumentException iae2) {
-                return null;
-            }
-        } catch (NullPointerException npe) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             return null;
         }
     }

@@ -18,8 +18,14 @@ import static EntryHandling.Entry.ReadingStatus.*;
 public class EntryBuilder {
     String name;
     float readto = 0f;
+
     float rating = -1f;
+    float storyrating = -1f;
+    float charactersrating = -1f;
+    float drawingrating = -1f;
+
     String link = "";
+    
     WritingStatus ws = WritingStatus.Default;
     ReadingStatus rs = ReadingStatus.Default;
 
@@ -43,6 +49,9 @@ public class EntryBuilder {
                 case "name" -> name = (String) entry.getValue();
                 case "readto" -> readto = ((BigDecimal) entry.getValue()).floatValue();
                 case "rating" -> rating = ((BigDecimal) entry.getValue()).floatValue();
+                case "storyrating" -> storyrating = ((BigDecimal) entry.getValue()).floatValue();
+                case "charactersrating" -> charactersrating = ((BigDecimal) entry.getValue()).floatValue();
+                case "drawingrating" -> drawingrating = ((BigDecimal) entry.getValue()).floatValue();
                 case "link" -> link = (String) entry.getValue();
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
                 case "waituntil" -> waituntil = toLD((String) entry.getValue());
@@ -137,6 +146,6 @@ public class EntryBuilder {
 
     public Entry toEntry() {
         chooseStatus();
-        return new Entry(name, readto, link, rating, ws, rs, lastread, waituntil, genres, booktype);
+        return new Entry(name, readto, link, rating, storyrating, charactersrating, drawingrating, ws, rs, lastread, waituntil, genres, booktype);
     }
 }

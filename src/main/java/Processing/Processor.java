@@ -58,7 +58,7 @@ public class Processor {
 
     public static Entry getEntry(String part) {
         Entry e = el.get(part);
-        if (e == null) throw new EntryNotFoundException("3");
+        if (e == null) throw new EntryNotFoundException(3);
         return e;
     }
 

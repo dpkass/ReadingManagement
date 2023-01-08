@@ -63,7 +63,7 @@ public class Validator {
         if (addvalue == null || addvalue.isBlank()) addError("addvalue", "addnull", "Abbreviation to add must not be blank");
     }
 
-    static void validateChange(List<String> parts) {
+    static void validateChange(List<String> parts, String[] values) {
         validateBooksel(parts.get(1));
         Attribute chatt = Attribute.getAttribute(parts.get(0));
         if (chatt == null) {
@@ -74,29 +74,7 @@ public class Validator {
             addError("changeattribute", "changeattributenotattribute", "Type to change must be a changeable attribute");
             return;
         }
-        String chval = parts.get(2);
-        if (chval == null || chval.isBlank()) {
-            addError("changevalue", "changevalueblank", "Change value must not be blank");
-            return;
-        }
-        switch (chatt) {
-            case Name -> {}
-            case Link -> {
-                if (!Validator.isLink(chval)) addError("changevalue", "changevaluenotlink", "Change value must be a changeable attribute");
-            }
-            case Rating -> {
-                if (!Validator.isNumber(chval))
-                    addError("changevalue", "changevaluenotnumber", "Change value must be a number for rating changes");
-            }
-            case WritingStatus -> {
-                if (WritingStatus.getStatus(chval) == WritingStatus.Default)
-                    addError("changevalue", "changevaluenotws", "Change value must be a writing status");
-            }
-            case ReadingStatus -> {
-                if (ReadingStatus.getStatus(chval) == ReadingStatus.Default)
-                    addError("changevalue", "changevaluenotrs", "Change value must be a reading status");
-            }
-        }
+        validateChangevalue(chatt, values);
     }
 
     static void validateList(RequestDummy rd) {
@@ -212,6 +190,49 @@ public class Validator {
         }
     }
 
+    public static void validateChangevalue(Attribute chatt, String[] values) {
+        switch (chatt) {
+            case Name -> {
+                String chval = values[0];
+                if (checkChangeValueNullOrBlank(chval, "changetextvalue")) return;
+            }
+            case Link -> {
+                String chval = values[0];
+                if (checkChangeValueNullOrBlank(chval, "changetextvalue")) return;
+                if (!isLink(chval)) addError("changetextvalue", "changevaluenotlink", "Change value must be a changeable attribute");
+            }
+            case StoryRating, CharactersRating, DrawingRating, Rating -> {
+                String chval = values[1];
+                if (checkChangeValueNullOrBlank(chval, "changenumbervalue")) return;
+                if (!isNumber(chval)) {
+                    addError("changenumbervalue", "changevaluenotnumber", "Change value must be a number for rating changes");
+                    return;
+                }
+                if (!isRating(chval))
+                    addError("changenumbervalue", "changevaluenotrating", "Change value must be a valid rating (between 0 and 5)");
+            }
+            case WritingStatus -> {
+                String chval = values[2];
+                if (checkChangeValueNullOrBlank(chval, "changewsvalue")) return;
+                if (WritingStatus.getStatus(chval) == WritingStatus.Default)
+                    addError("changewsvalue", "changevaluenotws", "Change value must be a writing status");
+            }
+            case Booktype -> {
+                String chval = values[3];
+                if (checkChangeValueNullOrBlank(chval, "changebtvalue")) return;
+                if (Booktype.getBooktype(chval) == null) addError("changebtvalue", "changevaluenotbt", "Change value must be a booktype");
+            }
+        }
+    }
+
+    private static boolean checkChangeValueNullOrBlank(String value, String field) {
+        if (value == null || value.isBlank()) {
+            addError(field, "changevalueblank", "Change value must not be blank");
+            return true;
+        }
+        return false;
+    }
+
     // typecheckers
     static boolean isLink(String newlinkvalue) {
         try {
@@ -229,6 +250,11 @@ public class Validator {
         } catch (NumberFormatException nfe) {
             return false;
         }
+    }
+
+    private static boolean isRating(String chval) {
+        float f = Float.parseFloat(chval);
+        return f >= 0 && f <= 5;
     }
 
     static LocalDateTime toLDT(String newlrvalue) {

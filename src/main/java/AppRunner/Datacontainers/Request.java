@@ -223,10 +223,6 @@ public final class Request {
         this.groupby = Attribute.getAttribute(groupby);
     }
 
-    public void setChangeattribute(String changeattribute) {
-        this.changeattribute = Attribute.getAttribute(changeattribute);
-    }
-
     public void setNewwsvalue(String newwsvalue) {
         this.newwsvalue = WritingStatus.getStatus(newwsvalue);
     }

@@ -70,7 +70,7 @@ public class RequestController {
 
     private void buildForm(Model m) {
         m.addAttribute("operators", Operator.formoperators());
-        m.addAttribute("writing_statuses", WritingStatus.values());
+        m.addAttribute("writing_statuses", WritingStatus.selectableWS());
         m.addAttribute("reading_statuses", ReadingStatus.displayableRS());
         m.addAttribute("genres", Genre.values());
         m.addAttribute("booktypes", Booktype.selectableBooktypes());

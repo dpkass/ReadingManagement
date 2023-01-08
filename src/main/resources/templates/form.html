@@ -70,12 +70,17 @@
                             </div>
                             <div class="form-group col-md-6 change changeval" id="additionalchangetextvaluediv">
                                 <label for="additionalchangetextvalue">New Value</label>
-                                <input class="form-control" type="text" th:field="*{changevalue}"
+                                <input class="form-control" type="text" th:field="*{changetextvalue}"
                                        id="additionalchangetextvalue">
+                            </div>
+                            <div class="form-group col-md-6 change changeval" id="additionalchangenumbervaluediv">
+                                <label for="additionalchangenumbervalue">New Value</label>
+                                <input class="form-control" type="number" th:field="*{changenumbervalue}"
+                                       id="additionalchangenumbervalue">
                             </div>
                             <div class="form-group col-md-6 change changeval" id="additionalchangewsvaluediv">
                                 <label for="additionalchangewsvalue">New Value</label>
-                                <select class="custom-select" th:field="*{changevalue}"
+                                <select class="custom-select" th:field="*{changewsvalue}"
                                         id="additionalchangewsvalue">
                                     <option disabled selected value="">Select Writing Status</option>
                                     <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
@@ -84,7 +89,7 @@
                             </div>
                             <div class="form-group col-md-6 change changeval" id="additionalchangebtvaluediv">
                                 <label for="additionalchangebtvalue">New Value</label>
-                                <select class="custom-select" th:field="*{changevalue}"
+                                <select class="custom-select" th:field="*{changebtvalue}"
                                         id="additionalchangebtvalue">
                                     <option disabled selected value="">Select Booktype</option>
                                     <option th:each="bt : ${booktypes}" th:text="${bt}"
