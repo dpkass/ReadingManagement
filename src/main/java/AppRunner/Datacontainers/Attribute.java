@@ -5,12 +5,22 @@ import EntryHandling.Entry.EntryUtil;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static Management.Helper.df;
 import static Management.Helper.dtf;
 
 public enum Attribute {
-    Name, ReadTo("Page/Chapter"), Link, Rating, WritingStatus("Writing Status"), ReadingStatus("Reading Status"), LastRead("Last Read"), WaitUntil("Wait Until"), Genres, Booktype;
+    Name,
+    Genres,
+    Booktype,
+    ReadTo("Page/Chapter"),
+    LastRead("Last Read"),
+    ReadingStatus("Reading Status"),
+    WaitUntil("Wait Until"),
+    WritingStatus("Writing Status"),
+    Rating,
+    Link;
 
     final String displayvalue;
 
@@ -39,6 +49,8 @@ public enum Attribute {
             case WaitUntil -> EntryUtil.dateString(e.waituntil(), df, "Not Set");
             case WritingStatus -> e.writingStatus().displayvalue();
             case ReadingStatus -> e.readingStatus().displayvalue();
+            case Genres -> e.genres().stream().map(Genre::displayvalue).collect(Collectors.joining("\n"));
+            case Booktype -> e.booktype().displayvalue();
             default -> throw new IllegalArgumentException("1");
         };
     }

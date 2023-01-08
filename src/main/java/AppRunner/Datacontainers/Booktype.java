@@ -1,7 +1,23 @@
 package AppRunner.Datacontainers;
 
+import java.util.List;
+
 public enum Booktype {
-    Manga, Manhwa, Manhua, Webtoon, Comic, Lightnovel, Novel;
+    Default("-"), Manga, Manhwa, Manhua, Webtoon, Comic, Lightnovel, Novel;
+
+    String displayvalue;
+
+    Booktype() {
+        this.displayvalue = this.toString();
+    }
+
+    Booktype(String displayvalue) {
+        this.displayvalue = displayvalue;
+    }
+
+    public static List<Booktype> selectableBooktypes() {
+        return List.of(Manga, Manhwa, Manhua, Webtoon, Comic, Lightnovel, Novel);
+    }
 
     public static Booktype getBooktype(String s) {
         try {
@@ -9,5 +25,9 @@ public enum Booktype {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+
+    public String displayvalue() {
+        return displayvalue;
     }
 }

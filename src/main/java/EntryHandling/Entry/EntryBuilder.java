@@ -20,14 +20,14 @@ public class EntryBuilder {
     float readto = 0f;
     float rating = -1f;
     String link = "";
-    WritingStatus ws;
-    ReadingStatus rs;
+    WritingStatus ws = WritingStatus.Default;
+    ReadingStatus rs = ReadingStatus.Default;
 
     LocalDateTime lastread = LocalDateTime.now();
     LocalDate waituntil = LocalDate.now();
 
-    private List<Genre> genres;
-    private Booktype booktype;
+    private List<Genre> genres = List.of();
+    private Booktype booktype = Booktype.Default;
 
     public EntryBuilder(List<String> values) {
         name = values.get(0);
@@ -62,7 +62,7 @@ public class EntryBuilder {
 
     private void chooseStatus() {
         if (rs == Waiting && waituntil == null) rs = Reading;      // autonullify paused when date arrives
-        if (rs != Default && rs != null) return;
+        if (rs != ReadingStatus.Default && rs != null) return;
 
         double rt = readto;
         if (rt == 0) {

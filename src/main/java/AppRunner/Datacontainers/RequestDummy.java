@@ -81,7 +81,7 @@ public final class RequestDummy {
         request.setNewbooktypevalue(newbooktypevalue);
         request.setReadvalue(readval);
         request.setWaituntil(wu);
-        request.setDaf(DisplayAttributesForm.build(daf));
+        request.setDaf(new DisplayAttributesForm(daf));
         request.setSortby(sortby);
         request.setGroupby(groupby);
         request.setSortdescending(sortdescending);
