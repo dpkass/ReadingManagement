@@ -130,48 +130,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-mb-12">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displayread}"
-                                               id="displayread">
-                                        <label for="displayread" class="form-check-label">Page/Chapter</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displaylink}"
-                                               id="displaylink">
-                                        <label for="displaylink" class="form-check-label">Link</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displayrating}"
-                                               id="displayrating">
-                                        <label for="displayrating" class="form-check-label">Rating</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displaylastread}"
-                                               id="displaylastread">
-                                        <label for="displaylastread" class="form-check-label">Last Read</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displaywaituntil}"
-                                               id="displaywaituntil">
-                                        <label for="displaywaituntil" class="form-check-label">Wait
-                                            Until</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displayreadingstatus}" id="displayreadingstatus">
-                                        <label for="displayreadingstatus" class="form-check-label">Reading
-                                            Status</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input display" type="checkbox"
-                                               th:field="*{displaywritingstatus}" id="displaywritingstatus">
-                                        <label for="displaywritingstatus" class="form-check-label">Writing
-                                            Status</label>
+                                    <div class="form-check form-check-inline"
+                                         th:each="do, status : ${displaying_options}">
+                                        <input class="form-check-input display"
+                                               type="checkbox"
+                                               th:field="*{daf[__${status.index}__]}"
+                                               th:value="${do}">
+                                        <label th:for="|daf${status.index}1|" class="form-check-label"
+                                               th:text="${do.displayvalue()}"></label>
                                     </div>
                                 </div>
                             </div>

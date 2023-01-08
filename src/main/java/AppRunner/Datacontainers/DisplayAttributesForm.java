@@ -1,6 +1,7 @@
 package AppRunner.Datacontainers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -12,11 +13,12 @@ public record DisplayAttributesForm(boolean displayread, boolean displaylink, bo
         this(list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), list.get(5), list.get(6));
     }
 
-    public static DisplayAttributesForm build(List<String> subList) {
+    public static DisplayAttributesForm build(List<String> list) {
         boolean displayread = false, displaylink = false, displayrating = false, displaylastread = false, displaywaituntil = false, displayreadingstatus = false, displaywritingstatus = false;
-
+        list.removeAll(Collections.singleton(null));
+        
         List<String[]> errors = new ArrayList<>();
-        for (String s : subList) {
+        for (String s : list) {
             Attribute att = Attribute.getAttribute(s);
             if (att == null) errors.add(new String[] { "displayattribute", "displayattnotatt", s + " is not a displayattribute" });
             else switch (att) {

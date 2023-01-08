@@ -95,6 +95,7 @@ public class RequestController {
         m.addAttribute("reading_statuses", ReadingStatus.displayableRS());
         m.addAttribute("books", rs.books());
         m.addAttribute("secret_books", rs.secretbooks());
+        m.addAttribute("displaying_options", Attribute.displayingOptions());
         m.addAttribute("changing_options", Attribute.changingOptions());
         m.addAttribute("sorting_options", Attribute.sortingOptions());
         m.addAttribute("grouping_options", Attribute.groupingOptions());

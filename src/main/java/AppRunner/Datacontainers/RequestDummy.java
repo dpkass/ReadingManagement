@@ -3,6 +3,7 @@ package AppRunner.Datacontainers;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,13 +32,7 @@ public final class RequestDummy {
     private String waituntil;
 
     // list display
-    private boolean displayread;
-    private boolean displaylink;
-    private boolean displayrating;
-    private boolean displaylastread;
-    private boolean displaywaituntil;
-    private boolean displayreadingstatus;
-    private boolean displaywritingstatus;
+    private List<String> daf = new ArrayList<>();
 
     // order args
     private String sortby;
@@ -61,8 +56,6 @@ public final class RequestDummy {
     public Request toRequest() {
         Request request = new Request();
 
-        List<Boolean> daf = java.util.List.of(displayread, displaylink, displayrating, displaylastread, displaywaituntil, displayreadingstatus, displaywritingstatus);
-
         LocalDateTime lr = toLDT(newlrvalue);
         LocalDate wu = toLD(waituntil);
         float newpageval = Float.parseFloat(newpagevalue);
@@ -82,7 +75,7 @@ public final class RequestDummy {
         request.setNewlrvalue(lr);
         request.setReadvalue(readval);
         request.setWaituntil(wu);
-        request.setDaf(new DisplayAttributesForm(daf));
+        request.setDaf(DisplayAttributesForm.build(daf));
         request.setSortby(sortby);
         request.setGroupby(groupby);
         request.setSortdescending(sortdescending);
@@ -126,17 +119,7 @@ public final class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", displayread=" + displayread + ", displaylink=" + displaylink + ", displayrating=" + displayrating + ", displaylastread=" + displaylastread + ", displaywaituntil=" + displaywaituntil + ", displayreadingstatus=" + displayreadingstatus + ", displaywritingstatus=" + displaywritingstatus + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
-    }
-
-    public void setDaf(List<Boolean> daf) {
-        displayread = daf.get(0);
-        displaylink = daf.get(1);
-        displayrating = daf.get(2);
-        displaylastread = daf.get(3);
-        displaywaituntil = daf.get(4);
-        displayreadingstatus = daf.get(5);
-        displaywritingstatus = daf.get(6);
+        return "RequestDummy{" + "secret=" + secret + ", operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", daf=" + daf + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
     }
 
     // getters and setters
@@ -244,60 +227,12 @@ public final class RequestDummy {
         this.waituntil = waituntil;
     }
 
-    public boolean isDisplayread() {
-        return displayread;
+    public List<String> getDaf() {
+        return daf;
     }
 
-    public void setDisplayread(boolean displayread) {
-        this.displayread = displayread;
-    }
-
-    public boolean isDisplaylink() {
-        return displaylink;
-    }
-
-    public void setDisplaylink(boolean displaylink) {
-        this.displaylink = displaylink;
-    }
-
-    public boolean isDisplayrating() {
-        return displayrating;
-    }
-
-    public void setDisplayrating(boolean displayrating) {
-        this.displayrating = displayrating;
-    }
-
-    public boolean isDisplaylastread() {
-        return displaylastread;
-    }
-
-    public void setDisplaylastread(boolean displaylastread) {
-        this.displaylastread = displaylastread;
-    }
-
-    public boolean isDisplaywaituntil() {
-        return displaywaituntil;
-    }
-
-    public void setDisplaywaituntil(boolean displaywaituntil) {
-        this.displaywaituntil = displaywaituntil;
-    }
-
-    public boolean isDisplayreadingstatus() {
-        return displayreadingstatus;
-    }
-
-    public void setDisplayreadingstatus(boolean displayreadingstatus) {
-        this.displayreadingstatus = displayreadingstatus;
-    }
-
-    public boolean isDisplaywritingstatus() {
-        return displaywritingstatus;
-    }
-
-    public void setDisplaywritingstatus(boolean displaywritingstatus) {
-        this.displaywritingstatus = displaywritingstatus;
+    public void setDaf(List<String> daf) {
+        this.daf = daf;
     }
 
     public String getSortby() {

@@ -28,6 +28,10 @@ public enum Attribute {
         return List.of(name, link, rating, writingStatus);
     }
 
+    public static List<Attribute> displayingOptions() {
+        return List.of(readto, lastread, readingStatus, waituntil, writingStatus, rating, link);
+    }
+
     public static Function<Entry, String> getFunction(Attribute att) {
         return e -> switch (att) {
             case link -> e.link();
