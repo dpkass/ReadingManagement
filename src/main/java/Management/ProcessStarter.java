@@ -1,11 +1,11 @@
 package Management;
 
-import AppRunner.Datacontainers.Error;
-import AppRunner.Datacontainers.Request;
+import AppRunner.Data.Containers.Error;
+import AppRunner.Data.Containers.Request;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryNotFoundException;
 import Processing.Processor;
-import Processing.RequestResult;
+import AppRunner.Data.Containers.RequestResult;
 
 public class ProcessStarter {
 

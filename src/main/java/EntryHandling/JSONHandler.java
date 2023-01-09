@@ -1,6 +1,6 @@
 package EntryHandling;
 
-import AppRunner.Datacontainers.FileNotValidException;
+import AppRunner.Data.Exceptions.FileNotValidException;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryUtil;
 import org.json.JSONException;

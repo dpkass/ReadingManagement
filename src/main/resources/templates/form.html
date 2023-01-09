@@ -61,7 +61,7 @@
                             <!--Additional args: Read (page)-->
                             <div class="form-group col-md-6 read">
                                 <label for="additionalread">Page/Chapter</label>
-                                <input class="" type="number" th:field="*{readvalue}" id="additionalread">
+                                <input class="custom-select" type="number" th:field="*{readvalue}" id="additionalread">
                             </div>
                             <!--Additional args: New (Page, Link, WS, lastread)-->
                             <div class="form-group col-md-6 new">
@@ -116,7 +116,7 @@
                             <div class="form-row form-group" th:each="co, status : ${change_options}">
                                 <label class="col-form-label col-md-6"
                                        th:text="${co.attribute().displayvalue()}"></label>
-                                <div th:if="${co.type()==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).List}"
+                                <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).List}"
                                      class="col-md-6">
                                     <select class="custom-select" th:field="*{changevalues[__${status.index}__]}">
                                         <option selected value="">Select Type</option>
@@ -124,12 +124,12 @@
                                                 th:value="${so}"></option>
                                     </select>
                                 </div>
-                                <div th:if="${co.type()==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).Number}"
+                                <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).Number}"
                                      class="col-md-6">
-                                    <input class="form-control" type="number"
+                                    <input class="form-control" type="number" step=".01"
                                            th:field="*{changevalues[__${status.index}__]}">
                                 </div>
-                                <div th:if="${co.type()==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).Text}"
+                                <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).Text}"
                                      class="col-md-6">
                                     <input class="form-control" type="text"
                                            th:field="*{changevalues[__${status.index}__]}">

@@ -1,4 +1,7 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Containers;
+
+import AppRunner.Data.Exceptions.RequestParsingException;
+import AppRunner.Data.Types.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;

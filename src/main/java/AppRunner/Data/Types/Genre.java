@@ -1,4 +1,4 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Types;
 
 public enum Genre {
     Action, Adventure, Romance, Shonen("Shōnen"), Seinen, Comedy, Isekai, Harem, SoL("Slice of Life"), Mecha, SF("Science Fiction"),

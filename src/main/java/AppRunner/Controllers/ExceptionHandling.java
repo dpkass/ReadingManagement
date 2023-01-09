@@ -1,7 +1,7 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datacontainers.FileNotValidException;
-import AppRunner.Datacontainers.RequestParsingException;
+import AppRunner.Data.Exceptions.FileNotValidException;
+import AppRunner.Data.Exceptions.RequestParsingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

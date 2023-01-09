@@ -1,7 +1,7 @@
 package EntryHandling.Entry;
 
-import AppRunner.Datacontainers.Booktype;
-import AppRunner.Datacontainers.Genre;
+import AppRunner.Data.Types.Booktype;
+import AppRunner.Data.Types.Genre;
 import org.json.JSONArray;
 
 import java.math.BigDecimal;
@@ -25,7 +25,7 @@ public class EntryBuilder {
     float drawingrating = -1f;
 
     String link = "";
-    
+
     WritingStatus ws = WritingStatus.Default;
     ReadingStatus rs = ReadingStatus.Default;
 

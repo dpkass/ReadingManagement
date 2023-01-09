@@ -1,5 +1,7 @@
 package Processing;
 
+import AppRunner.Data.Containers.RequestResult;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 

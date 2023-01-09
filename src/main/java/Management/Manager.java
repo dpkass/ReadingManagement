@@ -1,12 +1,11 @@
 package Management;
 
-import AppRunner.Datacontainers.Request;
+import AppRunner.Data.Containers.Request;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.FileHandler;
 import EntryHandling.JSONHandler;
-import Processing.RequestResult;
-import org.springframework.context.annotation.Scope;
+import AppRunner.Data.Containers.RequestResult;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 @Component
-@Scope ("singleton")
 public class Manager {
     public static final File standardfile = new File("resources/standard_index");
     public static final File standardsecretfile = new File("resources/standard_secret");
@@ -76,7 +74,6 @@ public class Manager {
     }
 
     public RequestResult process(Request r) {
-        rr.clear();
         ps.process(r);
         save();
         return rr.copy();

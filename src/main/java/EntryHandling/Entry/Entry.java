@@ -1,7 +1,7 @@
 package EntryHandling.Entry;
 
-import AppRunner.Datacontainers.Booktype;
-import AppRunner.Datacontainers.Genre;
+import AppRunner.Data.Types.Booktype;
+import AppRunner.Data.Types.Genre;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;

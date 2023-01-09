@@ -1,10 +1,10 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datacontainers.Request;
-import AppRunner.Datacontainers.RequestDummy;
+import AppRunner.Data.Containers.Request;
+import AppRunner.Data.Containers.RequestDummy;
 import EntryHandling.Entry.Entry;
 import Management.Manager;
-import Processing.RequestResult;
+import AppRunner.Data.Containers.RequestResult;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

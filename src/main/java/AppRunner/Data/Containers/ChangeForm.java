@@ -1,12 +1,14 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Containers;
 
+import AppRunner.Data.Types.Attribute;
+import AppRunner.Data.Types.Booktype;
 import EntryHandling.Entry.WritingStatus;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static AppRunner.Datacontainers.ChangeForm.ChangeAttributeType.*;
+import static AppRunner.Data.Containers.ChangeForm.ChangeAttributeType.*;
 
 public class ChangeForm {
 

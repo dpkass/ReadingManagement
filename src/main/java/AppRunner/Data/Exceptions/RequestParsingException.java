@@ -1,4 +1,4 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Exceptions;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package AppRunner.Validation;
 
-import AppRunner.Datacontainers.ChangeValueWrapper;
-import AppRunner.Datacontainers.Operator;
-import AppRunner.Datacontainers.RequestDummy;
+import AppRunner.Data.Containers.ChangeValueWrapper;
+import AppRunner.Data.Types.Operator;
+import AppRunner.Data.Containers.RequestDummy;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 

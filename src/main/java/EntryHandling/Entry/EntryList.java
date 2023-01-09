@@ -1,7 +1,7 @@
 package EntryHandling.Entry;
 
-import AppRunner.Datacontainers.Booktype;
-import AppRunner.Datacontainers.Genre;
+import AppRunner.Data.Types.Booktype;
+import AppRunner.Data.Types.Genre;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

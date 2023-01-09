@@ -1,5 +1,6 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Types;
 
+import AppRunner.Data.Containers.ChangeForm;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryUtil;
 
@@ -36,7 +37,7 @@ public enum Attribute {
     }
 
     /**
-     * Any change relates to {@link AppRunner.Datacontainers.ChangeForm.ChangeAttributeType#getTypes(List)}.
+     * Any change relates to {@link ChangeForm.ChangeAttributeType#getTypes(List)}.
      *
      * @return List of all changeable options in the change screen
      */

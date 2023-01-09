@@ -1,5 +1,9 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Containers;
 
+import AppRunner.Data.Types.Genre;
+import AppRunner.Data.Types.Attribute;
+import AppRunner.Data.Types.Booktype;
+import AppRunner.Data.Types.Operator;
 import EntryHandling.Entry.WritingStatus;
 
 import java.time.LocalDate;

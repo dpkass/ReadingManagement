@@ -1,18 +1,16 @@
-package AppRunner.Datacontainers;
-
-import AppRunner.Datacontainers.ChangeForm.ChangeAttributeType;
+package AppRunner.Data.Containers;
 
 public class ChangeValueWrapper {
     float floatval;
     String stringval;
-    ChangeAttributeType type;
+    ChangeForm.ChangeAttributeType type;
 
     public ChangeValueWrapper(String val) {
         if ((floatval = isNumber(val)) != -1) {
-            type = ChangeAttributeType.Number;
+            type = ChangeForm.ChangeAttributeType.Number;
         } else {
             this.stringval = val;
-            type = ChangeAttributeType.Text;
+            type = ChangeForm.ChangeAttributeType.Text;
         }
     }
 

@@ -1,6 +1,11 @@
 package AppRunner.Validation;
 
-import AppRunner.Datacontainers.*;
+import AppRunner.Data.Containers.ChangeValueWrapper;
+import AppRunner.Data.Containers.RequestDummy;
+import AppRunner.Data.Types.Attribute;
+import AppRunner.Data.Types.Booktype;
+import AppRunner.Data.Types.Genre;
+import AppRunner.Data.Types.Operator;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
 

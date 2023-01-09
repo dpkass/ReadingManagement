@@ -1,4 +1,7 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Containers;
+
+import AppRunner.Data.Types.Attribute;
+import AppRunner.Data.Types.Genre;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static AppRunner.Datacontainers.Attribute.*;
+import static AppRunner.Data.Types.Attribute.*;
 
 public class RequestDummy {
     private boolean secret;

@@ -1,11 +1,10 @@
 package Processing;
 
-import AppRunner.Datacontainers.Request;
+import AppRunner.Data.Containers.Request;
+import AppRunner.Data.Containers.RequestResult;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
 import EntryHandling.Entry.EntryNotFoundException;
-import Processing.Displayer.Displayer;
-import Processing.Modifier.Modifier;
 
 public class Processor {
 

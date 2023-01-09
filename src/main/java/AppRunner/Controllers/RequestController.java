@@ -1,10 +1,15 @@
 package AppRunner.Controllers;
 
-import AppRunner.Datacontainers.*;
+import AppRunner.Data.Containers.ChangeForm;
+import AppRunner.Data.Containers.RequestDummy;
+import AppRunner.Data.Types.Attribute;
+import AppRunner.Data.Types.Booktype;
+import AppRunner.Data.Types.Genre;
+import AppRunner.Data.Types.Operator;
 import AppRunner.Validation.RequestValidator;
 import EntryHandling.Entry.ReadingStatus;
 import EntryHandling.Entry.WritingStatus;
-import Processing.RequestResult;
+import AppRunner.Data.Containers.RequestResult;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +66,7 @@ public class RequestController {
     }
 
     private void insertResult(Model m, RequestResult rr) {
-        m.addAttribute("requestresult", rr.copy());
+        m.addAttribute("requestresult", rr);
     }
 
     private void displayError(Model m, RequestResult rr) {

@@ -7,11 +7,12 @@
         <div class="card-body">
             <!--Success-->
             <p class="text-success"
-               th:if="*{type()==T(Processing.RequestResult.RequestResultType).SUCCESS}" th:text="*{string()}">
+               th:if="*{type()==T(AppRunner.Data.Containers.RequestResult.RequestResultType).SUCCESS}"
+               th:text="*{string()}">
             </p>
             <!--List-->
             <div class="table-responsive"
-                 th:if="*{type()==T(Processing.RequestResult.RequestResultType).LIST}">
+                 th:if="*{type()==T(AppRunner.Data.Containers.RequestResult.RequestResultType).LIST}">
                 <table class="table table-hover">
                     <thead>
                     <tr>
@@ -26,7 +27,7 @@
                 </table>
             </div>
             <!--Grouped List-->
-            <div th:if="*{type()==T(Processing.RequestResult.RequestResultType).GROUPEDLIST}"
+            <div th:if="*{type()==T(AppRunner.Data.Containers.RequestResult.RequestResultType).GROUPEDLIST}"
                  th:each="entry : *{groupedmap()}">
                 <div class="card">
                     <div class="card-header">
@@ -52,11 +53,11 @@
                 <br>
             </div>
             <!--Open-->
-            <a th:if="*{type()==T(Processing.RequestResult.RequestResultType).OPEN}" th:href="*{string}"
+            <a th:if="*{type()==T(AppRunner.Data.Containers.RequestResult.RequestResultType).OPEN}" th:href="*{string}"
                rel="noopener noreferrer">Open</a>
             <!--Help-->
             <p class="text-info" style="white-space: pre-wrap"
-               th:if="*{type()==T(Processing.RequestResult.RequestResultType).HELP}"
+               th:if="*{type()==T(AppRunner.Data.Containers.RequestResult.RequestResultType).HELP}"
                th:text="${requestresult.string()}"></p>
         </div>
     </div>

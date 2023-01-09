@@ -1,4 +1,6 @@
-package AppRunner.Datacontainers;
+package AppRunner.Data.Containers;
+
+import AppRunner.Data.Types.Attribute;
 
 import java.util.List;
 

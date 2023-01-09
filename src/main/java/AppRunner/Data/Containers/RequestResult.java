@@ -1,7 +1,7 @@
-package Processing;
+package AppRunner.Data.Containers;
 
-import AppRunner.Datacontainers.Error;
 import EntryHandling.Entry.Entry;
+import Processing.TableDataSupplier;
 
 import java.util.List;
 import java.util.Map;
@@ -23,16 +23,6 @@ public class RequestResult {
         this.headerlist = headerlist;
         this.list = list;
         this.groupedmap = groupedmap;
-    }
-
-    public void clear() {
-        error = null;
-        type = null;
-        string = null;
-        datasupplier = null;
-        headerlist = null;
-        list = null;
-        groupedmap = null;
     }
 
     public RequestResult copy() {
