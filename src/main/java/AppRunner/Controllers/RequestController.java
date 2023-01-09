@@ -77,8 +77,7 @@ public class RequestController {
         m.addAttribute("books", rs.books());
         m.addAttribute("secret_books", rs.secretbooks());
         m.addAttribute("displaying_options", Attribute.displayingOptions());
-        m.addAttribute("change_types", ChangeForm.CATypes());
-        m.addAttribute("change_map", ChangeForm.changeAttributeToInputoptions());
+        m.addAttribute("change_options", ChangeForm.inputOptions());
         m.addAttribute("sorting_options", Attribute.sortingOptions());
         m.addAttribute("grouping_options", Attribute.groupingOptions());
     }

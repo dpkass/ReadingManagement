@@ -113,20 +113,25 @@
                         </div>
                         <!--Additional args: Change (type -> newval)-->
                         <div id="changediv" class="change">
-                            <div class="form-row form-group" th:each="ce, status : ${change_map}">
-                                <label class="col-form-label col-md-6" th:text="${ce.key.displayvalue()}"></label>
-                                <div th:if="${change_types.get(status.index)==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).List}"
+                            <div class="form-row form-group" th:each="co, status : ${change_options}">
+                                <label class="col-form-label col-md-6"
+                                       th:text="${co.attribute().displayvalue()}"></label>
+                                <div th:if="${co.type()==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).List}"
                                      class="col-md-6">
                                     <select class="custom-select" th:field="*{changevalues[__${status.index}__]}">
                                         <option selected value="">Select Type</option>
-                                        <option th:each="co : ${ce.value}" th:text="${co.displayvalue()}"
-                                                th:value="${co}"></option>
+                                        <option th:each="so : ${co.input()}" th:text="${so.displayvalue()}"
+                                                th:value="${so}"></option>
                                     </select>
                                 </div>
-                                <div th:if="${change_types.get(status.index)!=T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).List}"
+                                <div th:if="${co.type()==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).Number}"
                                      class="col-md-6">
-                                    <input class="form-control"
-                                           th:type="${change_types.get(status.index)==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).Number} ? 'number' : 'text'"
+                                    <input class="form-control" type="number"
+                                           th:field="*{changevalues[__${status.index}__]}">
+                                </div>
+                                <div th:if="${co.type()==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).Text}"
+                                     class="col-md-6">
+                                    <input class="form-control" type="text"
                                            th:field="*{changevalues[__${status.index}__]}">
                                 </div>
                             </div>

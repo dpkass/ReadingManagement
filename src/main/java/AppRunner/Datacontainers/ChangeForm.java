@@ -6,40 +6,37 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static AppRunner.Datacontainers.ChangeForm.ChangeAttributeType.*;
+
 public class ChangeForm {
 
     public enum ChangeAttributeType {
-        Text, Number, List;
-
-        public static List<ChangeAttributeType> getTypes(List<Attribute> changingOptions) {
-            List<ChangeAttributeType> types = new ArrayList<>();
-            for (Attribute co : changingOptions) {
-                types.add(
-                        switch (co) {
-                            case Name, Link -> Text;
-                            case Booktype, WritingStatus -> List;
-                            case StoryRating, Rating, CharactersRating, DrawingRating -> Number;
-                            default -> throw new IllegalStateException();
-                        });
-            }
-            return types;
-        }
+        Text, Number, List
     }
 
-    static List<ChangeAttributeType> CATypes = ChangeAttributeType.getTypes(Attribute.changingOptions());
-    static Map<Attribute, Object> changeAttributeToInputoptions = new LinkedHashMap<>();
+    static List<ChangeInputOption> inputOptions = new ArrayList<>();
 
     static {
         List<Attribute> attributes = Attribute.changingOptions();
 
         for (Attribute attribute : attributes) {
-            changeAttributeToInputoptions.put(attribute, switch (attribute) {
-                case Name, Link -> "";
-                case StoryRating, Rating, CharactersRating, DrawingRating -> -1;
-                case WritingStatus -> WritingStatus.selectableWS();
-                case Booktype -> Booktype.selectableBooktypes();
+            ChangeAttributeType type;
+            List<?> value = null;
+
+            switch (attribute) {
+                case Name, Link -> type = Text;
+                case StoryRating, Rating, CharactersRating, DrawingRating -> type = Number;
+                case WritingStatus -> {
+                    value = WritingStatus.selectableWS();
+                    type = List;
+                }
+                case Booktype -> {
+                    value = Booktype.selectableBooktypes();
+                    type = List;
+                }
                 default -> throw new IllegalStateException();
-            });
+            }
+            inputOptions.add(new ChangeInputOption(attribute, type, value));
         }
     }
 
@@ -69,12 +66,8 @@ public class ChangeForm {
                         .mapToObj(i -> new ChangeValueWrapper("")).collect(Collectors.toList());
     }
 
-    public static List<ChangeAttributeType> CATypes() {
-        return CATypes;
-    }
-
-    public static Map<Attribute, Object> changeAttributeToInputoptions() {
-        return changeAttributeToInputoptions;
+    public static List<ChangeInputOption> inputOptions() {
+        return inputOptions;
     }
 
     public Map<Attribute, Object> changeMap() {
