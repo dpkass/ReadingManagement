@@ -61,7 +61,7 @@
                             <!--Additional args: Read (page)-->
                             <div class="form-group col-md-6 read">
                                 <label for="additionalread">Page/Chapter</label>
-                                <input class="form-control" type="number" th:field="*{readvalue}" id="additionalread">
+                                <input class="" type="number" th:field="*{readvalue}" id="additionalread">
                             </div>
                             <!--Additional args: New (Page, Link, WS, lastread)-->
                             <div class="form-group col-md-6 new">
@@ -137,26 +137,24 @@
                             </div>
                         </div>
                         <!--Display args, only if display op list is selected-->
-                        <div class="form-row list">
-                            <div id="displayargsdiv">
-                                <label class="col-form-label" for="displayargsdiv">Display</label>
-                                <div class="form-group col-mb">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox"
-                                               id="displayall">
-                                        <label for="displayall" class="form-check-label">All</label>
-                                    </div>
+                        <div class="form-row list" id="displayargsdiv">
+                            <label class="col-form-label" for="displayargsdiv">Display</label>
+                            <div class="form-group col-md-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="displayall">
+                                    <label for="displayall" class="form-check-label">All</label>
                                 </div>
-                                <div class="form-group col-mb-12">
-                                    <div class="form-check form-check-inline"
-                                         th:each="do, status : ${displaying_options}">
-                                        <input class="form-check-input display"
-                                               type="checkbox"
-                                               th:field="*{daf[__${status.index}__]}"
-                                               th:value="${do}">
-                                        <label th:for="|daf${status.index}1|" class="form-check-label"
-                                               th:text="${do.displayvalue()}"></label>
-                                    </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="form-check form-check-inline"
+                                     th:each="do, status : ${displaying_options}">
+                                    <input class="form-check-input display"
+                                           type="checkbox"
+                                           th:field="*{daf[__${status.index}__]}"
+                                           th:value="${do}">
+                                    <label th:for="|daf${status.index}1|" class="form-check-label"
+                                           th:text="${do.displayvalue()}"></label>
                                 </div>
                             </div>
                         </div>
@@ -208,7 +206,7 @@
                         </div>
                         <div id="filtersdiv">
                             <!--Book-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-5">Book</label>
                                 <div class="col-md-7">
                                     <select class="custom-select filter" id="filterbook" th:field="*{filterbook}">
@@ -225,7 +223,7 @@
                                 </div>
                             </div>
                             <!--Page/Chapter-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-5">Chapter</label>
                                 <div class="col-md-2">
                                     <select class="custom-select filter" th:field="*{filterchapterop}">
@@ -240,7 +238,7 @@
                                 </div>
                             </div>
                             <!--Rating-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-5">Rating</label>
                                 <div class="col-md-2">
                                     <select class="custom-select filter" th:field="*{filterratingop}">
@@ -256,7 +254,7 @@
                                 </div>
                             </div>
                             <!--Last Read-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-4">Last Read</label>
                                 <div class="col-md-3">
                                     <select class="custom-select filter" th:field="*{filterlrop}">
@@ -271,7 +269,7 @@
                                 </div>
                             </div>
                             <!--Wait Until-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-4">Wait Until</label>
                                 <div class="col-md-3">
                                     <select class="custom-select filter" th:field="*{filterwuop}">
@@ -286,7 +284,7 @@
                                 </div>
                             </div>
                             <!--Reading Status-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-4">Reading Status</label>
                                 <div class="col-md-8">
                                     <select class="custom-select filter" multiple th:field="*{filterrs}">
@@ -296,7 +294,7 @@
                                 </div>
                             </div>
                             <!--Writing Status-->
-                            <div class="form-group row">
+                            <div class="form-row form-group">
                                 <label class="col-form-label col-md-4">Writing Status</label>
                                 <div class="col-md-8">
                                     <select class="custom-select filter" multiple th:field="*{filterws}">
