@@ -5,7 +5,7 @@ import java.util.List;
 public enum Booktype {
     Default("-"), Manga, Manhwa, Manhua, Webtoon, Comic, Lightnovel, Novel;
 
-    String displayvalue;
+    final String displayvalue;
 
     Booktype() {
         this.displayvalue = this.toString();

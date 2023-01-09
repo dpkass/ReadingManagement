@@ -58,44 +58,6 @@
                         </div>
                         <!--Additional args: Add, Change, Read/ReadTo, New, Wait-->
                         <div class="form-row">
-                            <!--Additional args: Change (type -> newval)-->
-                            <div class="form-group col-md-6 change">
-                                <label for="additionalchangeattribute">Type</label>
-                                <select class="custom-select" th:field="*{changeattribute}"
-                                        id="additionalchangeattribute">
-                                    <option disabled selected value="">Select Type</option>
-                                    <option th:each="co : ${changing_options}" th:text="${co.displayvalue()}"
-                                            th:value="${co}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6 change changeval" id="additionalchangetextvaluediv">
-                                <label for="additionalchangetextvalue">New Value</label>
-                                <input class="form-control" type="text" th:field="*{changetextvalue}"
-                                       id="additionalchangetextvalue">
-                            </div>
-                            <div class="form-group col-md-6 change changeval" id="additionalchangenumbervaluediv">
-                                <label for="additionalchangenumbervalue">New Value</label>
-                                <input class="form-control" type="number" th:field="*{changenumbervalue}"
-                                       id="additionalchangenumbervalue">
-                            </div>
-                            <div class="form-group col-md-6 change changeval" id="additionalchangewsvaluediv">
-                                <label for="additionalchangewsvalue">New Value</label>
-                                <select class="custom-select" th:field="*{changewsvalue}"
-                                        id="additionalchangewsvalue">
-                                    <option disabled selected value="">Select Writing Status</option>
-                                    <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
-                                            th:value="${ws}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6 change changeval" id="additionalchangebtvaluediv">
-                                <label for="additionalchangebtvalue">New Value</label>
-                                <select class="custom-select" th:field="*{changebtvalue}"
-                                        id="additionalchangebtvalue">
-                                    <option disabled selected value="">Select Booktype</option>
-                                    <option th:each="bt : ${booktypes}" th:text="${bt}"
-                                            th:value="${bt}"></option>
-                                </select>
-                            </div>
                             <!--Additional args: Read (page)-->
                             <div class="form-group col-md-6 read">
                                 <label for="additionalread">Page/Chapter</label>
@@ -147,6 +109,26 @@
                                 <label for="additionalwaitwu">Wait Until</label>
                                 <input class="form-control" type="date" th:field="*{waituntil}"
                                        id="additionalwaitwu">
+                            </div>
+                        </div>
+                        <!--Additional args: Change (type -> newval)-->
+                        <div id="changediv" class="change">
+                            <div class="form-row form-group" th:each="ce, status : ${change_map}">
+                                <label class="col-form-label col-md-6" th:text="${ce.key.displayvalue()}"></label>
+                                <div th:if="${change_types.get(status.index)==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).List}"
+                                     class="col-md-6">
+                                    <select class="custom-select" th:field="*{changevalues[__${status.index}__]}">
+                                        <option selected value="">Select Type</option>
+                                        <option th:each="co : ${ce.value}" th:text="${co.displayvalue()}"
+                                                th:value="${co}"></option>
+                                    </select>
+                                </div>
+                                <div th:if="${change_types.get(status.index)!=T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).List}"
+                                     class="col-md-6">
+                                    <input class="form-control"
+                                           th:type="${change_types.get(status.index)==T(AppRunner.Datacontainers.ChangeForm.ChangeAttributeType).Number} ? 'number' : 'text'"
+                                           th:field="*{changevalues[__${status.index}__]}">
+                                </div>
                             </div>
                         </div>
                         <!--Display args, only if display op list is selected-->

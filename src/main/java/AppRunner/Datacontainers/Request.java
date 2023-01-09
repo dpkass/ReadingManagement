@@ -14,8 +14,7 @@ public final class Request {
     private String booksel;
 
     // addtional change
-    private Attribute changeattribute;
-    private String changevalue;
+    private ChangeForm changeform;
     // addtional add
     private String addvalue;
     // addtional new
@@ -42,7 +41,7 @@ public final class Request {
 
     @Override
     public String toString() {
-        return "Request{" + "secret=" + secret + ", operator=" + operator + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute=" + changeattribute + ", changevalue='" + changevalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", readvalue=" + readvalue + ", waituntil=" + waituntil + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + '}';
+        return "Request{" + "secret=" + secret + ", operator=" + operator + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeform=" + changeform + ", addvalue='" + addvalue + '\'' + ", newpagevalue=" + newpagevalue + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue=" + newwsvalue + ", newlrvalue=" + newlrvalue + ", newbooktypevalue=" + newbooktypevalue + ", newgenresvalue=" + newgenresvalue + ", readvalue=" + readvalue + ", waituntil=" + waituntil + ", daf=" + daf + ", filters=" + filters + ", sortby=" + sortby + ", groupby=" + groupby + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + '}';
     }
 
     // getters and setters
@@ -78,20 +77,12 @@ public final class Request {
         this.booksel = booksel;
     }
 
-    public Attribute changeattribute() {
-        return changeattribute;
+    public ChangeForm changeform() {
+        return changeform;
     }
 
-    public void setChangeattribute(Attribute changeattribute) {
-        this.changeattribute = changeattribute;
-    }
-
-    public String changevalue() {
-        return changevalue;
-    }
-
-    public void setChangevalue(String changevalue) {
-        this.changevalue = changevalue;
+    public void setChangeform(ChangeForm changeform) {
+        this.changeform = changeform;
     }
 
     public String addvalue() {

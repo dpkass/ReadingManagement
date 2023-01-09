@@ -63,18 +63,39 @@ public class Validator {
         if (addvalue == null || addvalue.isBlank()) addError("addvalue", "addnull", "Abbreviation to add must not be blank");
     }
 
-    static void validateChange(List<String> parts, String[] values) {
-        validateBooksel(parts.get(1));
-        Attribute chatt = Attribute.getAttribute(parts.get(0));
-        if (chatt == null) {
-            addError("changeattribute", "changeattributenotattribute", "Type to change must be an attribute");
-            return;
-        }
-        if (!Attribute.changingOptions().contains(chatt)) {
-            addError("changeattribute", "changeattributenotattribute", "Type to change must be a changeable attribute");
-            return;
-        }
-        validateChangevalue(chatt, values);
+    static void validateChange(String booksel, List<ChangeValueWrapper> values) {
+        validateBooksel(booksel);
+//        for (Object value : values) {
+//            String chval = (String) value;
+//            switch ((Attribute) value) {
+//                case Name -> {
+//                    if (checkChangeValueNullOrBlank(chval, "changetextvalue")) {}
+//                }
+//                case Link -> {
+//                    if (checkChangeValueNullOrBlank(chval, "changetextvalue")) return;
+//                    if (!isLink(chval)) addError("changetextvalue", "changevaluenotlink", "Change value must be a changeable attribute");
+//                }
+//                case StoryRating, CharactersRating, DrawingRating, Rating -> {
+//                    if (checkChangeValueNullOrBlank(chval, "changenumbervalue")) return;
+//                    if (!isNumber(chval)) {
+//                        addError("changenumbervalue", "changevaluenotnumber", "Change value must be a number for rating changes");
+//                        return;
+//                    }
+//                    if (!isRating(chval))
+//                        addError("changenumbervalue", "changevaluenotrating", "Change value must be a valid rating (between 0 and 5)");
+//                }
+//                case WritingStatus -> {
+//                    if (checkChangeValueNullOrBlank(chval, "changewsvalue")) return;
+//                    if (WritingStatus.getStatus(chval) == WritingStatus.Default)
+//                        addError("changewsvalue", "changevaluenotws", "Change value must be a writing status");
+//                }
+//                case Booktype -> {
+//                    if (checkChangeValueNullOrBlank(chval, "changebtvalue")) return;
+//                    if (Booktype.getBooktype(chval) == null)
+//                        addError("changebtvalue", "changevaluenotbt", "Change value must be a booktype");
+//                }
+//            }
+//        }
     }
 
     static void validateList(RequestDummy rd) {
@@ -187,41 +208,6 @@ public class Validator {
         for (String genre : genres) {
             Genre g = Genre.getGenre(genre);
             if (g == null) addError("newgenresvalue", "genrenotgenre", "The genre " + genre + " must be a valid genre");
-        }
-    }
-
-    public static void validateChangevalue(Attribute chatt, String[] values) {
-        switch (chatt) {
-            case Name -> {
-                String chval = values[0];
-                if (checkChangeValueNullOrBlank(chval, "changetextvalue")) return;
-            }
-            case Link -> {
-                String chval = values[0];
-                if (checkChangeValueNullOrBlank(chval, "changetextvalue")) return;
-                if (!isLink(chval)) addError("changetextvalue", "changevaluenotlink", "Change value must be a changeable attribute");
-            }
-            case StoryRating, CharactersRating, DrawingRating, Rating -> {
-                String chval = values[1];
-                if (checkChangeValueNullOrBlank(chval, "changenumbervalue")) return;
-                if (!isNumber(chval)) {
-                    addError("changenumbervalue", "changevaluenotnumber", "Change value must be a number for rating changes");
-                    return;
-                }
-                if (!isRating(chval))
-                    addError("changenumbervalue", "changevaluenotrating", "Change value must be a valid rating (between 0 and 5)");
-            }
-            case WritingStatus -> {
-                String chval = values[2];
-                if (checkChangeValueNullOrBlank(chval, "changewsvalue")) return;
-                if (WritingStatus.getStatus(chval) == WritingStatus.Default)
-                    addError("changewsvalue", "changevaluenotws", "Change value must be a writing status");
-            }
-            case Booktype -> {
-                String chval = values[3];
-                if (checkChangeValueNullOrBlank(chval, "changebtvalue")) return;
-                if (Booktype.getBooktype(chval) == null) addError("changebtvalue", "changevaluenotbt", "Change value must be a booktype");
-            }
         }
     }
 

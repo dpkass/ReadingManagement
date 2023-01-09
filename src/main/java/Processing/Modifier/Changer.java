@@ -1,32 +1,41 @@
 package Processing.Modifier;
 
 import AppRunner.Datacontainers.Attribute;
+import AppRunner.Datacontainers.Booktype;
+import AppRunner.Datacontainers.ChangeForm;
 import EntryHandling.Entry.Entry;
+import EntryHandling.Entry.WritingStatus;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 class Changer {
-    public static String change(Entry e, Attribute attribute, String changevalue) {
-        switch (attribute) {
-            case Name -> e.setName(changevalue);
-            case Rating, StoryRating, CharactersRating, DrawingRating -> setRating(attribute, e, changevalue);
-            case Link -> e.setLink(changevalue);
-            case WritingStatus -> e.setWritingStatus(changevalue);
-            case Booktype -> e.setBooktype(changevalue);
-            default -> throw new IllegalArgumentException("1");
+    public static String change(Entry e, ChangeForm changeform) {
+        List<String> changed = new ArrayList<>();
+        for (Map.Entry<Attribute, Object> entry : changeform.changeMap().entrySet()) {
+            switch (entry.getKey()) {
+                case Name -> e.setName((String) entry.getValue());
+                case Rating, StoryRating, CharactersRating, DrawingRating -> setRating(entry.getKey(), e, (Float) entry.getValue());
+                case Link -> e.setLink((String) entry.getValue());
+                case WritingStatus -> e.setWritingStatus((WritingStatus) entry.getValue());
+                case Booktype -> e.setBooktype((Booktype) entry.getValue());
+                default -> throw new IllegalArgumentException("1");
+            }
+            changed.add(entry.getKey().displayvalue());
         }
-        return attribute.displayvalue() + " changed.";
+        return String.join(", ", changed) + " changed.";
     }
 
-    private static void setRating(Attribute attribute, Entry e, String changevalue) {
-        float f = Float.parseFloat(changevalue);
+    private static void setRating(Attribute attribute, Entry e, float changevalue) {
         switch (attribute) {
-            case Rating -> e.setRating(f);
-            case StoryRating -> e.setStoryrating(f);
-            case CharactersRating -> e.setCharactersrating(f);
-            case DrawingRating -> e.setDrawingrating(f);
+            case Rating -> e.setRating(changevalue);
+            case StoryRating -> e.setStoryrating(changevalue);
+            case CharactersRating -> e.setCharactersrating(changevalue);
+            case DrawingRating -> e.setDrawingrating(changevalue);
         }
 
     }

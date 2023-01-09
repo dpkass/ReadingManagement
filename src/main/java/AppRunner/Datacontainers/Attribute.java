@@ -35,6 +35,11 @@ public enum Attribute {
         this.displayvalue = displayvalue;
     }
 
+    /**
+     * Any change relates to {@link AppRunner.Datacontainers.ChangeForm.ChangeAttributeType#getTypes(List)}.
+     *
+     * @return List of all changeable options in the change screen
+     */
     public static List<Attribute> changingOptions() {
         return List.of(Name, Booktype, StoryRating, CharactersRating, DrawingRating, Rating, WritingStatus, Link);
     }

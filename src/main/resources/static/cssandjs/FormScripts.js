@@ -5,7 +5,6 @@ let visible = false
 operatorupdate()
 setdisplayall()
 $('#operator').change(operatorupdate)
-$('#additionalchangeattribute').change(changeupdate)
 $('#filtersbtn').click(togglefilters)
 $('#resetfiltersbtn').click(resetfilters)
 $('#submitbtn').click(submit)
@@ -59,24 +58,6 @@ function operatorupdate() {
 
     if (selectedOp === 'ReadTo') makeVisible('read')
     else if (selectedOp !== null && selectedOp !== '') makeVisible(selectedOp.toLowerCase())
-
-    if (selectedOp === 'Change') changeupdate()
-}
-
-function changeupdate() {
-    let selectedCh = $('#additionalchangeattribute').val()
-
-    $('.changeval').hide()
-
-    if (selectedCh === 'WritingStatus') {
-        $('#additionalchangewsvaluediv').show()
-    } else if (selectedCh === 'Booktype') {
-        $('#additionalchangebtvaluediv').show()
-    } else if (selectedCh === 'StoryRating' || selectedCh === 'CharactersRating' || selectedCh === 'DrawingRating' || selectedCh === 'Rating') {
-        $('#additionalchangenumbervaluediv').show()
-    } else {
-        $('#additionalchangetextvaluediv').show()
-    }
 }
 
 function forminvisible() {

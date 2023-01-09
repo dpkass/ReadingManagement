@@ -14,7 +14,7 @@ public class Processor {
 
     public static void doChange(Request rq) {
         Entry e = getEntry(rq.booksel());
-        Modifier.change(e, rq.changeattribute(), rq.changevalue());
+        Modifier.change(e, rq.changeform());
     }
 
     public static void doList(Request rq) {

@@ -1,7 +1,7 @@
 package Processing.Modifier;
 
-import AppRunner.Datacontainers.Attribute;
 import AppRunner.Datacontainers.Booktype;
+import AppRunner.Datacontainers.ChangeForm;
 import AppRunner.Datacontainers.Genre;
 import EntryHandling.Entry.Entry;
 import EntryHandling.Entry.EntryList;
@@ -16,8 +16,8 @@ import static Processing.Processor.rr;
 
 public class Modifier {
 
-    public static void change(Entry e, Attribute attribute, String changevalue) {
-        String res = Changer.change(e, attribute, changevalue);
+    public static void change(Entry e, ChangeForm changeform) {
+        String res = Changer.change(e, changeform);
         finish(res);
     }
 

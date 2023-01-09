@@ -39,11 +39,11 @@ public class ProcessStarter {
                 default -> throw new IllegalArgumentException("1");
             }
         } catch (EntryNotFoundException e) {
-            String message = Helper.errorMessage(e.getMessage());
+            String message = Helper.errorMessage(e.getCode());
             rr.setError(new Error(e.getCode(), message));
         } catch (IllegalArgumentException e) {
             int code = Integer.parseInt(e.getMessage());
-            String message = Helper.errorMessage(e.getMessage());
+            String message = Helper.errorMessage(code);
             rr.setError(new Error(code, message));
         } catch (Exception e) {
             e.printStackTrace();

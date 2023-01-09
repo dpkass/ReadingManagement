@@ -1,4 +1,8 @@
-Next-up: Different Rating-options (Story, Characters, Drawing style etc.)
+Next-up: Change change operator to display alle changing options
+		use changing options in combination with th:each to build either of the following:
+			1. a map with key to value
+			2. a list in order of changingoptions
+			3. a change form (similar to daf)
 
 Safe
 

@@ -18,11 +18,7 @@ public class RequestDummy {
     private String booksel = "";
 
     // addtional change
-    private String changeattribute = "";
-    private String changetextvalue = "";
-    private String changenumbervalue;
-    private String changewsvalue = "";
-    private String changebtvalue = "";
+    private List<ChangeValueWrapper> changevalues = ChangeForm.initialvalues();
     // addtional add
     private String addvalue = "";
     // addtional new
@@ -68,15 +64,12 @@ public class RequestDummy {
         float readval = Float.parseFloat(readvalue);
         Set<Filter<?>> filters = createFilters();
         List<Genre> genres = newgenresvalue.stream().map(Genre::getGenre).collect(Collectors.toList());
-        Attribute changeatt = getAttribute(changeattribute);
-        String changevalue = selectChangevalue(changeatt);
 
         request.setSecret(secret);
         request.setOperator(operator);
         request.setBooknew(booknew);
         request.setBooksel(booksel);
-        request.setChangeattribute(changeatt);
-        request.setChangevalue(changevalue);
+        request.setChangeform(new ChangeForm(changevalues));
         request.setAddvalue(addvalue);
         request.setNewpagevalue(newpageval);
         request.setNewlinkvalue(newlinkvalue);
@@ -94,16 +87,6 @@ public class RequestDummy {
         request.setFilters(filters);
 
         return request;
-    }
-
-    private String selectChangevalue(Attribute changeatt) {
-        return switch (changeatt) {
-            case Name, Link -> changetextvalue;
-            case StoryRating, CharactersRating, DrawingRating, Rating -> changenumbervalue;
-            case WritingStatus -> changewsvalue;
-            case Booktype -> changebtvalue;
-            default -> throw new IllegalStateException("Unexpected value: " + changeatt);
-        };
     }
 
     public Set<Filter<?>> createFilters() {
@@ -140,7 +123,7 @@ public class RequestDummy {
 
     @Override
     public String toString() {
-        return "RequestDummy{" + "secret=" + secret + ", operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changeattribute='" + changeattribute + '\'' + ", changetextvalue='" + changetextvalue + '\'' + ", changenumbervalue='" + changenumbervalue + '\'' + ", changewsvalue='" + changewsvalue + '\'' + ", changebtvalue='" + changebtvalue + '\'' + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", newbooktypevalue='" + newbooktypevalue + '\'' + ", newgenresvalue=" + newgenresvalue + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", daf=" + daf + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
+        return "RequestDummy{" + "secret=" + secret + ", operator='" + operator + '\'' + ", booknew='" + booknew + '\'' + ", booksel='" + booksel + '\'' + ", changevalues=" + changevalues + ", addvalue='" + addvalue + '\'' + ", newpagevalue='" + newpagevalue + '\'' + ", newlinkvalue='" + newlinkvalue + '\'' + ", newwsvalue='" + newwsvalue + '\'' + ", newlrvalue='" + newlrvalue + '\'' + ", newbooktypevalue='" + newbooktypevalue + '\'' + ", newgenresvalue=" + newgenresvalue + ", readvalue='" + readvalue + '\'' + ", waituntil='" + waituntil + '\'' + ", daf=" + daf + ", sortby='" + sortby + '\'' + ", groupby='" + groupby + '\'' + ", sortdescending=" + sortdescending + ", groupdescending=" + groupdescending + ", filterbook='" + filterbook + '\'' + ", filterchapterop='" + filterchapterop + '\'' + ", filterchapter=" + filterchapter + ", filterratingop='" + filterratingop + '\'' + ", filterrating=" + filterrating + ", filterlrop='" + filterlrop + '\'' + ", filterlr='" + filterlr + '\'' + ", filterwuop='" + filterwuop + '\'' + ", filterwu='" + filterwu + '\'' + ", filterrs=" + filterrs + ", filterws=" + filterws + '}';
     }
 
     // getters and setters
@@ -176,44 +159,12 @@ public class RequestDummy {
         this.booksel = booksel;
     }
 
-    public String getChangeattribute() {
-        return changeattribute;
+    public List<ChangeValueWrapper> getChangevalues() {
+        return changevalues;
     }
 
-    public void setChangeattribute(String changeattribute) {
-        this.changeattribute = changeattribute;
-    }
-
-    public String getChangetextvalue() {
-        return changetextvalue;
-    }
-
-    public void setChangetextvalue(String changetextvalue) {
-        this.changetextvalue = changetextvalue;
-    }
-
-    public String getChangenumbervalue() {
-        return changenumbervalue;
-    }
-
-    public void setChangenumbervalue(String changenumbervalue) {
-        this.changenumbervalue = changenumbervalue;
-    }
-
-    public String getChangewsvalue() {
-        return changewsvalue;
-    }
-
-    public void setChangewsvalue(String changewsvalue) {
-        this.changewsvalue = changewsvalue;
-    }
-
-    public String getChangebtvalue() {
-        return changebtvalue;
-    }
-
-    public void setChangebtvalue(String changebtvalue) {
-        this.changebtvalue = changebtvalue;
+    public void setChangevalues(List<ChangeValueWrapper> changevalues) {
+        this.changevalues = changevalues;
     }
 
     public String getAddvalue() {

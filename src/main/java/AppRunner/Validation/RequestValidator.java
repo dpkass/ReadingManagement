@@ -1,5 +1,6 @@
 package AppRunner.Validation;
 
+import AppRunner.Datacontainers.ChangeValueWrapper;
 import AppRunner.Datacontainers.Operator;
 import AppRunner.Datacontainers.RequestDummy;
 import org.jetbrains.annotations.NotNull;
@@ -62,9 +63,8 @@ public class RequestValidator implements org.springframework.validation.Validato
     }
 
     private void validateChange() {
-        List<String> param = List.of(rd.getChangeattribute(), rd.getBooksel());
-        String[] values = { rd.getChangetextvalue(), rd.getChangenumbervalue(), rd.getChangewsvalue(), rd.getChangebtvalue() };
-        Validator.validateChange(param, values);
+        List<ChangeValueWrapper> values = rd.getChangevalues();
+        Validator.validateChange(rd.getBooksel(), values);
     }
 
     private void validateOpen() {
