@@ -37,6 +37,7 @@ public class Displayer {
         Request rq = new Request();
         rq.setOperator(Operator.List);
         rq.setGroupby("rs");
+        rq.setDaf(new DisplayAttributesForm(List.of()));
         Filter<?> filter = Filter.createFilter(Attribute.ReadingStatus, "=", Set.of("Reading", "Started", "Not-Started"));
         Filter<?> filter2 = Filter.createFilter(Attribute.WritingStatus, "=", Set.of("Rolling"));
         Filter<?> filter3 = Filter.createFilter(Attribute.LastRead, "<", twoWeeksAgoString);

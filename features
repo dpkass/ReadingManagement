@@ -1,23 +1,16 @@
-Next-up: Change change operator to display alle changing options
-		use changing options in combination with th:each to build either of the following:
-			1. a map with key to value
-			2. a list in order of changingoptions
-			3. a change form (similar to daf)
+Next-up: Version 3 - Change to ER database
 
 Safe
+1. Login and saved data
 
 Uncertain
 1. Additional rating options: Enjoyment/Entertainment, Humor
 
 Don't know how
-1. Activate errors
+1. Activate field errors
 
 *********************************
 PLANED VERSIONS
-
-Version 3
-Change to ER database
-	--> Login and saved data
 
 Version 4
 1. Profile
