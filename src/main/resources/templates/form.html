@@ -56,12 +56,13 @@
                                 </select>
                             </div>
                         </div>
-                        <!--Additional args: Add, Change, Read/ReadTo, New, Wait-->
+                        <!--Additional args: Add, Read/ReadTo, New, Wait-->
                         <div class="form-row">
                             <!--Additional args: Read (page)-->
                             <div class="form-group col-md-6 read">
                                 <label for="additionalread">Page/Chapter</label>
-                                <input class="custom-select" type="number" th:field="*{readvalue}" id="additionalread">
+                                <input class="custom-select" type="number" step="0.1" th:field="*{readvalue}"
+                                       id="additionalread">
                             </div>
                             <!--Additional args: New (Page, Link, WS, lastread)-->
                             <div class="form-group col-md-6 new">
