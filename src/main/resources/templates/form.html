@@ -56,88 +56,95 @@
                                 </select>
                             </div>
                         </div>
-                        <!--Additional args: Add, Read/ReadTo, New, Wait-->
-                        <div class="form-row">
+                        <!--Additional args-->
+                        <div id="additionalargs">
                             <!--Additional args: Read (page)-->
-                            <div class="form-group col-md-6 read">
-                                <label for="additionalread">Page/Chapter</label>
-                                <input class="custom-select" type="number" step="0.1" th:field="*{readvalue}"
-                                       id="additionalread">
+                            <div class="form-row read">
+                                <div class="form-group col-md-6">
+                                    <label for="additionalread">Page/Chapter</label>
+                                    <input class="custom-select" type="number" step="0.1" th:field="*{readvalue}"
+                                           id="additionalread">
+                                </div>
                             </div>
-                            <!--Additional args: New (Page, Link, WS, lastread)-->
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewbooktype">Booktype</label>
-                                <select class="custom-select" th:field="*{newbooktypevalue}" id="additionalnewbooktype">
-                                    <option selected disabled value="">Select Booktype</option>
-                                    <option th:each="bt : ${booktypes}" th:text="${bt}"
-                                            th:value="${bt}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewws">Writing Status</label>
-                                <select class="custom-select" th:field="*{newwsvalue}" id="additionalnewws">
-                                    <option selected disabled value="">Select Writing Status</option>
-                                    <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
-                                            th:value="${ws}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewpage">Page/Chapter</label>
-                                <input class="form-control" type="number" th:field="*{newpagevalue}"
-                                       id="additionalnewpage">
-                            </div>
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewlr">Last Read</label>
-                                <input class="form-control" type="datetime-local" th:field="*{newlrvalue}"
-                                       id="additionalnewlr">
-                            </div>
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewgenres">Genres</label>
-                                <select class="custom-select" th:field="*{newgenresvalue}" id="additionalnewgenres"
-                                        multiple>
-                                    <option selected disabled value="">Select Genres</option>
-                                    <option th:each="gr : ${genres}" th:text="${gr.displayvalue()}"
-                                            th:value="${gr}"></option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6 new">
-                                <label for="additionalnewlink">Link</label>
-                                <input class="form-control" type="url" th:field="*{newlinkvalue}"
-                                       id="additionalnewlink">
-                            </div>
-                            <!--Additional args: Wait (Waituntil)-->
-                            <div class="form-group col-md-6 wait">
-                                <label for="additionalwaitwu">Wait Until</label>
-                                <input class="form-control" type="date" th:field="*{waituntil}"
-                                       id="additionalwaitwu">
-                            </div>
-                        </div>
-                        <!--Additional args: Change (type -> newval)-->
-                        <div id="changediv" class="change">
-                            <div class="form-row form-group" th:each="co, status : ${change_options}">
-                                <label class="col-form-label col-md-6"
-                                       th:text="${co.attribute().displayvalue()}"></label>
-                                <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).List}"
-                                     class="col-md-6">
-                                    <select class="custom-select" th:field="*{changevalues[__${status.index}__]}">
-                                        <option selected value="">Select Type</option>
-                                        <option th:each="so : ${co.input()}" th:text="${so.displayvalue()}"
-                                                th:value="${so}"></option>
+                            <div class="form-row new">
+                                <!--Additional args: New (Page, Link, WS, lastread)-->
+                                <div class="form-group col-md-6">
+                                    <label for="additionalnewbooktype">Booktype</label>
+                                    <select class="custom-select" th:field="*{newbooktypevalue}"
+                                            id="additionalnewbooktype">
+                                        <option selected disabled value="">Select Booktype</option>
+                                        <option th:each="bt : ${booktypes}" th:text="${bt}"
+                                                th:value="${bt}"></option>
                                     </select>
                                 </div>
-                                <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).Number}"
-                                     class="col-md-6">
-                                    <input class="form-control" type="number" step=".01"
-                                           th:field="*{changevalues[__${status.index}__]}">
+                                <div class="form-group col-md-6">
+                                    <label for="additionalnewws">Writing Status</label>
+                                    <select class="custom-select" th:field="*{newwsvalue}" id="additionalnewws">
+                                        <option selected disabled value="">Select Writing Status</option>
+                                        <option th:each="ws : ${writing_statuses}" th:text="${ws.displayvalue()}"
+                                                th:value="${ws}"></option>
+                                    </select>
                                 </div>
-                                <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).Text}"
-                                     class="col-md-6">
-                                    <input class="form-control" type="text"
-                                           th:field="*{changevalues[__${status.index}__]}">
+                                <div class="form-group col-md-6">
+                                    <label for="additionalnewpage">Page/Chapter</label>
+                                    <input class="form-control" type="number" th:field="*{newpagevalue}"
+                                           id="additionalnewpage">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="additionalnewlr">Last Read</label>
+                                    <input class="form-control" type="datetime-local" th:field="*{newlrvalue}"
+                                           id="additionalnewlr">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="additionalnewgenres">Genres</label>
+                                    <select class="custom-select" th:field="*{newgenresvalue}" id="additionalnewgenres"
+                                            multiple>
+                                        <option selected disabled value="">Select Genres</option>
+                                        <option th:each="gr : ${genres}" th:text="${gr.displayvalue()}"
+                                                th:value="${gr}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="additionalnewlink">Link</label>
+                                    <input class="form-control" type="url" th:field="*{newlinkvalue}"
+                                           id="additionalnewlink">
+                                </div>
+                            </div>
+                            <!--Additional args: Wait (Waituntil)-->
+                            <div class="form-row wait">
+                                <div class="form-group col-md-6">
+                                    <label for="additionalwaitwu">Wait Until</label>
+                                    <input class="form-control" type="date" th:field="*{waituntil}"
+                                           id="additionalwaitwu">
+                                </div>
+                            </div>
+                            <!--Additional args: Change (type -> newval)-->
+                            <div class="change">
+                                <div class="form-row form-group" th:each="co, status : ${change_options}">
+                                    <label class="col-form-label col-md-6"
+                                           th:text="${co.attribute().displayvalue()}"></label>
+                                    <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).List}"
+                                         class="col-md-6">
+                                        <select class="custom-select" th:field="*{changevalues[__${status.index}__]}">
+                                            <option selected value="">Select Type</option>
+                                            <option th:each="so : ${co.input()}" th:text="${so.displayvalue()}"
+                                                    th:value="${so}"></option>
+                                        </select>
+                                    </div>
+                                    <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).Number}"
+                                         class="col-md-6">
+                                        <input class="form-control" type="number" step=".01"
+                                               th:field="*{changevalues[__${status.index}__]}">
+                                    </div>
+                                    <div th:if="${co.type()==T(AppRunner.Data.Containers.ChangeForm.ChangeAttributeType).Text}"
+                                         class="col-md-6">
+                                        <input class="form-control" type="text"
+                                               th:field="*{changevalues[__${status.index}__]}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!--Display args, only if display op list is selected-->
+                        <!--Display args, only if List is selected-->
                         <div class="form-row list" id="displayargsdiv">
                             <label class="col-form-label" for="displayargsdiv">Display</label>
                             <div class="form-group col-md-12">
@@ -193,17 +200,9 @@
                             </div>
                         </div>
                         <!--Filter args, only if List is selected-->
-                        <div class="form-row">
-                            <div class="form-group col-first list">
-                                <button type="button" class="btn btn-outline-info" id="filtersbtn">
-                                    Filters
-                                </button>
-                            </div>
-                            <div class="form-group col-last">
-                                <button type="button" class="btn btn-danger" id="resetfiltersbtn">
-                                    Reset Filters
-                                </button>
-                            </div>
+                        <div class="form-group list">
+                            <button type="button" class="btn btn-outline-info" id="filtersbtn">Filters</button>
+                            <button type="button" class="btn btn-danger" id="resetfiltersbtn">Reset Filters</button>
                         </div>
                         <div id="filtersdiv">
                             <!--Book-->
@@ -305,6 +304,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!--Buttons-->
                         <button type="submit" class="btn btn-primary" id="submitbtn">Request</button>
                         <button type="submit" class="btn btn-warning" id="submitsecretbtn">Secret</button>
                         <input type="checkbox" th:field="*{secret}" id="secret">

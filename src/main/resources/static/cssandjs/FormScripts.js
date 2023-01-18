@@ -63,10 +63,10 @@ function operatorupdate() {
 function forminvisible() {
     makeInvisible('new')
     makeInvisible('read')
-    makeInvisible('add')
+    // makeInvisible('add')
     makeInvisible('change')
-    makeInvisible('open')
-    makeInvisible('show')
+    // makeInvisible('open')
+    // makeInvisible('show')
     makeInvisible('list')
     makeInvisible('wait')
     makeInvisible('pause')
@@ -77,7 +77,10 @@ function forminvisible() {
     $('.filter').each(function () {
         var value = $(this).val()
         if (value !== '' && value != 0 && value != []) {
-            if (!visible) togglefilters()
+            if (!visible) {
+                togglefilters()
+                return false
+            }
         }
     })
 }
