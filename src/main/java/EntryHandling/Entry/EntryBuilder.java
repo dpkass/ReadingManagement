@@ -2,7 +2,6 @@ package EntryHandling.Entry;
 
 import AppRunner.Data.Types.Booktype;
 import AppRunner.Data.Types.Genre;
-import org.json.JSONArray;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -56,13 +55,12 @@ public class EntryBuilder {
                 case "lastread" -> lastread = toLDT((String) entry.getValue());
                 case "waituntil" -> waituntil = toLD((String) entry.getValue());
                 case "writingStatus" -> ws = WritingStatus.getStatus((String) entry.getValue());
-                case "readingStatus" -> rs = ReadingStatus.getStatus((String) entry.getValue());
-                case "genres" -> genres = ((JSONArray) entry.getValue()).toList()
-                                                                        .stream()
-                                                                        .map(String.class::cast)
-                                                                        .map(Genre::getGenre)
-                                                                        .collect(Collectors.toList());
                 case "booktype" -> booktype = Booktype.getBooktype((String) entry.getValue());
+                case "readingStatus" -> rs = ReadingStatus.getStatus((String) entry.getValue());
+                case "genres" -> genres = ((List<Object>) entry.getValue()).stream()
+                                                                           .map(String.class::cast)
+                                                                           .map(Genre::getGenre)
+                                                                           .collect(Collectors.toList());
             }
         }
     }
