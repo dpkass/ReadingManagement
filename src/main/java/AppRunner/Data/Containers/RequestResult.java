@@ -26,7 +26,19 @@ public class RequestResult {
     }
 
     public RequestResult copy() {
-        return new RequestResult(error, type, string, datasupplier, headerlist, list, groupedmap);
+        RequestResult rr = new RequestResult(error, type, string, datasupplier, headerlist, list, groupedmap);
+        clear();
+        return rr;
+    }
+
+    private void clear() {
+        this.error = null;
+        this.type = null;
+        this.string = null;
+        this.datasupplier = null;
+        this.headerlist = null;
+        this.list = null;
+        this.groupedmap = null;
     }
 
     public boolean hasError() {
