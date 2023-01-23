@@ -13,17 +13,23 @@ $('#displayall').click(displayall)
 $('.display').click(setdisplayall)
 
 
+function hidefilters() {
+    $('#filtersdiv').hide()
+    $('#resetfiltersbtn').hide()
+    $('#filtersbtn').removeClass('active')
+    visible = false
+}
+
+function showfilters() {
+    $('#filtersdiv').show()
+    $('#resetfiltersbtn').show()
+    $('#filtersbtn').addClass('active')
+    visible = true
+}
+
 function togglefilters() {
-    if (visible) {
-        $('#filtersdiv').hide()
-        $('#resetfiltersbtn').hide()
-        $('#filtersbtn').removeClass('active')
-    } else {
-        $('#filtersdiv').show()
-        $('#resetfiltersbtn').show()
-        $('#filtersbtn').addClass('active')
-    }
-    visible = !visible
+    if (visible) hidefilters()
+    else showfilters()
 }
 
 function resetfilters() {
@@ -74,15 +80,17 @@ function forminvisible() {
     $('#filtersdiv').hide()
     $('#resetfiltersbtn').hide()
 
-    $('.filter').each(function () {
-        var value = $(this).val()
-        if (value !== '' && value != 0 && value != []) {
-            if (!visible) {
-                togglefilters()
+    if ($('#operator').val() === 'filter') {
+        $('.filter').each(function () {
+            var value = $(this).val()
+            if (value !== '' && value != 0 && value != []) {
+                showfilters()
                 return false
             }
-        }
-    })
+        })
+    } else {
+        hidefilters()
+    }
 }
 
 function makeVisible(clazz) {
